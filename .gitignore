@@ -275,6 +275,13 @@ FakesAssemblies/
 .ntvs_analysis.dat
 node_modules/
 
+# nyc test coverage output files
+.nyc_output/
+coverage/
+
+# Yarn cache files
+.yarn
+
 # Visual Studio 6 build log
 *.plg
 
@@ -348,3 +355,8 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+
+=======
+# Local
+.env
