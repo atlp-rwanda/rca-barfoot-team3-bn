@@ -8,5 +8,8 @@ const client = new Client({
     port:5432,
     host:'localhost'
 })
-
+client.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+  });
 module.exports= {client}

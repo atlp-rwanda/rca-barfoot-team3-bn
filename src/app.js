@@ -1,4 +1,5 @@
 var express = require('express');
+require("./database/index")
 var app = express();
 app.get('/', function (req, res) {
     res.send('Hello World!');
