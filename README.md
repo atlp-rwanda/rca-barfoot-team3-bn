@@ -23,6 +23,12 @@ _Below is an example of how you can install and set up this app on your local en
    
 3. Create .env file 
 
+
+4.Run tests
+   ```sh
+   npm test
+   ```
+
 #### Steps to configure your env file
 
 - [ ] Clone the repo
