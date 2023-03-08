@@ -1,9 +1,16 @@
 # rca-barfoot-team3-bn
 
 
+### Prerequisites
+
+1. Node JS
+2. Postgress 
+3. Docker 
+4. ....
+
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+_Below is an example of how you can install and set up this app on your local environment._
 
 1. Clone the repo
    ```sh
