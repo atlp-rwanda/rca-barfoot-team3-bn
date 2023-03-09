@@ -9,7 +9,6 @@ on:
     branches:
       - develop
       - tracy
-x
 jobs:
   run-linters:
     name: Run linters 
