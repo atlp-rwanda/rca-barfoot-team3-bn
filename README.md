@@ -1,7 +1,6 @@
 # rca-barfoot-team3-bn
 
-![Readme badge](https://github.com/atlp-rwanda/rca-barfoot-team3-bn/actions/workflows/lint.yml/badge.svg)
-
+[![.github/workflows/lint.yml](https://github.com/atlp-rwanda/rca-barfoot-team3-bn/actions/workflows/lint.yml/badge.svg)](https://github.com/atlp-rwanda/rca-barfoot-team3-bn/actions/workflows/lint.yml)
 ### Prerequisites
 
 1. Node JS
