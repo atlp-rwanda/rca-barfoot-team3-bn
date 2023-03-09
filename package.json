@@ -7,8 +7,6 @@
     "test": "nyc --all mocha --timeout 10000 --exit --require babel-register test/unit/user/controller/",
     "coverage": "nyc --reporter=lcov --report-dir=./coverage yarn test",
     "lint:fix": "eslint --fix ./src/**"
-    },   
-    
   },
   "author": "Team 3 Barefoot",
   "license": "ISC",
