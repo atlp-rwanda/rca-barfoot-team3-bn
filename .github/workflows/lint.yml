@@ -27,6 +27,7 @@ jobs:
         run: npm ci
 
       - name: Run linters
-        uses: wearerequired/lint-action@v2
+        run: npm lint
+        # uses: wearerequired/lint-action@v2
         with:
           eslint: true
