@@ -12,6 +12,8 @@
   "author": "Team 3 Barefoot",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.18.2",
+    "pg": "^8.10.0"
     "dotenv": "^16.0.3",
     "express": "^4.18.2"
   },

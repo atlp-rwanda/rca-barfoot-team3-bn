@@ -1,4 +1,5 @@
 var express = require('express');
+require("./database/index")
 require("dotenv").config();
 var app = express();
 
