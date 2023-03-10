@@ -8,7 +8,7 @@
     "coverage": "nyc --reporter=lcov --report-dir=./coverage yarn test",
     "lint:fix": "eslint --fix ./src/**",
     "lint": "eslint ./src/**"
-  },
+    },
   "author": "Team 3 Barefoot",
   "license": "ISC",
   "dependencies": {

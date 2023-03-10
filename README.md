@@ -1,7 +1,7 @@
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 # rca-barfoot-team3-bn
 
-
+[![.github/workflows/lint.yml](https://github.com/atlp-rwanda/rca-barfoot-team3-bn/actions/workflows/lint.yml/badge.svg)](https://github.com/atlp-rwanda/rca-barfoot-team3-bn/actions/workflows/lint.yml)
 ### Prerequisites
 
 1. Node JS
