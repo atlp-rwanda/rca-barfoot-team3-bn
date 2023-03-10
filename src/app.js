@@ -1,9 +1,14 @@
 var express = require('express');
 require("./database/index")
+require("dotenv").config();
 var app = express();
+
+const PORT = process.env.PORT || 3000;
+
 app.get('/', function (req, res) {
-    res.send('Hello World!');
+    res.send(`${process.env.MESSAGE}`);
 });
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
+
+app.listen(PORT, function () {
+    console.log(`Example app listening on port ${PORT}!`);
 });
