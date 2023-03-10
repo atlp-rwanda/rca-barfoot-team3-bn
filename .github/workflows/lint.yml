@@ -4,11 +4,10 @@ on:
   push:
     branches:
       - develop
-      - tracy
+
   pull_request:
     branches:
       - develop
-      - tracy
 
 jobs:
   run-linters:
@@ -31,4 +30,3 @@ jobs:
         uses: wearerequired/lint-action@v2
         with:
           eslint: true
-          
