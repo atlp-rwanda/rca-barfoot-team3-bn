@@ -36,3 +36,9 @@ _Below is an example of how you can install and set up this app on your local en
 - [ ] Copy the.env.example file and rename it to.env
 - [ ] Edit the.env file with your details
 - [ ] All of your environment variables will be accessible using (process.env.VARIABLE_NAME)
+
+
+#### A guide on running ESLint
+
+- To check the code against the rules run `yarn lint`
+- To fix the files run `yarn lint:fix`
