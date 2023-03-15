@@ -3,7 +3,6 @@ require('dotenv').config();
 
 const { dbClient } = require("./database/index")
 
-
 const usersRouter = require("./modules/user/routes")
 
 const app = express();

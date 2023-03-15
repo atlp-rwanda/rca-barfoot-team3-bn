@@ -3,9 +3,12 @@ const express = require("express")
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
+const { User } = require("../model/index")
+
+router.get("/", async (req, res) => {
+  let users = await User.findAll()
   return res.send({
-    users: "All users"
+    users
   })
 })
 
