@@ -17,9 +17,6 @@
 		"hello.js",
 		"world.js"
 	],
-	"jshintConfig": {
-		"esversion": 6
-	},
 	"dependencies": {
 		"bcrypt": "^5.1.0",
 		"debug": "^4.3.4",
