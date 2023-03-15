@@ -1,35 +1,43 @@
-const hashPassword = require("../../../utils/hashPassword")
-const { validate, validateAsync } = require("../../../utils/validate")
-const { User, registrationSchema } = require("../model")
+const hashPassword = require('../../../utils/hashPassword');
+const { validate, validateAsync } = require('../../../utils/validate');
+const { User, registrationSchema } = require('../model');
 
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*} created user || validation errors
+ */
 async function registerUser(req, res) {
-  let [passes, data, errors] = validate(req.body, registrationSchema)
+  const [passes, data, errors] = validate(req.body, registrationSchema);
 
-  if (!passes) return res.status(400).json({
-    statusCode: "BAD_REQUEST",
-    errors
-  })
+  if (!passes) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors
+    });
+  }
 
-  let emailExists = await validateAsync(data.email).exists("users:email")
+  const emailExists = await validateAsync(data.email).exists('users:email');
 
   if (emailExists) {
     return res.status(400).json({
-      statusCode: "BAD_REQUEST",
+      statusCode: 'BAD_REQUEST',
       errors: {
         email: [
-          "This email is already taken"
+          'This email is already taken'
         ]
       }
-    })
+    });
   }
 
-  data.password = await hashPassword(data.password)
+  data.password = await hashPassword(data.password);
 
-  let user = await User.create(data)
+  const user = await User.create(data);
 
-  res.status(201).send({ statusCode: "CREATED", user })
+  res.status(201).send({ statusCode: 'CREATED', user });
 }
 
 module.exports = {
   registerUser
-}
+};

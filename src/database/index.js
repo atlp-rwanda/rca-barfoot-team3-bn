@@ -8,4 +8,4 @@ const client = new Client({
   host: process.env.DB_HOST
 });
 
-module.exports.dbClient = client
+module.exports.dbClient = client;

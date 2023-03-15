@@ -1,9 +1,15 @@
-const bcrypt = require("bcrypt")
-const saltRounds = 10
+const bcrypt = require('bcrypt');
 
+const saltRounds = 10;
+
+/**
+ *
+ * @param {String} rawPassword
+ * @returns {Promise<String>} hashedPassword
+ */
 async function hashPassword(rawPassword) {
-  let salt = await bcrypt.genSalt(saltRounds)
-  return bcrypt.hash(rawPassword, salt)
+  const salt = await bcrypt.genSalt(saltRounds);
+  return bcrypt.hash(rawPassword, salt);
 }
 
-module.exports = hashPassword
+module.exports = hashPassword;

@@ -1,11 +1,11 @@
 const { DataTypes } = require('sequelize');
 
-const sequelize = require("../../../config/SequelizeConfig");
+const sequelize = require('../../../config/SequelizeConfig');
 
 const EGender = {
-  MALE: "MALE",
-  FEMALE: "FEMALE",
-}
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+};
 
 const User = sequelize.define('users', {
   name: DataTypes.STRING,
@@ -22,23 +22,23 @@ const User = sequelize.define('users', {
   line_manager: DataTypes.STRING
 }, {
   timestamps: true,
-  createdAt: "created_at",
+  createdAt: 'created_at',
   updatedAt: 'updated_at'
 });
 
 User.hasOne(User, {
-  foreignKey: "line_manager"
-})
+  foreignKey: 'line_manager'
+});
 
 const registrationSchema = {
-  name: ["required", "string"],
-  gender: ["required", "in:MALE,FEMALE"],
-  email: ["required", "string", "email"],
-  username: ["required", "min:3"],
-  password: ["required", "string", "alpha_num", "min:8"],
-}
+  name: ['required', 'string'],
+  gender: ['required', 'in:MALE,FEMALE'],
+  email: ['required', 'string', 'email'],
+  username: ['required', 'min:3'],
+  password: ['required', 'string', 'alpha_num', 'min:8'],
+};
 
 module.exports = {
   User,
   registrationSchema
-}
+};
