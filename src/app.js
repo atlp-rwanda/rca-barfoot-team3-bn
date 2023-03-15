@@ -6,6 +6,9 @@ const { dbClient } = require("./database/index")
 const usersRouter = require("./modules/user/routes")
 
 const app = express();
+
+app.use(express.json())
+
 const PORT = process.env.PORT || 3000;
 app.get('/', (req, res) => {
   res.send(`${process.env.MESSAGE}`);

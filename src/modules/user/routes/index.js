@@ -1,15 +1,9 @@
 // user routes here
-const express = require("express")
-
+const express = require("express");
 const router = express.Router();
 
-const { User } = require("../model/index")
+const { registerUser } = require("../controller");
 
-router.get("/", async (req, res) => {
-  let users = await User.findAll()
-  return res.send({
-    users
-  })
-})
+router.post("/", registerUser)
 
 module.exports = router;
