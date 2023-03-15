@@ -24,7 +24,7 @@ jobs:
           node-version: "16"
 
       - name: Install Node.js dependencies
-        run: npm ci
+        run: yarn install
 
       - name: Run linters
         run: npm run lint
