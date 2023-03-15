@@ -1,12 +1,22 @@
 const express = require('express');
 require('dotenv').config();
 
+const { dbClient } = require("./database/index")
+
+
+const usersRouter = require("./modules/user/routes")
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.get('/', (req, res) => {
   res.send(`${process.env.MESSAGE}`);
 });
 
+app.use("/api/v1/users", usersRouter)
+
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
+  dbClient.connect().then(() => {
+    console.log("Connected to db")
+    console.log(`Example app listening on port ${PORT}!`);
+  })
 });
