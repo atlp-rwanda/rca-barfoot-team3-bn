@@ -66,7 +66,7 @@ async function loginUser(req, res) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {
-        email: [
+        password: [
           'Passwords do not match'
         ]
       }
