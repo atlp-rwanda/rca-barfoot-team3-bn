@@ -1,8 +1,9 @@
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const hashPassword = require('../../../utils/hashPassword');
 const { validate, validateAsync } = require('../../../utils/validate');
 const { User, registrationSchema, loginSchema } = require('../model');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 
 /**
  *
