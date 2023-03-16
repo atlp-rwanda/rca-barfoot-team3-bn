@@ -1,6 +1,8 @@
 const hashPassword = require('../../../utils/hashPassword');
 const { validate, validateAsync } = require('../../../utils/validate');
-const { User, registrationSchema } = require('../model');
+const { User, registrationSchema, loginSchema } = require('../model');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 /**
  *
@@ -38,6 +40,47 @@ async function registerUser(req, res) {
   res.status(201).send({ statusCode: 'CREATED', user });
 }
 
+async function loginUser(req, res) {
+  const { email, password } = req.body;
+  const user = await User.findOne({
+    where: {
+      email: email
+    }
+  });
+
+
+  if (!user) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        email: [
+          'User does not exist'
+        ]
+      }
+    });
+
+  }
+
+  const passwordMatches = await bcrypt.compare(password, user.password)
+  if (!passwordMatches) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        email: [
+          'Passwords do not match'
+        ]
+      }
+    });
+  }
+
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
+
+  return res.status(201).send({ statusCode: 'CREATED', token, user });
+
+
+}
+
 module.exports = {
-  registerUser
+  registerUser,
+  loginUser
 };

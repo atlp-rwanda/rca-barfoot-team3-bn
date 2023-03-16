@@ -40,7 +40,14 @@ const registrationSchema = {
   password: ['required', 'string', 'confirmed', 'password_validations'],
 };
 
+const loginSchema = {
+  email: ['required', 'string', 'email'],
+  password: ['required', 'string', 'confirmed', 'password_validations'],
+
+}
+
 module.exports = {
   User,
-  registrationSchema
+  registrationSchema, 
+  loginSchema
 };
