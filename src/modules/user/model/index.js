@@ -8,7 +8,8 @@ const EGender = {
 };
 
 const User = sequelize.define('users', {
-  name: DataTypes.STRING,
+  first_name: DataTypes.STRING,
+  last_name: DataTypes.STRING,
   email: DataTypes.STRING,
   gender: DataTypes.ENUM(Object.keys(EGender)),
   username: DataTypes.STRING,
@@ -31,11 +32,12 @@ User.hasOne(User, {
 });
 
 const registrationSchema = {
-  name: ['required', 'string'],
+  first_name: ['required', 'string', 'name_validations'],
+  last_name: ['required', 'string', 'name_validations'],
   gender: ['required', 'in:MALE,FEMALE'],
   email: ['required', 'string', 'email'],
   username: ['required', 'min:3'],
-  password: ['required', 'string', 'alpha_num', 'min:8'],
+  password: ['required', 'string', 'confirmed', 'password_validations'],
 };
 
 module.exports = {
