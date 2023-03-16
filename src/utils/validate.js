@@ -9,14 +9,9 @@ const sequelize = require('../config/SequelizeConfig');
  * @returns {[passes, *, ValidatorJS.Errors]} validation
  */
 function validate(data, rules) {
-  ValidatorJS.register("password_validations", (value) => {
-    return /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/.test(value)
-  }, "A password must contain at least one capital letter, one small letter, one special character")
+  ValidatorJS.register('password_validations', (value) => /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/.test(value), 'A password must contain at least one capital letter, one small letter, one special character');
 
-  ValidatorJS.register("name_validations", (value) => {
-    return /^[A-Za-z\s]*$/.test(value)
-  }, "A name must contain alpha letters and space only")
-
+  ValidatorJS.register('name_validations', (value) => /^[A-Za-z\s]*$/.test(value), 'A name must contain alpha letters and space only');
 
   const valid = new ValidatorJS(data, rules);
   return [valid.passes(), valid.input, valid.errors.all()];
