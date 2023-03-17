@@ -33,6 +33,19 @@ async function registerUser(req, res) {
     });
   }
 
+  const usernameExists = await validateAsync(data.username).exists('users:username');
+
+  if (usernameExists) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        email: [
+          'This username is already taken'
+        ]
+      }
+    });
+  }
+
   data.password = await hashPassword(data.password);
 
   const user = await User.create(data);
