@@ -76,7 +76,6 @@ async function loginUser(req, res) {
       }
     });
   }
- 
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
   const userEmail = user.email;
