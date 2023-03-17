@@ -81,7 +81,54 @@ async function loginUser(req, res) {
   return res.status(201).send({ statusCode: 'CREATED', token, userEmail });
 }
 
+/**
+ * Resets the password for a given user
+ * 
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*} success message or error message
+ */
+async function resetPassword(req, res) {
+  const { email, currentPassword, newPassword } = req.body;
+
+  const user = await User.findOne({
+    where: {
+      email
+    }
+  });
+
+  if (!user) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        email: [
+          'User not found'
+        ]
+      }
+    });
+  }
+
+  const passwordMatches = await bcrypt.compare(currentPassword, user.password);
+  if (!passwordMatches) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        currentPassword: [
+          'Incorrect password'
+        ]
+      }
+    });
+  }
+
+  const newPasswordHash = await bcrypt.hash(newPassword, 10);
+
+  await user.update({ password: newPasswordHash });
+
+  return res.status(200).send({ message: 'Password reset successfully' });
+}
+
 module.exports = {
   registerUser,
-  loginUser
+  loginUser,
+  resetPassword
 };

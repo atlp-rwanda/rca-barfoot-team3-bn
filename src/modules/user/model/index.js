@@ -37,7 +37,7 @@ const registrationSchema = {
   gender: ['required', 'in:MALE,FEMALE'],
   email: ['required', 'string', 'email'],
   username: ['required', 'min:3'],
-  password: ['required', 'string', 'confirmed', 'password_validations'],
+  password: ['required', 'string', 'confirmed', 'password_validtions'],
 };
 
 module.exports = {
