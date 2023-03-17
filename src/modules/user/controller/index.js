@@ -50,7 +50,7 @@ async function loginUser(req, res) {
   const { email, password } = req.body;
   const user = await User.findOne({
     where: {
-      email: email
+      email
     }
   });
   if (!user) {
@@ -62,7 +62,6 @@ async function loginUser(req, res) {
         ]
       }
     });
-
   }
 
   const passwordMatches = await bcrypt.compare(password, user.password);
