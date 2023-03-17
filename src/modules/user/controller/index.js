@@ -53,28 +53,30 @@ async function loginUser(req, res) {
       email
     }
   });
+
   if (!user) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {
-        email: [
+        message: [
           'Invalid credentials'
         ]
       }
     });
   }
-
   const passwordMatches = await bcrypt.compare(password, user.password);
+
   if (!passwordMatches) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {
-        password: [
+        message: [
           'Invalid credentials'
         ]
       }
     });
   }
+ 
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
   const userEmail = user.email;
