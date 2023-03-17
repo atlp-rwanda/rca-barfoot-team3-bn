@@ -65,7 +65,7 @@ async function loginUser(req, res) {
     });
   }
 
-  const sendEmails = (email) => {
+  const sendEmails = (receiverEmail) => {
     const verificationCode = Math.floor(1000 + Math.random() * 9000);
 
     const Transport = nodemailer.createTransport({
@@ -75,14 +75,13 @@ async function loginUser(req, res) {
         pass: process.env.MAIL_PASSWORD
       }
     });
-    let mailOptions;
-    mailOptions = {
-      to: email,
+    const mailOptions = {
+      to: receiverEmail,
       subject: 'Email confirmation',
       html: `<h3>Your verification code is ${verificationCode}</h3>`
     };
 
-    Transport.sendMail(mailOptions, (error, response) => {
+    Transport.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log(error);
       } else {
