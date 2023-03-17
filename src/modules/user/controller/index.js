@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 const hashPassword = require('../../../utils/hashPassword');
 const { validate, validateAsync } = require('../../../utils/validate');
 const { User, registrationSchema } = require('../model');
@@ -64,6 +65,32 @@ async function loginUser(req, res) {
     });
   }
 
+  const sendEmails = (email) => {
+    const verificationCode = Math.floor(1000 + Math.random() * 9000);
+
+    const Transport = nodemailer.createTransport({
+      service: process.env.MAIL_SERVICE,
+      auth: {
+        user: process.env.MAIL_USERNAME,
+        pass: process.env.MAIL_PASSWORD
+      }
+    });
+    let mailOptions;
+    mailOptions = {
+      to: email,
+      subject: 'Email confirmation',
+      html: `<h3>Your verification code is ${verificationCode}</h3>`
+    };
+
+    Transport.sendMail(mailOptions, (error, response) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Message sent');
+      }
+    });
+  };
+
   const passwordMatches = await bcrypt.compare(password, user.password);
   if (!passwordMatches) {
     return res.status(400).json({
@@ -78,6 +105,7 @@ async function loginUser(req, res) {
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
   const userEmail = user.email;
+  sendEmails(userEmail);
   return res.status(201).send({ statusCode: 'CREATED', token, userEmail });
 }
 
