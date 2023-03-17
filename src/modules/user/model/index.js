@@ -41,6 +41,5 @@ const registrationSchema = {
 };
 
 module.exports = {
-  User,
-  registrationSchema, 
+  User, registrationSchema, 
 };

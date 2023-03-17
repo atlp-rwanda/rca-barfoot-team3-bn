@@ -40,6 +40,12 @@ async function registerUser(req, res) {
   res.status(201).send({ statusCode: 'CREATED', user });
 }
 
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*} token and useremail || validation errors
+ */
 async function loginUser(req, res) {
   const { email, password } = req.body;
   const user = await User.findOne({
@@ -59,7 +65,7 @@ async function loginUser(req, res) {
 
   }
 
-  const passwordMatches = await bcrypt.compare(password, user.password)
+  const passwordMatches = await bcrypt.compare(password, user.password);
   if (!passwordMatches) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
@@ -72,7 +78,7 @@ async function loginUser(req, res) {
   }
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
-  const userEmail = user.email
+  const userEmail = user.email;
   return res.status(201).send({ statusCode: 'CREATED', token, userEmail });
 }
 
