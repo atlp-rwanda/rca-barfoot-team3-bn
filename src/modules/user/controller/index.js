@@ -2,8 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const hashPassword = require('../../../utils/hashPassword');
 const { validate, validateAsync } = require('../../../utils/validate');
-const { User, registrationSchema, loginSchema } = require('../model');
-
+const { User, registrationSchema } = require('../model');
 
 /**
  *
@@ -55,7 +54,7 @@ async function loginUser(req, res) {
       statusCode: 'BAD_REQUEST',
       errors: {
         email: [
-          'User does not exist'
+          'Invalid credentials'
         ]
       }
     });
@@ -68,17 +67,16 @@ async function loginUser(req, res) {
       statusCode: 'BAD_REQUEST',
       errors: {
         password: [
-          'Passwords do not match'
+          'Invalid credentials'
         ]
       }
     });
   }
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
-
-  return res.status(201).send({ statusCode: 'CREATED', token, user });
-
-
+  const userEmail = user.email
+  return res.status(201).send({ statusCode: 'CREATED', token, userEmail });
+  
 }
 
 module.exports = {
