@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const hashPassword = require('../../../utils/hashPassword');
 const { validate, validateAsync } = require('../../../utils/validate');
 const { User, registrationSchema } = require('../model');
@@ -38,6 +40,48 @@ async function registerUser(req, res) {
   res.status(201).send({ statusCode: 'CREATED', user });
 }
 
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*} token and useremail || validation errors
+ */
+async function loginUser(req, res) {
+  const { email, password } = req.body;
+  const user = await User.findOne({
+    where: {
+      email
+    }
+  });
+  if (!user) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        email: [
+          'Invalid credentials'
+        ]
+      }
+    });
+  }
+
+  const passwordMatches = await bcrypt.compare(password, user.password);
+  if (!passwordMatches) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        password: [
+          'Invalid credentials'
+        ]
+      }
+    });
+  }
+
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
+  const userEmail = user.email;
+  return res.status(201).send({ statusCode: 'CREATED', token, userEmail });
+}
+
 module.exports = {
-  registerUser
+  registerUser,
+  loginUser
 };

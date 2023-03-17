@@ -11,5 +11,4 @@ async function hashPassword(rawPassword) {
   const salt = await bcrypt.genSalt(saltRounds);
   return bcrypt.hash(rawPassword, salt);
 }
-
 module.exports = hashPassword;
