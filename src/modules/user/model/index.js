@@ -44,4 +44,3 @@ module.exports = {
   User,
   registrationSchema
 }
-
