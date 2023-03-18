@@ -10,6 +10,8 @@ module.exports = {
   },
   rules: {
     "one-var": 0,
+    'no-console': 'off',
+    "no-unused-vars": "warn",
     "one-var-declaration-per-line": 0,
     "new-cap": 0,
     "consistent-return": 0,

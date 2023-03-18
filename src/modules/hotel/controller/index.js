@@ -1,1 +1,1 @@
-//hotel controller here 
+// hotel controller here
