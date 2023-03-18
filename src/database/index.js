@@ -1,5 +1,7 @@
 // database configurations here
+require('dotenv').config();
 const {Client}= require ("pg")
+
 
 const client = new Client({
     user: process.env.DB_USERNAME,
@@ -12,6 +14,6 @@ const client = new Client({
 })
 client.connect(function(err) {
     if (err) throw err;
-    console.log("Connected!");
+    console.log("Now connected!");
   });
 module.exports= {client}

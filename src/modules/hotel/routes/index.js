@@ -1,1 +1,0 @@
-// hotel routes here
