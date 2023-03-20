@@ -24,11 +24,15 @@ const sendEmails = (receiverEmail, verificationCode) => {
       pass: process.env.MAIL_PASS,
     },
   });
+
+  const message = `Please follow the given link to verify your email 
+                  ${process.env.BASE_URL}/users/verify/${user.receiverEmail}`;
+
   const mailOptions = {
     to: receiverEmail,
-    subject: 'Email confirmation',
+    subject: 'Barefoot Nomad Email Verification',
     html: `<p>Your verification code is ${verificationCode}</p>
-          <p>Link to the application https://team-3-barefoot.onrender.com</p>`
+          <p>${message}</p>`
   };
 
   Transport.sendMail(mailOptions, (error, info) => {
@@ -72,8 +76,7 @@ async function registerUser(req, res) {
   data.password = await hashPassword(data.password);
   const randOTP = await generateRandOTP();
   sendEmails(data.email, randOTP);
-
-  const user = await User.create(data);
+  const user = await User.create({data, verificationCode: randOTP, verified: false, verifyCodeExpiryDate: new Date(Date.now() + (24 * 60 * 60 * 1000))});
   res.status(201).send({ statusCode: 'CREATED', user });
 }
 
@@ -118,7 +121,58 @@ async function loginUser(req, res) {
   return res.status(201).send({ statusCode: 'CREATED', token, userEmail });
 }
 
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*} token and useremail || validation errors
+ */
+async function verifyUser(req, res) {
+  const { email } = req.params;
+  const user = await User.findOne({
+    where: {
+      email
+    }
+  });
+  if (!user) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        email: [
+          'Invalid credentials'
+        ]
+      }
+    });
+  }
+  if (user.verified) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        email: [
+          'User already verified'
+        ]
+      }
+    });
+  }
+  if (user.verifyCodeExpiryDate < new Date()) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        email: [
+          'Verification code expired'
+        ]
+      }
+    });
+  }
+  await User.update({ verified: true }, { where: { email } });
+  return res.status(200).json({
+    statusCode: 'OK',
+    user
+  });
+}
+
 module.exports = {
   registerUser,
-  loginUser
+  loginUser,
+  verifyUser
 };

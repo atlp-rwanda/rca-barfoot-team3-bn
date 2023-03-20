@@ -20,7 +20,10 @@ const User = sequelize.define('users', {
   address: DataTypes.STRING,
   role: DataTypes.STRING,
   department: DataTypes.STRING,
-  line_manager: DataTypes.STRING
+  line_manager: DataTypes.STRING,
+  verified: DataTypes.BOOLEAN,
+  verificationCode: DataTypes.NUMBER,
+  verifyCodeExpiryDate: DataTypes.DATE
 }, {
   timestamps: true,
   createdAt: 'created_at',
