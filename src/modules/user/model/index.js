@@ -39,7 +39,7 @@ const registrationSchema = {
   username: ['required', 'min:3'],
   password: ['required', 'string', 'confirmed', 'password_validations'],
 };
-sequelize.sync();
+
 module.exports = {
   User,
   registrationSchema

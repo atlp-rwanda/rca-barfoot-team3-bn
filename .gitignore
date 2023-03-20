@@ -361,5 +361,5 @@ MigrationBackup/
 # Local
 .env
 yarn.lock
-package-lock.json
+
 .vscode
