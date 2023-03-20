@@ -26,7 +26,7 @@ const sendEmails = (receiverEmail, verificationCode) => {
   });
 
   const message = `Please follow the given link to verify your email 
-                  ${process.env.BASE_URL}/users/verify/${user.receiverEmail}`;
+                 <a href=${process.env.BASE_URL}/users/verify/${receiverEmail}>Click</>`;
 
   const mailOptions = {
     to: receiverEmail,
@@ -75,8 +75,14 @@ async function registerUser(req, res) {
 
   data.password = await hashPassword(data.password);
   const randOTP = await generateRandOTP();
+  console.log('Random OTp ', randOTP);
   sendEmails(data.email, randOTP);
-  const user = await User.create({data, verificationCode: randOTP, verified: false, verifyCodeExpiryDate: new Date(Date.now() + (24 * 60 * 60 * 1000))});
+  const user = await User.create({
+    ...data,
+    verification_code: randOTP,
+    verified: false,
+    verification_code_expiry_date: new Date(Date.now() + (24 * 60 * 60 * 1000))
+  });
   res.status(201).send({ statusCode: 'CREATED', user });
 }
 
@@ -154,7 +160,7 @@ async function verifyUser(req, res) {
       }
     });
   }
-  if (user.verifyCodeExpiryDate < new Date()) {
+  if (user.verification_code_expiry_date < new Date()) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {
@@ -164,7 +170,26 @@ async function verifyUser(req, res) {
       }
     });
   }
-  await User.update({ verified: true }, { where: { email } });
+  console.log('user ', user.toJSON());
+  console.log('user code ', user.verification_code, ' code ', req.body.code);
+  if (user.verification_code !== req.body.code) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        email: [
+          'Invalid verification code'
+        ]
+      }
+    });
+  }
+  await User.update(
+    {
+      verified: true,
+      verification_code_expiry_date: null,
+      verification_code: null
+    },
+    { where: { email } }
+  );
   return res.status(200).json({
     statusCode: 'OK',
     user
