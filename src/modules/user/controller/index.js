@@ -14,7 +14,6 @@ const { User, registrationSchema } = require('../model');
  */
 
 const sendEmails = (receiverEmail, verificationCode) => {
-  console.log('Receiver email ', receiverEmail);
   const Transport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -75,7 +74,6 @@ async function registerUser(req, res) {
 
   data.password = await hashPassword(data.password);
   const randOTP = await generateRandOTP();
-  console.log('Random OTp ', randOTP);
   sendEmails(data.email, randOTP);
   const user = await User.create({
     ...data,
@@ -170,8 +168,6 @@ async function verifyUser(req, res) {
       }
     });
   }
-  console.log('user ', user.toJSON());
-  console.log('user code ', user.verification_code, ' code ', req.body.code);
   if (user.verification_code !== req.body.code) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
