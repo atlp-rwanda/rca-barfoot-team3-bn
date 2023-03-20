@@ -19,8 +19,8 @@ const sendEmails = (receiverEmail, verificationCode) => {
     port: process.env.MAIL_SERVICE_PORT,
     secure: process.env.MAIL_SERVICE_SECURE,
     auth: {
-      user: `${process.env.MAIL_USERNAME}`,
-      pass: `${process.env.MAIL_PASSWORD}`
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_PASSWORD
     }
   });
   const mailOptions = {
