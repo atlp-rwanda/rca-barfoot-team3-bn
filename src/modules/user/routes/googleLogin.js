@@ -1,14 +1,14 @@
-const passport = require("passport")
+const passport = require('passport');
 
-module.exports ={
-    getGoogleLogin:[passport.authenticate("google",{scope:["profile"]})],
+module.exports = {
+  getGoogleLogin: [passport.authenticate('google', { scope: ['profile'] })],
 
-    handleGoogleLogin:[
-        passport.authenticate("google",{
-            failureRedirect:"/login"
-        }),
-        function(req,res){
-            res.redirect("/")
-        }
-    ]
-}
+  handleGoogleLogin: [
+    passport.authenticate('google', {
+      failureRedirect: '/login'
+    }),
+    function (req, res) {
+      res.redirect('/');
+    }
+  ]
+};
