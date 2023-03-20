@@ -1,8 +1,43 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const generateRandOTP = require('../../../utils/generator');
 const hashPassword = require('../../../utils/hashPassword');
 const { validate, validateAsync } = require('../../../utils/validate');
 const { User, registrationSchema } = require('../model');
+
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*} verification code || validation errors
+ */
+
+const sendEmails = (receiverEmail, verificationCode) => {
+  const Transport = nodemailer.createTransport({
+    host: process.env.MAIL_SERVICE,
+    port: process.env.MAIL_SERVICE_PORT,
+    secure: process.env.MAIL_SERVICE_SECURE,
+    auth: {
+      user: `${process.env.MAIL_USERNAME}`,
+      pass: `${process.env.MAIL_PASSWORD}`
+    }
+  });
+  const mailOptions = {
+    to: receiverEmail,
+    subject: 'Email confirmation',
+    html: `<h3>Your verification code is ${verificationCode}</h3>
+          <h3>Link to the application https://team-3-barefoot.onrender.com</h3>`
+  };
+
+  Transport.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Message sent');
+    }
+  });
+};
 
 /**
  *
@@ -34,9 +69,10 @@ async function registerUser(req, res) {
   }
 
   data.password = await hashPassword(data.password);
+  const randOTP = await generateRandOTP();
+  sendEmails(data.email, randOTP);
 
   const user = await User.create(data);
-
   res.status(201).send({ statusCode: 'CREATED', user });
 }
 
