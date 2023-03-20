@@ -119,7 +119,6 @@ async function loginUser(req, res) {
   };
 
   /**
- * Resets the password for a given user
  * 
  * @param {*} req ExpressRequest
  * @param {*} res ExpressResponse
