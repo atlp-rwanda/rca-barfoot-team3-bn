@@ -1,6 +1,7 @@
-const bcrypt= require("bcrypt")
-const FacebookStrategy = require("passport-facebook").Strategy
+const bcrypt= require("bcrypt");
+const FacebookStrategy = require("passport-facebook").Strategy;
 const dotenv= require("dotenv")
+const User = require("../modules/user/model/index")
 const dotenvConfig =require("dotenv").config()
 const passport = require("passport")
 const LocalStrategy= require("passport-local").Strategy
