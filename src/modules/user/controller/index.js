@@ -14,20 +14,21 @@ const { User, registrationSchema } = require('../model');
  */
 
 const sendEmails = (receiverEmail, verificationCode) => {
+  console.log('Receiver email ', receiverEmail);
   const Transport = nodemailer.createTransport({
-    host: process.env.MAIL_SERVICE,
-    port: process.env.MAIL_SERVICE_PORT,
-    secure: process.env.MAIL_SERVICE_SECURE,
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
-      user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_PASSWORD
-    }
+      user: process.env.MAIL,
+      pass: process.env.MAIL_PASS,
+    },
   });
   const mailOptions = {
     to: receiverEmail,
     subject: 'Email confirmation',
-    html: `<h3>Your verification code is ${verificationCode}</h3>
-          <h3>Link to the application https://team-3-barefoot.onrender.com</h3>`
+    html: `<p>Your verification code is ${verificationCode}</p>
+          <p>Link to the application https://team-3-barefoot.onrender.com</p>`
   };
 
   Transport.sendMail(mailOptions, (error, info) => {
@@ -89,24 +90,23 @@ async function loginUser(req, res) {
       email
     }
   });
-
   if (!user) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {
-        message: [
+        email: [
           'Invalid credentials'
         ]
       }
     });
   }
-  const passwordMatches = await bcrypt.compare(password, user.password);
 
+  const passwordMatches = await bcrypt.compare(password, user.password);
   if (!passwordMatches) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {
-        message: [
+        password: [
           'Invalid credentials'
         ]
       }
