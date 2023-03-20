@@ -11,6 +11,7 @@ const { User, registrationSchema } = require('../model');
  * @returns {*} created user || validation errors
  */
 async function registerUser(req, res) {
+  try{
   const [passes, data, errors] = validate(req.body, registrationSchema);
 
   if (!passes) {
@@ -37,7 +38,10 @@ async function registerUser(req, res) {
 
   const user = await User.create(data);
 
-  res.status(201).send({ statusCode: 'CREATED', user });
+  res.status(201).send({ statusCode: 'CREATED', user });}
+  catch(err){
+    console.log(err)
+  }
 }
 
 /**
@@ -96,9 +100,10 @@ async function loginUser(req, res) {
       return res.status(404).json({ error: 'User not found' });
     }
     else{
-      const { password, ...userWithoutPassword } = user;
+      const userJson = user.get({ plain: true });
+      const { password,created_at,updated_at, ...userProfile } =  userJson;
 
-      return res.json(userWithoutPassword.toJSON());
+      return res.json(userProfile);
     }
     
   } catch (error) {
@@ -115,7 +120,7 @@ async function loginUser(req, res) {
   async function updateUserById(req, res){
     try {
       const userId = req.params.id; 
-      const { name, email, gender, birthdate, preferredLanguage, preferredCurrency, location, role, department, lineManager } = req.body; // Get the updated user data from the request body
+      const { first_name, last_name,email ,gender,username, birthdate,preferred_language,preferred_currency, address, role, department, lineManager } = req.body; 
       
       const user = await User.findOne({ where: { id: userId } }); 
       
@@ -123,20 +128,22 @@ async function loginUser(req, res) {
         return res.status(404).json({ error: 'User not found' });
       }
       
-      user.name = name;
+      user.first_name = first_name;
       user.email = email;
       user.gender = gender;
       user.birthdate = birthdate;
-      user.preferredLanguage = preferredLanguage;
-      user.preferredCurrency = preferredCurrency;
-      user.location = location;
+      user.username = username;
+      user.preferred_currency = preferred_currency;
+      user.preferred_language = preferred_language
+      user.address = address;
       user.role = role;
       user.department = department;
       user.lineManager = lineManager;
       
       await user.save(); 
-      const { password, ...userWithoutPassword } = user;
-      return res.json(userWithoutPassword.toJSON());
+      const userJson = user.get({ plain: true });
+      const { password,created_at,updated_at, ...userProfile } =  userJson;
+      return res.json(userProfile);
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: 'Server error' });
