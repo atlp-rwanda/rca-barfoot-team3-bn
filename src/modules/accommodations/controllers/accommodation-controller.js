@@ -1,7 +1,7 @@
+const fs = require('fs');
 const { validate } = require('../../../utils/validate');
 const { creationSchema, Accommodation, Room } = require('../models');
-const cloudinary = require('../../../utils/cloudinary')
-const fs = require("fs")
+const cloudinary = require('../../../utils/cloudinary');
 
 /**
  * Accoomodation Controller Class
@@ -45,38 +45,42 @@ class AccomodationsController {
    * @returns {*} cooresponding accommodations
    */
   static async uploadImage(req, res) {
-    let accommodation = await Accommodation.findByPk(req.params.id)
+    const accommodation = await Accommodation.findByPk(req.params.id);
 
-    if (!accommodation) return res.status(404).json({
-      status: 'NOT_FOUND',
-      errors: {
-        request: [
-          "Accommodation with this id is not found"
-        ]
-      }
-    });
+    if (!accommodation) {
+      return res.status(404).json({
+        status: 'NOT_FOUND',
+        errors: {
+          request: [
+            'Accommodation with this id is not found'
+          ]
+        }
+      });
+    }
 
-    let files = req.files
-    if (!files.length) return res.status(404).json({
-      status: 'BAD_REQUEST',
-      errors: {
-        files: [
-          "No Files Uploaded"
-        ]
-      }
-    });
+    const { files } = req;
+    if (!files.length) {
+      return res.status(404).json({
+        status: 'BAD_REQUEST',
+        errors: {
+          files: [
+            'No Files Uploaded'
+          ]
+        }
+      });
+    }
 
     const uploader = async (path) => await cloudinary.uploads(path);
 
-    const urls = []
+    const urls = [];
     for (const file of files) {
       const { path } = file;
-      const newPath = await uploader(path)
-      urls.push(newPath)
-      fs.unlinkSync(path)
+      const newPath = await uploader(path);
+      urls.push(newPath);
+      fs.unlinkSync(path);
     }
 
-    await Accommodation.update({ "image_path": urls.map(url => url.url).join(",") }, { where: { id: accommodation.id } })
+    await Accommodation.update({ image_path: urls.map((url) => url.url).join(',') }, { where: { id: accommodation.id } });
 
     return res.status(200).json({
       status: 'SUCCESS',

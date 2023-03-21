@@ -7,8 +7,7 @@ const router = express.Router();
 
 const { AccomodationsController } = require('../controllers');
 
-
 router.post('/', [authenticate, authorize('ADMIN')], AccomodationsController.create);
-router.put('/:id/upload-image', [authenticate, authorize('ADMIN'), upload.array("files")], AccomodationsController.uploadImage);
+router.put('/:id/upload-image', [authenticate, authorize('ADMIN'), upload.array('files')], AccomodationsController.uploadImage);
 
 module.exports = router;
