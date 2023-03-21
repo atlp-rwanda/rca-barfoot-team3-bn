@@ -70,15 +70,16 @@ class AccomodationsController {
       });
     }
 
-    const uploader = async (path) => await cloudinary.uploads(path);
+    const uploader = (path) => cloudinary.uploads(path);
 
     const urls = [];
-    for (const file of files) {
+
+    await Promise.all(files.map(async (file) => {
       const { path } = file;
       const newPath = await uploader(path);
       urls.push(newPath);
       fs.unlinkSync(path);
-    }
+    }));
 
     await Accommodation.update({ image_path: urls.map((url) => url.url).join(',') }, { where: { id: accommodation.id } });
 
