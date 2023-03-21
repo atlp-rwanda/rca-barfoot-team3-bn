@@ -4,7 +4,9 @@ const usersRouter = require('./modules/user/routes');
 const accommodationsRoute = require('./modules/accommodations/routes');
 
 const app = express();
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3000;
 

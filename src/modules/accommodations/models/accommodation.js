@@ -33,7 +33,6 @@ Accommodation.hasMany(Room, {
 const creationSchema = {
   type: `required|string|in:${Object.keys(EAccommodationType).join(',')}`,
   location: 'required|string|min:3',
-  image_path: 'required|string|min:3',
   rooms: 'required|array|min:1',
   'rooms.*.type': `required|string|in:${Object.keys(ERoomType).join(',')}`,
   'rooms.*.name': 'required|string|min:3'
