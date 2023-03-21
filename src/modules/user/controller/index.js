@@ -55,12 +55,6 @@ async function registerUser(req, res) {
   } catch (err) {
     console.log(err);
   }
-
-  data.password = await hashPassword(data.password);
-
-  const user = await User.create(data);
-
-  res.status(201).send({ statusCode: 'CREATED', user });
 }
 
 /**
