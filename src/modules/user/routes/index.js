@@ -8,6 +8,25 @@ const {
   getUserById, updateUserById, verifyUser, assignRoles
 } = require('../controller');
 
+/**
+ * @swagger
+ * /api/user/register:
+ *  post:
+ *    tags:
+ *      - User
+ *    description: Create an user
+ *    parameters:
+ *      - name: body
+ *        in: body
+ *        required: true
+ *        schema:
+ *          $ref: '#/definitions/User'
+ *    responses:
+ *      200:
+ *        description: An user
+ *      500:
+ *        description: Server error
+ */
 router.post('/', registerUser);
 router.post('/login', loginUser);
 router.post('/initiate-reset-password', initateResetPassword);
