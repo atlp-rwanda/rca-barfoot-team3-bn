@@ -7,8 +7,6 @@ const EGender = {
   FEMALE: 'FEMALE',
 };
 
-
-
 const User = sequelize.define('users', {
   first_name: DataTypes.STRING,
   last_name: DataTypes.STRING,

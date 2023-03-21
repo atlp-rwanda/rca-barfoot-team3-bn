@@ -5,7 +5,6 @@ const router = express.Router();
 
 const { registerUser, loginUser } = require('../controller');
 
-
 /**
  * @swagger
  * /api/user/register:
@@ -55,6 +54,5 @@ router.post('/', registerUser);
  *        description: Server error
  */
 router.post('/login', loginUser);
-
 
 module.exports = router;
