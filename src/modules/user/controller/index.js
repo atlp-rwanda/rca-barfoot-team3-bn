@@ -178,7 +178,7 @@ async function verifyUser(req, res) {
       }
     });
   }
-  await User.update(
+  await user.update(
     {
       verified: true,
       verification_code_expiry_date: null,
