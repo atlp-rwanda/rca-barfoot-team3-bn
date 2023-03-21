@@ -6,6 +6,6 @@ const router = express.Router();
 
 const { AccomodationsController } = require('../controllers');
 
-router.post('/', [authenticate, authorize("ADMIN")], AccomodationsController.create);
+router.post('/', [authenticate, authorize('ADMIN')], AccomodationsController.create);
 
 module.exports = router;
