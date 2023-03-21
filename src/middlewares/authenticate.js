@@ -8,20 +8,20 @@ const { User } = require('../modules/user/model');
  * @returns {*} response
  */
 async function authenticate(req, res, next) {
-  const token = req.headers.authorization.split(' ')[1];
-
-  if (!token) {
-    return res.status(401).json({
-      statusCode: 'UNAUTHENTICATED_ACCESS',
-      errors: {
-        request: [
-          'You are not authenticated to use this request'
-        ]
-      }
-    });
-  }
-
   try {
+    const token = req.headers.authorization.split(' ')[1];
+
+    if (!token) {
+      return res.status(401).json({
+        statusCode: 'UNAUTHENTICATED_ACCESS',
+        errors: {
+          request: [
+            'You are not authenticated to use this request'
+          ]
+        }
+      });
+    }
+
     const { userId } = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
     const user = await User.findByPk(userId);
@@ -34,7 +34,7 @@ async function authenticate(req, res, next) {
       statusCode: 'UNAUTHENTICATED_ACCESS',
       errors: {
         request: [
-          'Invalid token'
+          'You are not authenticated to use this request'
         ]
       }
     });
