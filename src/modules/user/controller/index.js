@@ -15,22 +15,22 @@ const { User, registrationSchema } = require('../model');
 
 const sendEmails = (receiverEmail, verificationCode) => {
   const Transport = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    host: process.env.MAIL_HOST,
+    port: process.env.MAIL_HOST_PORT,
+    secure: process.env.MAIL_HOST_SECURE,
     auth: {
       user: process.env.MAIL,
-      pass: process.env.MAIL_PASS,
+      pass: process.env.MAIL_PASSWORD,
     },
   });
 
-  const message = `Please follow the given link to verify your email 
-                 <a href=${process.env.BASE_URL}/users/verify/${receiverEmail}>Click</>`;
+  const message = `<a href=http://localhost:${process.env.PORT}/api/v1/users/verify/${receiverEmail}>Click</a>`;
 
   const mailOptions = {
     to: receiverEmail,
     subject: 'Barefoot Nomad Email Verification',
     html: `<p>Your verification code is ${verificationCode}</p>
+          <p>Please follow the given link to verify your email</p>
           <p>${message}</p>`
   };
 
