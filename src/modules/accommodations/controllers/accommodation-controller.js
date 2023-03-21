@@ -10,7 +10,7 @@ class AccomodationsController {
   /**
    * @param {Express.Request} req
    * @param {Express.Response} res
-   * @returns {*} created value
+   * @returns {*} created accommodation
    */
   static async create(req, res) {
     const [passes, data, errors] = validate(req.body, creationSchema);
