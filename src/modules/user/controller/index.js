@@ -74,19 +74,19 @@ async function registerUser(req, res) {
       });
     }
 
-  data.password = await hashPassword(data.password);
-  const randOTP = await generateRandOTP();
-  sendEmails(data.email, randOTP);
-  const user = await User.create({
-    ...data,
-    verification_code: randOTP,
-    verified: false,
-    verification_code_expiry_date: new Date(Date.now() + (24 * 60 * 60 * 1000))
-  });
-  res.status(201).send({ statusCode: 'CREATED', user });
-}catch (err) {
-  console.log(err);
-}
+    data.password = await hashPassword(data.password);
+    const randOTP = await generateRandOTP();
+    sendEmails(data.email, randOTP);
+    const user = await User.create({
+      ...data,
+      verification_code: randOTP,
+      verified: false,
+      verification_code_expiry_date: new Date(Date.now() + (24 * 60 * 60 * 1000))
+    });
+    res.status(201).send({ statusCode: 'CREATED', user });
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 /**
