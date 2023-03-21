@@ -1,8 +1,15 @@
 const { validate } = require('../../../utils/validate');
-const { creationSchema, Accommodation } = require('../models');
-const { Room } = require('../models/rooms');
+const { creationSchema, Accommodation, Room } = require('../models');
 
-module.exports.AccomodationsController = class AccomodationsController {
+/**
+ * Accoomodation Controller Class
+ */
+class AccomodationsController {
+  /**
+   * @param {Express.Request} req
+   * @param {Express.Response} res
+   * @returns {*} created value
+   */
   static async create(req, res) {
     const [passes, data, errors] = validate(req.body, creationSchema);
 
@@ -13,15 +20,15 @@ module.exports.AccomodationsController = class AccomodationsController {
       });
     }
 
-    const accommodation = await Accommodation.create(data);
-    const rooms = [];
+    const accommodation = await Accommodation.create({
+      created_by: req.user.id,
+      ...data
+    });
 
-    for (const room of data.rooms) {
-      rooms.push(await Room.create({
-        accommodationId: accommodation.id,
-        ...room
-      }));
-    }
+    const rooms = await Promise.all(data.rooms.map((room) => Room.create({
+      accommodationId: accommodation.id,
+      ...room
+    })));
 
     return res.status(201).json({
       status: 'CREATED',
@@ -29,4 +36,8 @@ module.exports.AccomodationsController = class AccomodationsController {
       rooms
     });
   }
+}
+
+module.exports = {
+  AccomodationsController
 };
