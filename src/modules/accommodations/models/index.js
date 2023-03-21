@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 
 const sequelize = require('../../../config/SequelizeConfig');
 const { User } = require('../../user/model');
+const { Room, ERoomType } = require('./rooms');
 
 const EAccommodationType = {
   HOTEL: "HOTEL",
@@ -24,7 +25,21 @@ Accommodation.hasOne(User, {
   foreignKey: 'created_by'
 });
 
+Room.belongsTo(Accommodation)
+Accommodation.hasMany(Room, {
+  foreignKey: "accommodationId"
+})
+
+const creationSchema = {
+  type: "required|string|in:" + Object.keys(EAccommodationType).join(","),
+  location: "required|string|min:3",
+  image_path: "required|string|min:3",
+  rooms: "required|array|min:1",
+  'rooms.*.type': "required|string|in:" + Object.keys(ERoomType).join(","),
+  'rooms.*.name': "required|string|min:3"
+}
 
 module.exports = {
-  Accommodation
+  Accommodation,
+  creationSchema
 };

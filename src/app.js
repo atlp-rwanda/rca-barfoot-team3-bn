@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => { res.send(`${process.env.MESSAGE}`); });
 app.use('/api/v1/users', usersRouter);
-app.use('/api/v1/accomodations', accommodationsRoute);
+app.use('/api/v1/accommodations', accommodationsRoute);
 
 app.listen(PORT, () => {
   dbClient.connect().then(() => {
