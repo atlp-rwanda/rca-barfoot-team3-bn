@@ -66,7 +66,7 @@ class AccomodationsController {
       }
     });
 
-    const uploader = async (path) => await cloudinary.uploads(path, 'Images');
+    const uploader = async (path) => await cloudinary.uploads(path);
 
     const urls = []
     for (const file of files) {
