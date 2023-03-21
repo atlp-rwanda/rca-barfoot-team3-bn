@@ -15,10 +15,10 @@ module.exports.AccomodationsController = class {
       });
     }
 
-    let accommodation = await Accommodation.create(req.body)
+    let accommodation = await Accommodation.create(data)
     let rooms = []
 
-    for (let room of req.body.rooms) {
+    for (let room of data.rooms) {
       rooms.push(await Room.create({
         accommodationId: accommodation.id,
         ...room
