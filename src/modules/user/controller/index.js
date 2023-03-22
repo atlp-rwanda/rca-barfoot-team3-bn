@@ -166,30 +166,31 @@ async function updateUserById(req, res) {
   const initateResetPassword = (req, res) => {
     const { email } = req.body;
     const Transport = nodemailer.createTransport({
-      service: process.env.MAIL_SERVICE,
+      service: process.env.MAIL_HOST,
       auth: {
-        user: process.env.MAIL_USERNAME,
+        user: process.env.MAIL,
         pass: process.env.MAIL_PASSWORD
       } 
     });
     const mailOptions = {
       to: email,
       subject: 'Barefoot Nomad Reset password',
-      html: `<a href= 'http://localhost:5000/api/v1/users/reset-password'>Click to reset </a>`,
+      html: `<p>Welcome to barefoot Nomad , Click the link below to reset password.</p><a href= 'http://localhost:5000/api/v1/users/reset-password'><b>Click to reset</b> </a>`,
     };
 
     Transport.sendMail(mailOptions, (error) => {
       if (error) {
         console.log(error);
       } else {
-        console.log('Message sent successfully');
+        console.log('Email sent successfully');
       }
+      return res.status(200).json({
+        statusCode: 'OK',
+        message: 'Email sent successfully'
+  
+      });
     });
-    return res.status(200).json({
-      statusCode: 'OK',
-      message: 'Email sent successfully'
-
-    });
+   
   };
 
   /**
