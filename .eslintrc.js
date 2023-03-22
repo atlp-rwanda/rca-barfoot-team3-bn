@@ -20,7 +20,7 @@ module.exports = {
     "curly": ["error", "multi-line"],
     "import/no-unresolved": [2, { commonjs: true }],
     "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
-    'linebreak-style': ["error", "windows"],
+    'linebreak-style': ["error", "unix"],
     "valid-jsdoc": ["error", {
       "requireReturn": true,
       "requireReturnType": true,
