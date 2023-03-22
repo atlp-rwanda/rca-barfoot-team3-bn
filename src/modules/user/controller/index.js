@@ -126,8 +126,7 @@ async function loginUser(req, res) {
   }
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
-  const userEmail = user.email;
-  sendEmails(userEmail);
+  sendEmails(user.email);
   return res.status(201).send({ statusCode: 'CREATED', token, userEmail });
 }
 /**
@@ -323,7 +322,7 @@ async function resetPassword(req, res) {
       statusCode: 'BAD_REQUEST',
       errors: {
         email: [
-          'User not found'
+          'Try again later'
         ]
       }
     });
