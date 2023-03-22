@@ -287,7 +287,7 @@ async function verifyUser(req, res) {
     const mailOptions = {
       to: email,
       subject: 'Barefoot Nomad Reset password',
-      html: `<p>Welcome to barefoot Nomad , Click the link below to reset password.</p><a href= 'http://localhost:5000/api/v1/users/reset-password'><b>Click to reset</b> </a>`,
+      html: `<p>Welcome to barefoot Nomad, Click the link below to reset password.</p><a href= 'http://localhost:5000/api/v1/users/reset-password'><b>Click to reset</b> </a>`,
     };
 
     Transport.sendMail(mailOptions, (error) => {
