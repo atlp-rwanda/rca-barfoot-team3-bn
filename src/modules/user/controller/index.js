@@ -127,7 +127,7 @@ async function loginUser(req, res) {
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
   sendEmails(user.email);
-  return res.status(201).send({ statusCode: 'CREATED', token, userEmail });
+  return res.status(201).send({ statusCode: 'CREATED', token, sendEmails });
 }
 /**
  *
