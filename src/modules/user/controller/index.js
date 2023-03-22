@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const generateRandOTP = require('../../../utils/generator');
-const nodemailer = require('nodemailer');
 const hashPassword = require('../../../utils/hashPassword');
 const { validate, validateAsync } = require('../../../utils/validate');
 const { User, registrationSchema } = require('../model');
@@ -36,7 +35,7 @@ const sendEmails = (receiverEmail, verificationCode) => {
           <p>${message}</p>`
   };
 
-  Transport.sendMail(mailOptions, (error, info) => {
+  Transport.sendMail(mailOptions, (error) => {
     if (error) {
       console.log(error);
     } else {
@@ -268,45 +267,44 @@ async function verifyUser(req, res) {
   });
 }
 
-  /**
+/**
  *
  * @param {*} req ExpressRequest
  * @param {*} res ExpressResponse
  * @returns {*} token and useremail || validation errors
  */
-   // a function to reset password
-  const initateResetPassword = (req, res) => {
-    const { email } = req.body;
-    const Transport = nodemailer.createTransport({
-      service: process.env.MAIL_HOST,
-      auth: {
-        user: process.env.MAIL,
-        pass: process.env.MAIL_PASSWORD
-      } 
-    });
-    const mailOptions = {
-      to: email,
-      subject: 'Barefoot Nomad Reset password',
-      html: `<p>Welcome to barefoot Nomad, Click the link below to reset password.</p><a href= 'http://localhost:5000/api/v1/users/reset-password'><b>Click to reset</b> </a>`,
-    };
-
-    Transport.sendMail(mailOptions, (error) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent successfully');
-      }
-      return res.status(200).json({
-        statusCode: 'OK',
-        message: 'Email sent successfully'
-  
-      });
-    });
-   
+// a function to reset password
+const initateResetPassword = (req, res) => {
+  const { email } = req.body;
+  const Transport = nodemailer.createTransport({
+    service: process.env.MAIL_HOST,
+    auth: {
+      user: process.env.MAIL,
+      pass: process.env.MAIL_PASSWORD
+    }
+  });
+  const mailOptions = {
+    to: email,
+    subject: 'Barefoot Nomad Reset password',
+    html: '<p>Welcome to barefoot Nomad, Click the link below to reset password.</p><a href= \'http://localhost:5000/api/v1/users/reset-password\'><b>Click to reset</b> </a>',
   };
 
-  /**
- * 
+  Transport.sendMail(mailOptions, (error) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent successfully');
+    }
+    return res.status(200).json({
+      statusCode: 'OK',
+      message: 'Email sent successfully'
+
+    });
+  });
+};
+
+/**
+ *
  * @param {*} req ExpressRequest
  * @param {*} res ExpressResponse
  * @returns {*} success message or error message
@@ -349,7 +347,6 @@ async function resetPassword(req, res) {
 
   return res.status(200).send({ message: 'Password reset successfully' });
 }
-    
 
 module.exports = {
   registerUser,
@@ -360,4 +357,3 @@ module.exports = {
   getUserById,
   updateUserById
 };
-
