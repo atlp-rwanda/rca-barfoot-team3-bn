@@ -4,8 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 const {
-   registerUser, loginUser, initateResetPassword, resetPassword, getUserById,
-  updateUserById, verifyUser
+   registerUser, loginUser, initateResetPassword, resetPassword, getUserById, updateUserById, verifyUser
  } = require('../controller');
 
 router.post('/', registerUser);
