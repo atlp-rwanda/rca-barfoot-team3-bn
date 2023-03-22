@@ -42,3 +42,13 @@ _Below is an example of how you can install and set up this app on your local en
 
 - To check the code against the rules run `yarn lint`
 - To fix the files run `yarn lint:fix`
+
+#### A guide on Mail Service Configuration
+
+- [ ] Clone the repo
+- [ ] Copy the.env.example file and rename it to.env
+- [ ] Edit the.env file with your details
+- [ ] Update your user model with new fields
+   1. verification_code
+   2. verified
+   3. verification_code_expiry_date
