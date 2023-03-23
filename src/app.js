@@ -12,7 +12,7 @@ app.use(session({
     saveUninitialized: true,
     secret: 'SECRET'
 }));
- 
+app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -22,5 +22,5 @@ app.use('/', routes);
 const port = 3000;
  
 app.listen(port, () => {
-    console.log('App listening on port ' + port);
+    console.log('Example app listening on port ' + port);
 });
