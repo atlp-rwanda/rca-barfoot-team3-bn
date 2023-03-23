@@ -27,6 +27,8 @@
 		"pg": "^8.10.0",
 		"pg-hstore": "^2.3.4",
 		"sequelize": "^6.29.1",
+		"swagger-jsdoc": "^6.2.8",
+		"swagger-ui-express": "^4.6.2",
 		"validatorjs": "^3.22.1"
 	},
 	"devDependencies": {
