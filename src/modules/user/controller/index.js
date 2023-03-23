@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const generateRandOTP = require('../../../utils/generator');
 const hashPassword = require('../../../utils/hashPassword');
 const { validate, validateAsync } = require('../../../utils/validate');
+const Role = require('../../role/model');
 const { User, registrationSchema } = require('../model');
 
 /**
@@ -347,6 +348,32 @@ async function resetPassword(req, res) {
   return res.status(200).send({ message: 'Password reset successfully' });
 }
 
+
+async function assignRoles(req, res) {
+  const { email, roleIds } = req.body;
+  try {
+
+    if (!(email || roleIds)) {
+      return res.status(400).json({ message: 'Email and roleIds are required' });
+    }
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const roles = await Role.findAll({ where: { id: roleIds } });
+
+    if (!roles || roles.length === 0) {
+      return res.status(404).json({ message: 'No roles found with the provided ids' });
+    }
+
+    await user.setRoles(roles);
+    return res.status(200).json({ message: 'Roles assigned successfully' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
 module.exports = {
   registerUser,
   initateResetPassword,
@@ -354,5 +381,6 @@ module.exports = {
   loginUser,
   verifyUser,
   getUserById,
-  updateUserById
+  updateUserById,
+  assignRoles
 };
