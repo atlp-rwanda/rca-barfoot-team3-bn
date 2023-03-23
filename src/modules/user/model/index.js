@@ -34,6 +34,31 @@ User.hasOne(User, {
   foreignKey: 'line_manager'
 });
 
+/**
+ * @swagger
+ * definitions:
+ *   User:
+ *     properties:
+ *       first_name:
+ *         type: string
+ *       last_name:
+ *         type: string
+ *       gender:
+ *         type: enum
+ *       email:
+ *         type: string
+ *       username:
+ *         type: string
+ *       password:
+ *         type: string
+ *     required:
+ *       - firstName
+ *       - lastName
+ *       - gender
+ *       - email
+ *       - username
+ *       - password
+ */
 const registrationSchema = {
   first_name: ['required', 'string', 'name_validations'],
   last_name: ['required', 'string', 'name_validations'],
