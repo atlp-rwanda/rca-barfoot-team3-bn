@@ -6,7 +6,7 @@ const router = express.Router();
 
 const {
   registerUser, loginUser, getUserById,
-  updateUserById, verifyUser, logout,initateResetPassword,resetPassword
+  updateUserById, verifyUser, logout, initateResetPassword, resetPassword
 } = require('../controller');
 
 router.post('/', registerUser);
