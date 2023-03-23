@@ -4,7 +4,9 @@ const session = require('express-session');
 const passport = require('passport');
 const routes = require('./modules/user/routes/facebookLogin');
 require("./config/passport")
-
+require('dotenv').config(); 
+const { dbClient } = require('./database/index');
+const usersRouter = require('./modules/user/routes');
 app.set('view engine', 'ejs');
  
 app.use(session({
