@@ -10,6 +10,25 @@ const EAccommodationType = {
   MOTEL: 'MOTEL'
 };
 
+/**
+ * @swagger
+ * definitions:
+ *   Accommodation:
+ *     properties:
+ *       type:
+ *         type: string
+ *       location:
+ *         type: string
+ *       rooms:
+ *         type: array
+ *         items:
+ *           type: object
+ *           properties:
+ *             type:
+ *               type: string
+ *             name:
+ *               type: string
+ */
 const Accommodation = sequelize.define('accommodations', {
   created_by: DataTypes.NUMBER,
   type: DataTypes.ENUM(Object.keys(EAccommodationType)),
