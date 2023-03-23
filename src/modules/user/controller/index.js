@@ -62,13 +62,25 @@ async function registerUser(req, res) {
     }
 
     const emailExists = await validateAsync(data.email).exists('users:email');
-
     if (emailExists) {
       return res.status(400).json({
         statusCode: 'BAD_REQUEST',
         errors: {
           email: [
             'This email is already taken'
+          ]
+        }
+      });
+    }
+
+    const usernameExists = await validateAsync(data.username).exists('users:username');
+
+    if (usernameExists) {
+      return res.status(400).json({
+        statusCode: 'BAD_REQUEST',
+        errors: {
+          email: [
+            'This username is already taken'
           ]
         }
       });
