@@ -2,6 +2,7 @@ const fs = require('fs');
 const { validate } = require('../../../utils/validate');
 const { creationSchema, Accommodation, Room } = require('../models');
 const cloudinary = require('../../../utils/cloudinary');
+const sequelize = require('../../../config/SequelizeConfig');
 
 /**
  * Accoomodation Controller Class
@@ -13,30 +14,44 @@ class AccomodationsController {
    * @returns {*} created accommodation
    */
   static async create(req, res) {
-    const [passes, data, errors] = validate(req.body, creationSchema);
+    const transaction = await sequelize.transaction();
 
-    if (!passes) {
-      return res.status(400).json({
-        statusCode: 'BAD_REQUEST',
-        errors
+    try {
+      const [passes, data, errors] = validate(req.body, creationSchema);
+
+      if (!passes) {
+        return res.status(400).json({
+          statusCode: 'BAD_REQUEST',
+          errors
+        });
+      }
+
+      const accommodation = await Accommodation.create({
+        created_by: req.user.id,
+        ...data
+      }, { transaction });
+
+      const rooms = await Promise.all(data.rooms.map((room) => Room.create({
+        accommodationId: accommodation.id,
+        ...room
+      }, { transaction })));
+
+      transaction.commit();
+
+      return res.status(201).json({
+        status: 'CREATED',
+        accommodation,
+        rooms
+      });
+    } catch (error) {
+      transaction.rollback();
+      return res.status(500).json({
+        status: 'INTERNAL_SERVER ERROR',
+        errors: {
+          server: error
+        }
       });
     }
-
-    const accommodation = await Accommodation.create({
-      created_by: req.user.id,
-      ...data
-    });
-
-    const rooms = await Promise.all(data.rooms.map((room) => Room.create({
-      accommodationId: accommodation.id,
-      ...room
-    })));
-
-    return res.status(201).json({
-      status: 'CREATED',
-      accommodation,
-      rooms
-    });
   }
 
   /**
@@ -85,7 +100,8 @@ class AccomodationsController {
 
     return res.status(200).json({
       status: 'SUCCESS',
-      accommodation
+      accommodation,
+      files
     });
   }
 }
