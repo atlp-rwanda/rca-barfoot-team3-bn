@@ -12,7 +12,10 @@ const {
 router.post('/', registerUser);
 router.post('/login', loginUser);
 router.post('/logout', authenticate, logout);
+router.post('/initiate-reset-password', initateResetPassword);
+router.post('/reset-password', resetPassword);
 router.post('/verify/:email', verifyUser);
 router.get('/:id', getUserById);
 router.put('/:id', updateUserById);
+
 module.exports = router;
