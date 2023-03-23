@@ -25,7 +25,7 @@ _Below is an example of how you can install and set up this app on your local en
 3. Create .env file 
 
 
-4.Run tests
+4. Run tests
    ```sh
    npm test
    ```
@@ -38,7 +38,21 @@ _Below is an example of how you can install and set up this app on your local en
 - [ ] All of your environment variables will be accessible using (process.env.VARIABLE_NAME)
 
 
-#### A guide on running ESLint
+### A guide on running ESLint
 
 - To check the code against the rules run `yarn lint`
 - To fix the files run `yarn lint:fix`
+
+### A guide on Mail Service Configuration
+
+- [ ] Clone the repo
+- [ ] Copy the.env.example file and rename it to.env
+- [ ] Edit the.env file with your details
+- [ ] Update your user model with new fields
+   1. verification_code
+   2. verified
+   3. verification_code_expiry_date
+
+
+### LIVE VERSION
+Check the app [live](https://team-3-barefoot.onrender.com/)
