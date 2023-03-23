@@ -85,7 +85,8 @@ class AccomodationsController {
 
     return res.status(200).json({
       status: 'SUCCESS',
-      accommodation
+      accommodation,
+      files
     });
   }
 }
