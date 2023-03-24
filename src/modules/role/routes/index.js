@@ -3,7 +3,6 @@ const express = require('express');
 const RoleController = require('../controller');
 
 const router = express.Router();
-const roleController = new RoleController();
 
 /**
  * @swagger
@@ -58,7 +57,7 @@ const roleController = new RoleController();
  *      500:
  *        description: Internal server error
  */
-router.post('/', roleController.createRole);
+router.post('/', RoleController.createRole);
 
 /**
  * @swagger
@@ -96,14 +95,14 @@ router.post('/', roleController.createRole);
  *       500:
  *         description: Internal server error
  */
-router.post('/assign-permissions', roleController.assignPermissions);
+router.post('/assign-permissions', RoleController.assignPermissions);
 
 /**
  * @swagger
  * /roles/revoke-permission/{roleId}/{permissionId}:
  *   put:
  *     summary: Revoke permission from role
- *     description: Revoke permission from a role by removing the permission from the role's list of permissions
+ *     description: Revoke a role's permission from the role's list of permissions
  *     tags:
  *       - Role
  *     parameters:
@@ -146,7 +145,9 @@ router.post('/assign-permissions', roleController.assignPermissions);
  *                 error:
  *                   type: string
  */
-
-router.put('/revoke-permission/:roleId/:permissionId', roleController.revokePermission);
+router.put(
+  '/revoke-permission/:roleId/:permissionId',
+  RoleController.revokePermission
+);
 
 module.exports = router;

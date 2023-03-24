@@ -63,7 +63,7 @@ router.post('/initiate-reset-password', initateResetPassword);
 router.post('/reset-password', resetPassword);
 router.post('/verify/:email', verifyUser);
 router.get('/:id', getUserById);
+router.put('/assign-roles', assignRoles);
 router.put('/:id', updateUserById);
-router.post('/assign-roles', assignRoles);
 
 module.exports = router;

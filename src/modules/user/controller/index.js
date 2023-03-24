@@ -383,7 +383,6 @@ async function resetPassword(req, res) {
  * @param {*} res ExpressResponse
  * @returns {*} assign a role to a user
  */
-
 async function assignRoles(req, res) {
   const { email, roleIds } = req.body;
   try {
@@ -404,6 +403,7 @@ async function assignRoles(req, res) {
     await user.setRoles(roles);
     return res.status(200).json({ message: 'Roles assigned successfully' });
   } catch (error) {
+    console.log('error', error.message);
     return res.status(500).json({ message: 'Internal server error' });
   }
 }

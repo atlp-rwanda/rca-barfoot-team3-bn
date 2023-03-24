@@ -1,7 +1,17 @@
 const Permission = require('../model');
 
+/**
+ * Controller class for managing Permissions.
+ */
 class PermissionController {
-  async createPermission(req, res) {
+  /**
+   * Create a new permission.
+   * @param {*} req - The request object.
+   * @param {*} res - The response object.
+   * @returns {Promise<Object>} A Promise to resolve the newly created permission object.
+   * @throws {Error} If there's an error creating the permission.
+   */
+  static async createPermission(req, res) {
     const { name } = req.body;
 
     try {
@@ -23,7 +33,12 @@ class PermissionController {
     }
   }
 
-  async getAllPermissions() {
+  /**
+   * Retrieve all permissions from the database.
+   * @returns {Promise<Array<Permission>>} A Promise resolving to an array of Permission objects.
+   * @throws {Error} If there's an error retrieving the permissions.
+   */
+  static async getAllPermissions() {
     try {
       const permissions = await Permission.findAll({});
 

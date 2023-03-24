@@ -1,8 +1,19 @@
+/**
+ * Role Controller class
+ */
 const Permission = require('../../permission/model');
 const Role = require('../model');
-
+/**
+ * Controller class for managing Roles.
+ */
 class RoleController {
-  async createRole(req, res) {
+  /**
+   * Create a new role
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {Object} - Response object with created role
+   */
+  static async createRole(req, res) {
     const { name } = req.body;
 
     try {
@@ -26,7 +37,13 @@ class RoleController {
     }
   }
 
-  async assignPermissions(req, res) {
+  /**
+   * Assign permissions to a role
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {Object} - Response object with success message
+   */
+  static async assignPermissions(req, res) {
     const { roleId, permissionIds } = req.body;
 
     try {
@@ -49,7 +66,13 @@ class RoleController {
     }
   }
 
-  async revokePermission(req, res) {
+  /**
+   * Revoke permission from a role
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @returns {Object} - Response object with success message
+   */
+  static async revokePermission(req, res) {
     try {
       const { roleId, permissionId } = req.body;
 

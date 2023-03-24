@@ -3,8 +3,6 @@ const express = require('express');
 const router = express.Router();
 const PermissionController = require('../controller');
 
-const permissionController = new PermissionController();
-
 /**
  * @swagger
  * /api/permissions:
@@ -59,6 +57,6 @@ const permissionController = new PermissionController();
  *                         - Validation error: Name cannot be null.
  */
 
-router.post('/', permissionController.createPermission);
+router.post('/', PermissionController.createPermission);
 
 module.exports = router;
