@@ -387,7 +387,6 @@ async function resetPassword(req, res) {
 async function assignRoles(req, res) {
   const { email, roleIds } = req.body;
   try {
-
     if (!(email || roleIds)) {
       return res.status(400).json({ message: 'Email and roleIds are required' });
     }

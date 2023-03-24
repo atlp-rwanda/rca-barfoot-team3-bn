@@ -18,10 +18,10 @@ app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/permissions', permissionRoutes);
 app.listen(PORT, () => {
-    dbClient.connect().then(() => {
-        console.log('Connected to db');
+  dbClient.connect().then(() => {
+    console.log('Connected to db');
 
-        app.use('/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, false, { docExpansion: 'none' }));
-        console.log(`Example app listening on port ${PORT}!`);
-    });
+    app.use('/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, false, { docExpansion: 'none' }));
+    console.log(`Example app listening on port ${PORT}!`);
+  });
 });

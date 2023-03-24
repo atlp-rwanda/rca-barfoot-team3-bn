@@ -1,6 +1,7 @@
 const express = require('express');
+
 const router = express.Router();
-const PermissionController = require('../../permission/controller');
+const PermissionController = require('../controller');
 
 const permissionController = new PermissionController();
 
@@ -58,6 +59,6 @@ const permissionController = new PermissionController();
  *                         - Validation error: Name cannot be null.
  */
 
-router.post('/', permissionController.createPermission)
+router.post('/', permissionController.createPermission);
 
 module.exports = router;
