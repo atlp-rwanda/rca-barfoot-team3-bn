@@ -15,8 +15,12 @@ const bookingSchema = {
   dateToCome: 'required|date',
   dateToLeave: 'required|date',
 };
-User.belongsToMany(Room, { through: Booking });
-Room.belongsToMany(User, { through: Booking });
+User.hasMany(Booking);
+Booking.belongsTo(User);
+
+Room.hasMany(Booking);
+Booking.belongsTo(Room);
+
 module.exports = {
   Booking,
   bookingSchema
