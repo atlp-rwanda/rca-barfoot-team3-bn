@@ -8,13 +8,15 @@ const {
 const usersRouter = require('./modules/user/routes');
 const accommodationsRoute = require('./modules/accommodations/routes');
 const tripRoute = require('./modules/trip/routes')
+const swaggerConfig = require('../swagger.json');
+const swaggerDocs = swaggerJsDocs(JSON.parse(JSON.stringify(swaggerConfig)));
+
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
-const swaggerDocs = swaggerJsDocs(JSON.parse(JSON.stringify(swaggerConfig)));
 
 
 const PORT = process.env.PORT || 3000;

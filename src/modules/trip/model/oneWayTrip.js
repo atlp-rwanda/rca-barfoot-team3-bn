@@ -6,36 +6,14 @@ const { User } = require('../../user/model');
 
 // Define the trip model
 const OneWayTrip = sequelize.define('OneWayTrip', {
-    id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
-    },
-    departure: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    destination: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    date: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    reason: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    tripAccommodation: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        references: {
-            model: Accommodation,
-            key: 'id'
-        }
-    }
+    
+    departure: DataTypes.STRING,
+    destination:  DataTypes.STRING,
+    date: DataTypes.DATE,   
+    reason: DataTypes.STRING,
+    tripAccommodation: DataTypes.NUMBER,
+    // created_by: DataTypes.NUMBER,
+    
 });
 OneWayTrip.belongsTo(User);
 OneWayTrip.hasOne(User, {
@@ -44,3 +22,7 @@ OneWayTrip.hasOne(User, {
 
 
 OneWayTrip.belongsTo(Accommodation, { foreignKey: 'accommodationId' }); // Update foreign key name
+
+module.exports = {
+    OneWayTrip
+}
