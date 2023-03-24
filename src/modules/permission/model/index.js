@@ -1,3 +1,17 @@
+/**
+ * @swagger
+ * definitions:
+ *   Permission:
+ *     properties:
+ *       id:
+ *         type: integer
+ *       name:
+ *         type: string
+ *     required:
+ *       - name
+ */
+
+
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../../config/SequelizeConfig");
 const Role = require("../../role/model");

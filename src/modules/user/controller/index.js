@@ -348,6 +348,12 @@ async function resetPassword(req, res) {
   return res.status(200).send({ message: 'Password reset successfully' });
 }
 
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*} assign a role to a user
+ */
 
 async function assignRoles(req, res) {
   const { email, roleIds } = req.body;

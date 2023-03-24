@@ -23,7 +23,11 @@
     "apis": [
         "./src/modules/hotel/routes/*.js",
         "./src/modules/user/routes/*.js",
+        "./src/modules/role/routes/*.js",
+        "./src/modules/permission/routes/*.js",
         "./src/modules/hotel/model/*.js",
-        "./src/modules/user/model/*.js"
+        "./src/modules/user/model/*.js",
+        "./src/modules/role/model/*.js",
+        "./src/modules/permission/model/*.js"
     ]
 }

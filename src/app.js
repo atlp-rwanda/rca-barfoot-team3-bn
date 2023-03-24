@@ -7,7 +7,6 @@ const usersRouter = require('./modules/user/routes');
 const roleRoutes = require('./modules/role/routes');
 const permissionRoutes = require('./modules/permission/routes');
 const swaggerConfig = require('../swagger.json');
-const permissionRoutes = require('./modules/permission/routes');
 
 const swaggerDocs = swaggerJsDocs(JSON.parse(JSON.stringify(swaggerConfig)));
 const app = express();
