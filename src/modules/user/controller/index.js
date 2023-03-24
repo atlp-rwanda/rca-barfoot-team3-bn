@@ -63,13 +63,25 @@ async function registerUser(req, res) {
     }
 
     const emailExists = await validateAsync(data.email).exists('users:email');
-
     if (emailExists) {
       return res.status(400).json({
         statusCode: 'BAD_REQUEST',
         errors: {
           email: [
             'This email is already taken'
+          ]
+        }
+      });
+    }
+
+    const usernameExists = await validateAsync(data.username).exists('users:username');
+
+    if (usernameExists) {
+      return res.status(400).json({
+        statusCode: 'BAD_REQUEST',
+        errors: {
+          email: [
+            'This username is already taken'
           ]
         }
       });
@@ -129,6 +141,23 @@ async function loginUser(req, res) {
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
   sendEmails(user.email);
   return res.status(201).send({ statusCode: 'CREATED', token, sendEmails });
+}
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*}  user || user not found errors
+ */
+async function logout(req, res) {
+  try {
+    // Remove the token from the cookies header
+    res.clearCookie('token');
+    // Send a response to the client
+    res.status(200).send({ message: 'Logged out successfully', token: null });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
 }
 /**
  *
@@ -388,5 +417,6 @@ module.exports = {
   verifyUser,
   getUserById,
   updateUserById,
-  assignRoles
+  assignRoles,
+  logout
 };

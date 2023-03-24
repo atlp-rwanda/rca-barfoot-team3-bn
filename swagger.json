@@ -28,6 +28,8 @@
         "./src/modules/hotel/model/*.js",
         "./src/modules/user/model/*.js",
         "./src/modules/role/model/*.js",
+        "./src/modules/accommodations/models/*.js",
+		"./src/modules/accommodations/routes/*.js",
         "./src/modules/permission/model/*.js"
     ]
 }
