@@ -21,7 +21,7 @@ const User = sequelize.define('users', {
   role: DataTypes.STRING,
   department: DataTypes.STRING,
   line_manager: DataTypes.STRING,
-  registration_type:DataTypes.ENUM("email","facebook","google")
+  registration_type: DataTypes.ENUM('email', 'facebook', 'google'),
   verification_code: DataTypes.NUMBER,
   verified: DataTypes.BOOLEAN,
   verification_code_expiry_date: DataTypes.DATE
