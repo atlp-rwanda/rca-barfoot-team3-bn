@@ -147,6 +147,23 @@ async function loginUser(req, res) {
  * @param {*} res ExpressResponse
  * @returns {*}  user || user not found errors
  */
+async function logout(req, res) {
+  try {
+    // Remove the token from the cookies header
+    res.clearCookie('token');
+    // Send a response to the client
+    res.status(200).send({ message: 'Logged out successfully', token: null });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+}
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*}  user || user not found errors
+ */
 async function getUserById(req, res) {
   try {
     const userId = req.params.id;
@@ -366,5 +383,6 @@ module.exports = {
   loginUser,
   verifyUser,
   getUserById,
-  updateUserById
+  updateUserById,
+  logout
 };
