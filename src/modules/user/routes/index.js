@@ -5,8 +5,14 @@ const { authenticate } = require('../../../middlewares/authenticate');
 const router = express.Router();
 
 const {
-  registerUser, loginUser, getUserById,
-  updateUserById, verifyUser, logout, initateResetPassword, resetPassword
+  registerUser,
+  loginUser,
+  getUserById,
+  updateUserById,
+  verifyUser,
+  logout,
+  initateResetPassword,
+  resetPassword,
 } = require('../controller');
 
 /**
