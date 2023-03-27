@@ -1,5 +1,7 @@
 // role routes here
 const express = require('express');
+const { authenticate } = require('../../../middlewares/authenticate');
+const { checkSuperAdmin } = require('../../../middlewares/checkUserRole');
 const RoleController = require('../controller');
 
 const router = express.Router();
@@ -57,7 +59,7 @@ const router = express.Router();
  *      500:
  *        description: Internal server error
  */
-router.post('/', RoleController.createRole);
+router.post('/', [authenticate, checkSuperAdmin], RoleController.createRole);
 
 /**
  * @swagger
@@ -95,7 +97,7 @@ router.post('/', RoleController.createRole);
  *       500:
  *         description: Internal server error
  */
-router.post('/assign-permissions', RoleController.assignPermissions);
+router.post('/assign-permissions', [authenticate, checkSuperAdmin], RoleController.assignPermissions);
 
 /**
  * @swagger
@@ -147,6 +149,7 @@ router.post('/assign-permissions', RoleController.assignPermissions);
  */
 router.put(
   '/revoke-permission/:roleId/:permissionId',
+  authenticate, checkSuperAdmin,
   RoleController.revokePermission
 );
 
