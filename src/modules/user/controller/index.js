@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const generateRandOTP = require('../../../utils/generator');
 const hashPassword = require('../../../utils/hashPassword');
 const { validate, validateAsync } = require('../../../utils/validate');
+const Role = require('../../role/model');
 const { User, registrationSchema, updateSchema } = require('../model');
 
 /**

@@ -149,7 +149,8 @@ router.post('/assign-permissions', [authenticate, checkSuperAdmin], RoleControll
  */
 router.put(
   '/revoke-permission/:roleId/:permissionId',
-  authenticate, checkSuperAdmin,
+  authenticate,
+  checkSuperAdmin,
   RoleController.revokePermission
 );
 
