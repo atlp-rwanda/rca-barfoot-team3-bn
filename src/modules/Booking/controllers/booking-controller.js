@@ -7,6 +7,87 @@ const { Booking, bookingSchema } = require('../models');
 /**
  * Booking Controller Class
  */
+/**
+ * @swagger
+ * /rooms/{id}/bookings:
+ *   post:
+ *     summary: Creates a new booking for a room
+ *     tags:
+ *       - bookings
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the room to book
+ *         schema:
+ *           type: integer
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: Booking details
+ *         schema:
+ *           type: object
+ *           properties:
+ *             dateToCome:
+ *               type: string
+ *               format: date-time
+ *               description: Date and time when the guest will check-in
+ *             dateToLeave:
+ *               type: string
+ *               format: date-time
+ *               description: Date and time when the guest will check-out
+ *           required:
+ *             - dateToCome
+ *             - dateToLeave
+ *     responses:
+ *       '201':
+ *         description: Booking created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 201
+ *                 message:
+ *                   type: string
+ *                   example: Booking created successfully
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       dateToCome:
+ *                         type: string
+ *                         format: date-time
+ *                         example: '2023-03-25T12:00:00Z'
+ *                       dateToLeave:
+ *                         type: string
+ *                         format: date-time
+ *                         example: '2023-03-28T12:00:00Z'
+ *                       user:
+ *                         type: object
+ *                         properties:
+ *                           first_name:
+ *                             type: string
+ *                             example: John
+ *                           last_name:
+ *                             type: string
+ *                             example: Doe
+ *                       room:
+ *                         type: object
+ *                         properties:
+ *                           name:
+ *                             type: string
+ *                             example: Deluxe Room
+ *       '400':
+ *         description: Bad request
+ *         content
+ * * */
 class BookingController {
   /**
    * @param {Express.Request} req

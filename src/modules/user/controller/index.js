@@ -205,10 +205,9 @@ async function updateUserById(req, res) {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    // eslint-disable-next-line no-restricted-syntax, guard-for-in
-    for (const field in data) {
-      user[field] = data[field];
-    }
+    Object.keys(data).forEach((key) => {
+      user[key] = data[key];
+    });
     await user.save();
     const userJson = user.get({ plain: true });
     const {
