@@ -7,7 +7,7 @@ module.exports = {
     passport.authenticate('google', {
       failureRedirect: '/login'
     }),
-    function (req, res) {
+    (req, res) => {
       res.redirect('/');
     }
   ]

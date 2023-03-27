@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const hashPassword = require('../../../utils/hashPassword');
 const generateRandOTP = require('../../../utils/generator');
 const { validate, validateAsync } = require('../../../utils/validate');
+const Role = require('../../role/model');
 const { User, registrationSchema, updateSchema } = require('../model');
 /**
  *
@@ -116,9 +117,15 @@ async function loginUser(req, res) {
   if (!user) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
+      errors: 'Invalid credentials'
+    });
+  }
+  if (!user.verified) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
       errors: {
         email: [
-          'Invalid credentials'
+          'This user is not Verified'
         ]
       }
     });
@@ -368,6 +375,37 @@ async function resetPassword(req, res) {
   return res.status(200).send({ message: 'Password reset successfully' });
 }
 
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*} assign a role to a user
+ */
+async function assignRoles(req, res) {
+  const { email, roleIds } = req.body;
+  try {
+    if (!(email || roleIds)) {
+      return res.status(400).json({ message: 'Email and roleIds are required' });
+    }
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const roles = await Role.findAll({ where: { id: roleIds } });
+
+    if (!roles || roles.length === 0) {
+      return res.status(404).json({ message: 'No roles found with the provided ids' });
+    }
+
+    await user.setRoles(roles);
+    return res.status(200).json({ message: 'Roles assigned successfully' });
+  } catch (error) {
+    console.log('error', error.message);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
 module.exports = {
   registerUser,
   initateResetPassword,
@@ -376,5 +414,6 @@ module.exports = {
   verifyUser,
   getUserById,
   updateUserById,
+  assignRoles,
   logout
 };
