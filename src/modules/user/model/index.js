@@ -22,6 +22,7 @@ const User = sequelize.define('users', {
   role: DataTypes.STRING,
   department: DataTypes.STRING,
   line_manager: DataTypes.STRING,
+  registration_type: DataTypes.ENUM('email', 'facebook', 'google'),
   verification_code: DataTypes.NUMBER,
   verified: DataTypes.BOOLEAN,
   verification_code_expiry_date: DataTypes.DATE,
@@ -72,8 +73,15 @@ const registrationSchema = {
   username: ['required', 'min:3'],
   password: ['required', 'string', 'confirmed', 'password_validations']
 };
-
+const updateSchema = {
+  first_name: ['required', 'string', 'name_validations'],
+  last_name: ['required', 'string', 'name_validations'],
+  gender: ['required', 'in:MALE,FEMALE'],
+  email: ['required', 'string', 'email'],
+  username: ['required', 'min:3'],
+};
 module.exports = {
   User,
-  registrationSchema
+  registrationSchema,
+  updateSchema,
 };
