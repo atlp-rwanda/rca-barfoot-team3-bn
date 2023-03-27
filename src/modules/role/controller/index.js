@@ -17,6 +17,19 @@ class RoleController {
     const { name } = req.body;
 
     try {
+      const existingRole = await Role.findOne({ where: { name } });
+
+      if (existingRole) {
+        return res.status(400).json({
+          message: 'BAD_REQUEST',
+          errors: {
+            name: [
+              'Validation error: Name must be unique.'
+            ]
+          }
+        });
+      }
+
       const role = await Role.create({
         name
       });
@@ -62,7 +75,6 @@ class RoleController {
       return res.status(200).send({ message: 'Permissions assigned successfully' });
     } catch (error) {
       res.status(500).send({ message: error.message });
-      throw new Error(error.message);
     }
   }
 

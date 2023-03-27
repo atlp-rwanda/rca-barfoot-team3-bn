@@ -15,6 +15,19 @@ class PermissionController {
     const { name } = req.body;
 
     try {
+      const existingPermission = await Permission.findOne({ where: { name } });
+
+      if (existingPermission) {
+        return res.status(400).json({
+          message: 'BAD_REQUEST',
+          errors: {
+            name: [
+              'Validation error: Name must be unique.'
+            ]
+          }
+        });
+      }
+
       const permission = await Permission.create({ name });
 
       return res.status(201).json({
