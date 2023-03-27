@@ -6,6 +6,7 @@ const generateRandOTP = require('../../../utils/generator');
 const hashPassword = require('../../../utils/hashPassword');
 const { validate, validateAsync } = require('../../../utils/validate');
 const { User, registrationSchema } = require('../model');
+const { use } = require('../routes');
 
 /**
  *
@@ -117,9 +118,15 @@ async function loginUser(req, res) {
   if (!user) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
+      errors: 'Invalid credentials'
+    });
+  }
+  if (!user.verified) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
       errors: {
         email: [
-          'Invalid credentials'
+          'This user is not Verified'
         ]
       }
     });
