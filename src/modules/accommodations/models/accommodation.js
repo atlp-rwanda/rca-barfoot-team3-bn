@@ -42,8 +42,8 @@ const Accommodation = sequelize.define('accommodations', {
 });
 
 Accommodation.hasOne(User, {
-  foreignKey: 'created_by'
-});
+   foreignKey: 'created_by'
+   });
 
 Room.belongsTo(Accommodation);
 Accommodation.hasMany(Room, {
