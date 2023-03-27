@@ -63,6 +63,51 @@ router.post('/', [authenticate, checkSuperAdmin], RoleController.createRole);
 
 /**
  * @swagger
+ * /roles:
+ *   get:
+ *     summary: Retrieve all roles
+ *     description: Retrieve all roles from the database
+ *     tags:
+ *       - Role
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Roles retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/definitions/Role'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 errors:
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ */
+router.get('/', [authenticate], RoleController.getAllRoles);
+
+/**
+ * @swagger
  * /api/role/assign-permissions:
  *   post:
  *     tags:

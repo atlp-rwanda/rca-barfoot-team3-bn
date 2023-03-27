@@ -1,4 +1,6 @@
 const express = require('express');
+const { authenticate } = require('../../../middlewares/authenticate');
+const { checkSuperAdmin } = require('../../../middlewares/checkUserRole');
 
 const router = express.Router();
 const PermissionController = require('../controller');
@@ -57,6 +59,52 @@ const PermissionController = require('../controller');
  *                         - Validation error: Name cannot be null.
  */
 
-router.post('/', PermissionController.createPermission);
+router.post('/', [authenticate, checkSuperAdmin], PermissionController.createPermission);
+
+/**
+ * @swagger
+ * /permissions:
+ *   get:
+ *     summary: Retrieve all permissions
+ *     description: Retrieve all permissions from the database
+ *     tags:
+ *       - Permission
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Permissions retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 permissions:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/definitions/Permission'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 errors:
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ */
+
+router.get('/', authenticate, PermissionController.getAllPermissions);
 
 module.exports = router;
