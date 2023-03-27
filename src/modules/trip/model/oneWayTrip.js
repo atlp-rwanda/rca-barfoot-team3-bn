@@ -5,23 +5,22 @@ const { Accommodation } = require('./../../accommodations/models'); // Update im
 const { User } = require('../../user/model');
 
 // Define the trip model
-const OneWayTrip = sequelize.define('OneWayTrip', {
-    
+const OneWayTrip = sequelize.define('oneWayTrips', {
     departure: DataTypes.STRING,
-    destination:  DataTypes.STRING,
-    date: DataTypes.DATE,   
-    reason: DataTypes.STRING,
-    tripAccommodation: DataTypes.NUMBER,
-    // created_by: DataTypes.NUMBER,
-    
+    destination: DataTypes.STRING,
+    date: DataTypes.DATE,
+    reason: DataTypes.STRING
+}, {
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
 });
-OneWayTrip.belongsTo(User);
-OneWayTrip.hasOne(User, {
+
+Accommodation.hasOne(User, {
     foreignKey: 'created_by'
 });
 
-
-OneWayTrip.belongsTo(Accommodation, { foreignKey: 'accommodationId' }); // Update foreign key name
+OneWayTrip.belongsTo(Accommodation, { foreignKey: 'accommodation_id' });
 
 module.exports = {
     OneWayTrip

@@ -8,23 +8,27 @@ class OneWayTripController {
     */
     static async createOneWayTrip(req, res) {
         try {
-            const { departure, destination, date, reason, accommodationId } = req.body;
-            console.log('req', req.user)
-            // const userId = req.user.id;
+            const { destination, departure, date, reason, accomodationId } = req.body;
 
+            const created_by =req.user.id
+            // Create the new trip
             const trip = await OneWayTrip.create({
-                departure,
                 destination,
+                departure,
                 date,
                 reason,
-                accommodationId,
-                // created_by: userId // Associate the trip with the authenticated user
+                accomodationId,
+                created_by
             });
 
-            res.status(201).json(trip);
+          
+            res.status(201).json({
+                trip,
+                message: 'Trip created successfully'
+            });
         } catch (error) {
-            console.log("error", error)
-            res.status(400).json({ message: error.message });
+            console.error(error);
+            res.status(500).json({ error: 'Server error' });
         }
     };
 
