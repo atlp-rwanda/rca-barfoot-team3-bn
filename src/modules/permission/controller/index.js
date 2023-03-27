@@ -48,14 +48,19 @@ class PermissionController {
 
   /**
    * Retrieve all permissions from the database.
+   * @param {*} req - The request object.
+   * @param {*} res - The response object.
    * @returns {Promise<Array<Permission>>} A Promise resolving to an array of Permission objects.
    * @throws {Error} If there's an error retrieving the permissions.
    */
-  static async getAllPermissions() {
+  static async getAllPermissions(req, res) {
     try {
       const permissions = await Permission.findAll({});
 
-      return permissions;
+      return res.status(200).json({
+        message: 'Permissions retrieved successfully',
+        data: permissions
+      });
     } catch (error) {
       throw new Error(error.message);
     }

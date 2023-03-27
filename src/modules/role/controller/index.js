@@ -51,6 +51,34 @@ class RoleController {
   }
 
   /**
+   * Retrieve all roles
+   *
+   * @function
+   * @async
+   * @param {Object} req - Express request object
+   * @param {Object} res - Express response object
+   * @returns {Object} Response object with roles data or error message
+   */
+  static async getAllRoles(req, res) {
+    try {
+      const roles = await Role.findAll({});
+      return res.status(200).json({
+        message: 'Roles retrieved successfully',
+        data: roles
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'INTERNAL_SERVER_ERROR',
+        errors: {
+          name: [
+            error.message
+          ]
+        }
+      });
+    }
+  }
+
+  /**
    * Assign permissions to a role
    * @param {Object} req - Request object
    * @param {Object} res - Response object
