@@ -1,41 +1,43 @@
 {
-	"name": "barefoot-nomad-be",
-	"version": "1.0.0",
-	"description": "Barefoot Nomad Backend Service",
-	"main": "app.js",
-	"scripts": {
-		"dev": "nodemon src/app.js",
-		"start": "node src/app.js",
-		"test": "nyc --all mocha --timeout 10000 --exit --require babel-register test/unit/user/controller/",
-		"coverage": "nyc --reporter=lcov --report-dir=./coverage yarn test",
-		"lint:fix": "eslint --fix ./src/**",
-		"lint": "eslint ./src/**"
-	},
-	"author": "Team 3 Barefoot",
-	"license": "ISC",
-	"eslintIgnore": [
-		"hello.js",
-		"world.js"
-	],
-	"dependencies": {
-		"bcrypt": "^5.1.0",
-		"cloudinary": "^1.35.0",
-		"debug": "^4.3.4",
-		"dotenv": "^16.0.3",
-		"express": "^4.18.2",
-		"jsonwebtoken": "^9.0.0",
-		"multer": "^1.4.5-lts.1",
-		"nodemailer": "^6.9.1",
-		"passport": "^0.6.0",
-		"passport-facebook": "^3.0.0",
-		"passport-google-oauth20": "^2.0.0",
-		"passport-local": "^1.0.0",
-		"pg": "^8.10.0",
-		"pg-hstore": "^2.3.4",
-		"sequelize": "^6.29.1",
-		"swagger-jsdoc": "^6.2.8",
-		"swagger-ui-express": "^4.6.2",
-        "validatorjs": "^3.22.1"
+  "name": "barefoot-nomad-be",
+  "version": "1.0.0",
+  "description": "Barefoot Nomad Backend Service",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon src/app.js",
+    "start": "node src/app.js",
+    "test": "nyc --all mocha --timeout 10000 --exit --require babel-register test/unit/user/controller/",
+    "coverage": "nyc --reporter=lcov --report-dir=./coverage yarn test",
+    "lint:fix": "eslint --fix ./src/**",
+    "lint": "eslint ./src/**"
+  },
+  "author": "Team 3 Barefoot",
+  "license": "ISC",
+  "eslintIgnore": [
+    "hello.js",
+    "world.js"
+  ],
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cloudinary": "^1.35.0",
+    "debug": "^4.3.4",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "jsonwebtoken": "^9.0.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.1",
+    "passport": "^0.6.0",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.10.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.29.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.2",
+    "validatorjs": "^3.22.1"
   },
   "devDependencies": {
     "babel-register": "^6.26.0",
@@ -49,7 +51,7 @@
     "lcov-parse": "^1.0.0",
     "mocha": "^10.2.0",
     "mocha-lcov-reporter": "^1.3.0",
+    "nodemon": "^2.0.22",
     "nyc": "^15.1.0"
   }
 }
-

@@ -10,6 +10,8 @@ require('./config/passport');
 require('dotenv').config();
 const { dbClient } = require('./database/index');
 const usersRouter = require('./modules/user/routes');
+const roleRoutes = require('./modules/role/routes');
+const permissionRoutes = require('./modules/permission/routes');
 const accommodationRouter = require('./modules/accommodations/routes');
 const tripRoute = require('./modules/trip/routes');
 const swaggerConfig = require('../swagger.json');
@@ -23,6 +25,9 @@ app.get('/', (req, res) => {
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/accommodations', accommodationRouter);
 app.use('/api/v1/trip', tripRoute);
+app.use('/api/v1/roles', roleRoutes);
+app.use('/api/v1/permissions', permissionRoutes);
+
 app.use('/', routes);
 app.listen(PORT, () => {
   dbClient.connect().then(() => {
