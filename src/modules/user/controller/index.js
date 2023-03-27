@@ -137,8 +137,25 @@ async function loginUser(req, res) {
   }
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
-  const userEmail = user.email;
-  return res.status(201).send({ statusCode: 'CREATED', token, userEmail });
+  sendEmails(user.email);
+  return res.status(201).send({ statusCode: 'CREATED', token, sendEmails });
+}
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*}  user || user not found errors
+ */
+async function logout(req, res) {
+  try {
+    // Remove the token from the cookies header
+    res.clearCookie('token');
+    // Send a response to the client
+    res.status(200).send({ message: 'Logged out successfully', token: null });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
 }
 /**
  *
@@ -271,10 +288,94 @@ async function verifyUser(req, res) {
   });
 }
 
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*} token and useremail || validation errors
+ */
+// a function to reset password
+const initateResetPassword = (req, res) => {
+  const { email } = req.body;
+  const Transport = nodemailer.createTransport({
+    service: process.env.MAIL_HOST,
+    auth: {
+      user: process.env.MAIL,
+      pass: process.env.MAIL_PASSWORD
+    }
+  });
+  const mailOptions = {
+    to: email,
+    subject: 'Barefoot Nomad Reset password',
+    html: '<p>Welcome to barefoot Nomad, Click the link below to reset password.</p><a href= \'http://localhost:5000/api/v1/users/reset-password\'><b>Click to reset</b> </a>',
+  };
+
+  Transport.sendMail(mailOptions, (error) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent successfully');
+    }
+    return res.status(200).json({
+      statusCode: 'OK',
+      message: 'Email sent successfully'
+
+    });
+  });
+};
+
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*} success message or error message
+ */
+async function resetPassword(req, res) {
+  const { email, currentPassword, newPassword } = req.body;
+
+  const user = await User.findOne({
+    where: {
+      email
+    }
+  });
+
+  if (!user) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        email: [
+          'Try again later'
+        ]
+      }
+    });
+  }
+
+  const passwordMatches = await bcrypt.compare(currentPassword, user.password);
+  if (!passwordMatches) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        currentPassword: [
+          'Incorrect password'
+        ]
+      }
+    });
+  }
+
+  const newPasswordHash = await bcrypt.hash(newPassword, 10);
+
+  await user.update({ password: newPasswordHash });
+
+  return res.status(200).send({ message: 'Password reset successfully' });
+}
+
 module.exports = {
   registerUser,
+  initateResetPassword,
+  resetPassword,
   loginUser,
   verifyUser,
   getUserById,
-  updateUserById
+  updateUserById,
+  logout
 };

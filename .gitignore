@@ -360,6 +360,8 @@ MigrationBackup/
 =======
 # Local
 .env
-yarn.lock
+yarn
 
 .vscode
+views
+yarn.lock

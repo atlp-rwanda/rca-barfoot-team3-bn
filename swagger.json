@@ -1,0 +1,28 @@
+{
+	"swaggerDefinition": {
+		"info": {
+			"title": "RCA-BARFOOT-TEAM3",
+			"description": "API documentation for RCA-BARFOOT-TEAM3",
+			"version": "1.0.0",
+			"servers": ["http://localhost:3000"]
+		},
+		"securityDefinitions": {
+			"bearerAuth": {
+				"type": "apiKey",
+				"name": "Authorization",
+				"scheme": "bearer",
+				"in": "header"
+			}
+		},
+		"security": [{ "bearerAuth": [] }]
+	},
+	"apis": [
+		"./src/modules/hotel/routes/*.js",
+		"./src/modules/user/routes/*.js",
+		"./src/modules/hotel/model/*.js",
+		"./src/modules/user/model/*.js",
+		"./src/modules/user/model/*.js",
+		"./src/modules/accommodations/models/*.js",
+		"./src/modules/accommodations/routes/*.js"
+	]
+}
