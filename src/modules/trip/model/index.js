@@ -1,5 +1,5 @@
-const { OneWayTrip } = require('./oneWayTrip')
+const { OneWayTrip } = require('./oneWayTrip');
 
 module.exports = {
-    OneWayTrip
-}
+  OneWayTrip
+};

@@ -7,8 +7,9 @@ const {
 } = require('./database/index');
 const usersRouter = require('./modules/user/routes');
 const accommodationsRoute = require('./modules/accommodations/routes');
-const tripRoute = require('./modules/trip/routes')
+const tripRoute = require('./modules/trip/routes');
 const swaggerConfig = require('../swagger.json');
+
 const swaggerDocs = swaggerJsDocs(JSON.parse(JSON.stringify(swaggerConfig)));
 
 const app = express();
@@ -18,7 +19,6 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
@@ -26,8 +26,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/accommodations', accommodationsRoute);
-app.use('/api/v1/trip', tripRoute)
-
+app.use('/api/v1/trip', tripRoute);
 
 app.listen(PORT, () => {
   dbClient.connect().then(() => {

@@ -1,5 +1,5 @@
-const { OneWayTripController } = require('./oneWayTrip-controller')
+const { OneWayTripController } = require('./oneWayTrip-controller');
 
 module.exports = {
-    OneWayTripController
-}
+  OneWayTripController
+};
