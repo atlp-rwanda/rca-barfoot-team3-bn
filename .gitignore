@@ -363,3 +363,4 @@ MigrationBackup/
 yarn.lock
 
 .vscode
+views
