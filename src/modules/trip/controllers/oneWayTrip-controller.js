@@ -4,7 +4,7 @@ class OneWayTripController {
     /**
      * @param {Express.Request} req
      * @param {Express.Response} res
-     *  @returns {*} created accommodation
+     *  @returns {*} created trip
     */
     static async createOneWayTrip(req, res) {
         try {
@@ -13,15 +13,14 @@ class OneWayTripController {
             const created_by =req.user.id
             // Create the new trip
             const trip = await OneWayTrip.create({
-                destination,
                 departure,
+                destination,
                 date,
                 reason,
+                created_by,
                 accomodationId,
-                created_by
             });
 
-          
             res.status(201).json({
                 trip,
                 message: 'Trip created successfully'
