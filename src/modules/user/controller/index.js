@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 const generateRandOTP = require('../../../utils/generator');
 const hashPassword = require('../../../utils/hashPassword');
 const { validate, validateAsync } = require('../../../utils/validate');
-const { User, registrationSchema } = require('../model');
+const { User, registrationSchema, updateSchema } = require('../model');
 
 /**
  *
@@ -191,11 +191,19 @@ async function getUserById(req, res) {
  */
 async function updateUserById(req, res) {
   try {
+    const [passes, data, errors] = validate(req.body, updateSchema);
+
+    if (!passes) {
+      return res.status(400).json({
+        statusCode: 'BAD_REQUEST',
+        errors
+      });
+    }
     const userId = req.params.id;
     const {
       // eslint-disable-next-line max-len
       first_name, last_name, email, gender, username, birthdate, preferred_language, preferred_currency, address, role, department, lineManager
-    } = req.body;
+    } = data;
 
     const user = await User.findOne({ where: { id: userId } });
 
