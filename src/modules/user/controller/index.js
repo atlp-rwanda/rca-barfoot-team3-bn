@@ -114,7 +114,7 @@ async function loginUser(req, res) {
       email
     }
   });
-  
+
   if (!user) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
