@@ -51,6 +51,7 @@
     "lcov-parse": "^1.0.0",
     "mocha": "^10.2.0",
     "mocha-lcov-reporter": "^1.3.0",
+    "nodemon": "^2.0.21",
     "nyc": "^15.1.0"
   }
 }

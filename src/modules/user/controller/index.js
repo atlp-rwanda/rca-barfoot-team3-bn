@@ -2,11 +2,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const generateRandOTP = require('../../../utils/generator');
 const hashPassword = require('../../../utils/hashPassword');
+const generateRandOTP = require('../../../utils/generator');
 const { validate, validateAsync } = require('../../../utils/validate');
 const { User, registrationSchema, updateSchema } = require('../model');
-
 /**
  *
  * @param {*} req ExpressRequest
@@ -200,34 +199,20 @@ async function updateUserById(req, res) {
       });
     }
     const userId = req.params.id;
-    const {
-      // eslint-disable-next-line max-len
-      first_name, last_name, email, gender, username, birthdate, preferred_language, preferred_currency, address, role, department, lineManager
-    } = data;
 
     const user = await User.findOne({ where: { id: userId } });
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-
-    user.first_name = first_name;
-    user.last_name = last_name;
-    user.email = email;
-    user.gender = gender;
-    user.birthdate = birthdate;
-    user.username = username;
-    user.preferred_currency = preferred_currency;
-    user.preferred_language = preferred_language;
-    user.address = address;
-    user.role = role;
-    user.department = department;
-    user.lineManager = lineManager;
-
+    // eslint-disable-next-line no-restricted-syntax, guard-for-in
+    for (const field in data) {
+      user[field] = data[field];
+    }
     await user.save();
     const userJson = user.get({ plain: true });
     const {
-      password, created_at, updated_at, ...userProfile
+      password, created_at, ...userProfile
     } = userJson;
     return res.json(userProfile);
   } catch (error) {
