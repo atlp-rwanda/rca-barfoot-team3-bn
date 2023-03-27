@@ -6,7 +6,6 @@ const generateRandOTP = require('../../../utils/generator');
 const hashPassword = require('../../../utils/hashPassword');
 const { validate, validateAsync } = require('../../../utils/validate');
 const { User, registrationSchema } = require('../model');
-const { use } = require('../routes');
 
 /**
  *
