@@ -41,7 +41,6 @@ const Accommodation = sequelize.define('accommodations', {
   updatedAt: 'updated_at'
 });
 
-
 User.hasMany(Accommodation, {
   foreignKey: 'created_by'
 });
