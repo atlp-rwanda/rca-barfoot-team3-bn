@@ -1,3 +1,4 @@
+const moment = require('moment');
 const { OneWayTrip } = require('../model');
 const { Accommodation } = require('../../accommodations/models');
 
@@ -22,11 +23,13 @@ class OneWayTripController {
       if (!accommodation) {
         return res.status(404).json({ message: 'Accommodation not found' });
       }
+      const tripDate = moment(date, 'YYYY-MM-DD');
+      const isoDate = tripDate.toISOString();
 
       const existingTrip = await OneWayTrip.findOne({
         where: {
           created_by: createdBy,
-          date
+          date: isoDate
         }
       });
       if (existingTrip) {
@@ -37,7 +40,7 @@ class OneWayTripController {
       const trip = await OneWayTrip.create({
         departure,
         destination,
-        date,
+        date: isoDate,
         reason,
         created_by: createdBy,
         accomodationId,
