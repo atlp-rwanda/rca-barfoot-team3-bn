@@ -19,6 +19,7 @@ const User = sequelize.define('users', {
   preferred_language: DataTypes.STRING,
   preferred_currency: DataTypes.STRING,
   address: DataTypes.STRING,
+  token: DataTypes.STRING,
   role: DataTypes.STRING,
   department: DataTypes.STRING,
   line_manager: DataTypes.INTEGER,
@@ -73,12 +74,13 @@ const registrationSchema = {
   username: ['required', 'min:3'],
   password: ['required', 'string', 'confirmed', 'password_validations']
 };
+
 const updateSchema = {
-  first_name: ['required', 'string', 'name_validations'],
-  last_name: ['required', 'string', 'name_validations'],
-  gender: ['required', 'in:MALE,FEMALE'],
-  email: ['required', 'string', 'email'],
-  username: ['required', 'min:3'],
+  first_name: ['string', 'name_validations'],
+  last_name: ['string', 'name_validations'],
+  gender: ['in:MALE,FEMALE'],
+  email: ['string', 'email'],
+  username: ['min:3'],
 };
 module.exports = {
   User,
