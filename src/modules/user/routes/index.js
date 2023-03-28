@@ -1,18 +1,13 @@
 // user routes here
 const express = require('express');
 const { authenticate } = require('../../../middlewares/authenticate');
+const { checkSuperAdmin } = require('../../../middlewares/checkUserRole');
 
 const router = express.Router();
 
 const {
-  registerUser,
-  loginUser,
-  getUserById,
-  updateUserById,
-  verifyUser,
-  logout,
-  initateResetPassword,
-  resetPassword,
+  registerUser, loginUser, initateResetPassword, resetPassword,
+  getUserById, updateUserById, verifyUser, assignRoles, logout
 } = require('../controller');
 
 /**
@@ -69,6 +64,7 @@ router.post('/initiate-reset-password', initateResetPassword);
 router.post('/reset-password', resetPassword);
 router.post('/verify/:email', verifyUser);
 router.get('/:id', getUserById);
+router.put('/assign-roles', [authenticate, checkSuperAdmin], assignRoles);
 router.put('/:id', updateUserById);
 
 module.exports = router;

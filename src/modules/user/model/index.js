@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 const sequelize = require('../../../config/SequelizeConfig');
+const Role = require('../../role/model');
 
 const EGender = {
   MALE: 'MALE',
@@ -24,12 +25,16 @@ const User = sequelize.define('users', {
   registration_type: DataTypes.ENUM('email', 'facebook', 'google'),
   verification_code: DataTypes.NUMBER,
   verified: DataTypes.BOOLEAN,
-  verification_code_expiry_date: DataTypes.DATE
+  verification_code_expiry_date: DataTypes.DATE,
 }, {
   timestamps: true,
+  freezeTableName: true,
   createdAt: 'created_at',
-  updatedAt: 'updated_at'
+  updatedAt: 'updated_at',
+  tableName: 'users',
 });
+
+User.belongsToMany(Role, { through: 'UserRole' });
 
 User.hasOne(User, {
   foreignKey: 'line_manager'
@@ -66,7 +71,7 @@ const registrationSchema = {
   gender: ['required', 'in:MALE,FEMALE'],
   email: ['required', 'string', 'email'],
   username: ['required', 'min:3'],
-  password: ['required', 'string', 'confirmed', 'password_validations'],
+  password: ['required', 'string', 'confirmed', 'password_validations']
 };
 const updateSchema = {
   first_name: ['required', 'string', 'name_validations'],
