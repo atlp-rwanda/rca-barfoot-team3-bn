@@ -5,7 +5,8 @@ const nodemailer = require('nodemailer');
 const generateRandOTP = require('../../../utils/generator');
 const hashPassword = require('../../../utils/hashPassword');
 const { validate, validateAsync } = require('../../../utils/validate');
-const { User, registrationSchema } = require('../model');
+const Role = require('../../role/model');
+const { User, registrationSchema, updateSchema } = require('../model');
 
 /**
  *
@@ -62,13 +63,25 @@ async function registerUser(req, res) {
     }
 
     const emailExists = await validateAsync(data.email).exists('users:email');
-
     if (emailExists) {
       return res.status(400).json({
         statusCode: 'BAD_REQUEST',
         errors: {
           email: [
             'This email is already taken'
+          ]
+        }
+      });
+    }
+
+    const usernameExists = await validateAsync(data.username).exists('users:username');
+
+    if (usernameExists) {
+      return res.status(400).json({
+        statusCode: 'BAD_REQUEST',
+        errors: {
+          email: [
+            'This username is already taken'
           ]
         }
       });
@@ -105,9 +118,15 @@ async function loginUser(req, res) {
   if (!user) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
+      errors: 'Invalid credentials'
+    });
+  }
+  if (!user.verified) {
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
       errors: {
         email: [
-          'Invalid credentials'
+          'This user is not Verified'
         ]
       }
     });
@@ -128,6 +147,23 @@ async function loginUser(req, res) {
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
   sendEmails(user.email);
   return res.status(201).send({ statusCode: 'CREATED', token, sendEmails });
+}
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*}  user || user not found errors
+ */
+async function logout(req, res) {
+  try {
+    // Remove the token from the cookies header
+    res.clearCookie('token');
+    // Send a response to the client
+    res.status(200).send({ message: 'Logged out successfully', token: null });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
 }
 /**
  *
@@ -162,11 +198,19 @@ async function getUserById(req, res) {
  */
 async function updateUserById(req, res) {
   try {
+    const [passes, data, errors] = validate(req.body, updateSchema);
+
+    if (!passes) {
+      return res.status(400).json({
+        statusCode: 'BAD_REQUEST',
+        errors
+      });
+    }
     const userId = req.params.id;
     const {
       // eslint-disable-next-line max-len
       first_name, last_name, email, gender, username, birthdate, preferred_language, preferred_currency, address, role, department, lineManager
-    } = req.body;
+    } = data;
 
     const user = await User.findOne({ where: { id: userId } });
 
@@ -347,6 +391,37 @@ async function resetPassword(req, res) {
   return res.status(200).send({ message: 'Password reset successfully' });
 }
 
+/**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*} assign a role to a user
+ */
+async function assignRoles(req, res) {
+  const { email, roleIds } = req.body;
+  try {
+    if (!(email || roleIds)) {
+      return res.status(400).json({ message: 'Email and roleIds are required' });
+    }
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const roles = await Role.findAll({ where: { id: roleIds } });
+
+    if (!roles || roles.length === 0) {
+      return res.status(404).json({ message: 'No roles found with the provided ids' });
+    }
+
+    await user.setRoles(roles);
+    return res.status(200).json({ message: 'Roles assigned successfully' });
+  } catch (error) {
+    console.log('error', error.message);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
 module.exports = {
   registerUser,
   initateResetPassword,
@@ -354,5 +429,7 @@ module.exports = {
   loginUser,
   verifyUser,
   getUserById,
-  updateUserById
+  updateUserById,
+  assignRoles,
+  logout
 };
