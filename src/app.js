@@ -1,8 +1,6 @@
 const express = require('express');
 
 const app = express();
-const session = require('express-session');
-const passport = require('passport');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDocs = require('swagger-jsdoc');
 const routes = require('./modules/user/routes/facebookLogin');
