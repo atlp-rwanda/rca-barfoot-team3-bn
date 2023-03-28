@@ -30,6 +30,9 @@ app.use(passport.session());
 
 const PORT = process.env.PORT || 3000;
 app.get('/', (req, res) => { res.send(`${process.env.MESSAGE}`); });
+const i18n = require('./config/i18n');
+app.use(i18n.init); 
+app.get('/', (req, res) => { res.send({ message: res.__('welcome'), language: req.get('accept-language') }); });
 
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/accommodations', accommodationRouter);
