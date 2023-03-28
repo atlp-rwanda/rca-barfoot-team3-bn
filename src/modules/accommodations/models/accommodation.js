@@ -30,7 +30,7 @@ const EAccommodationType = {
  *               type: string
  */
 const Accommodation = sequelize.define('accommodations', {
-  created_by: DataTypes.NUMBER,
+  created_by: DataTypes.INTEGER,
   type: DataTypes.ENUM(Object.keys(EAccommodationType)),
   name: DataTypes.STRING,
   location: DataTypes.STRING,
