@@ -12,8 +12,10 @@ const { dbClient } = require('./database/index');
 const usersRouter = require('./modules/user/routes');
 const roleRoutes = require('./modules/role/routes');
 const permissionRoutes = require('./modules/permission/routes');
+
 const accommodationRouter = require('./modules/accommodations/routes');
 const swaggerConfig = require('../swagger.json');
+const bookingRoute = require('./modules/booking/routes');
 
 const swaggerDocs = swaggerJsDocs(JSON.parse(JSON.stringify(swaggerConfig)));
 
@@ -35,6 +37,7 @@ app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/accommodations', accommodationRouter);
 app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/permissions', permissionRoutes);
+app.use('/api/v1/booking/', bookingRoute);
 app.use('/', routes);
 
 app.listen(PORT, () => {
