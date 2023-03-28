@@ -33,8 +33,8 @@ class BookingController {
       await Booking.findOne({
         where: {
           roomId: RoomId,
-          dateToCome: { [Op.lte]: dateToCome },
-          dateToLeave: { [Op.gte]: dateToCome }
+          dateToCome: { [Op.lte]: new Date(dateToCome) },
+          dateToLeave: { [Op.gte]: new Date(dateToCome) }
         }
       }).then((booking) => {
         if (booking) {
