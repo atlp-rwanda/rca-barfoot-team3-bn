@@ -19,6 +19,7 @@ const User = sequelize.define('users', {
   preferred_language: DataTypes.STRING,
   preferred_currency: DataTypes.STRING,
   address: DataTypes.STRING,
+  token: DataTypes.STRING,
   role: DataTypes.STRING,
   department: DataTypes.STRING,
   line_manager: DataTypes.STRING,
