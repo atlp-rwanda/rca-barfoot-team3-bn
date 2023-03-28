@@ -8,18 +8,17 @@ const sequelize = require('../../../config/SequelizeConfig');
  * Accoomodation Controller Class
  */
 class AccomodationsController {
-
   /**
  * @param {Express.Request} req
  * @param {Express.Response} res
  * @returns {Promise<Object>} created accommodation
  */
   static async getAll(req, res) {
-    let accommodations = await Accommodation.findAll();
+    const accommodations = await Accommodation.findAll();
 
     return res.status(200).json({
       accommodations
-    })
+    });
   }
 
   /**
