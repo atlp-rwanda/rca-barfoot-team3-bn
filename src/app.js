@@ -1,4 +1,5 @@
 const express = require('express');
+
 const app = express();
 const passport = require('passport');
 const swaggerUi = require('swagger-ui-express');
@@ -27,7 +28,6 @@ app.use(i18n.init);
 const PORT = process.env.PORT || 3000;
 app.get('/', (req, res) => { res.send({ message: res.__('greetings'), language: req.get('accept-language') }); });
 // app.get('/', (req, res) => { res.send(`${process.env.MESSAGE}`); });
-
 
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/accommodations', accommodationRouter);
