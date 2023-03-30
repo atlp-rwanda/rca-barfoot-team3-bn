@@ -1,2 +1,3 @@
-const {HotelController}=require('./hotel-controller');
-module.exports={HotelController}
+const { HotelController } = require('./hotel-controller');
+
+module.exports = { HotelController };

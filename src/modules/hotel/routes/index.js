@@ -1,6 +1,7 @@
-const express=require('express');
-const {HotelController}=require('../controller')
-const router=express.Router();
+const express = require('express');
+const { HotelController } = require('../controller');
+
+const router = express.Router();
 
 /**
  * @swagger
@@ -16,7 +17,7 @@ const router=express.Router();
  *        description: Bad Request
 
  */
-router.get('/',HotelController.getAll);
+router.get('/', HotelController.getAll);
 /**
  * @swagger
  * /api/v1/hotels/{id}:
@@ -36,7 +37,7 @@ router.get('/',HotelController.getAll);
  *       200:
  *         description: A single hotel
  */
-router.get('/:id',HotelController.getOne);
+router.get('/:id', HotelController.getOne);
 /**
  * @swagger
  * /api/v1/hotels/{id}/rooms:
@@ -66,7 +67,7 @@ router.get('/:id',HotelController.getOne);
  *       500:
  *         description: Internal server error.
  */
-router.get('/:id/rooms',HotelController.getRooms);
+router.get('/:id/rooms', HotelController.getRooms);
 /**
  * @swagger
  * /api/v1/hotels/{id}/rooms/{roomId}:
@@ -102,6 +103,6 @@ router.get('/:id/rooms',HotelController.getRooms);
  *       500:
  *         description: Internal server error.
  */
-router.get('/:id/rooms/:roomId',HotelController.getRoom);
+router.get('/:id/rooms/:roomId', HotelController.getRoom);
 
-module.exports=router
+module.exports = router;

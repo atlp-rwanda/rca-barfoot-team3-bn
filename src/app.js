@@ -15,7 +15,8 @@ const accommodationRouter = require('./modules/accommodations/routes');
 const tripRoute = require('./modules/trip/routes');
 const swaggerConfig = require('../swagger.json');
 const bookingRoute = require('./modules/booking/routes');
-const hotelRoute=require('./modules/hotel/routes');
+const hotelRoute = require('./modules/hotel/routes');
+
 const swaggerDocs = swaggerJsDocs(JSON.parse(JSON.stringify(swaggerConfig)));
 app.use(express.json());
 const PORT = process.env.PORT || 3000;
@@ -24,7 +25,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/accommodations', accommodationRouter);
-app.use('/api/v1/hotels',hotelRoute);
+app.use('/api/v1/hotels', hotelRoute);
 app.use('/api/v1/trip', tripRoute);
 app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/permissions', permissionRoutes);
