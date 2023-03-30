@@ -5,7 +5,7 @@
             "description": "API documentation for RCA-BARFOOT-TEAM3",
             "version": "1.0.0",        
             "servers": [
-                "http://localhost:3000"
+                "http://localhost:8000"
             ]
         },
         "securityDefinitions": {
