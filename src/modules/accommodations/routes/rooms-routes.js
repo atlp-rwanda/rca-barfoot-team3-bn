@@ -26,6 +26,23 @@ router.get('/', RoomsController.getAll);
 
 /**
  * @swagger
+ * /api/v1/rooms/{id}:
+ *  get:
+ *    tags:
+ *      - Rooms
+ *    description: get a room by id
+ *    responses:
+ *      201:
+ *        description: An room is created
+ *      400:
+ *        description: Bad Request
+ *      401:
+ *        description: Unauthorized to create an room
+ */
+router.get('/:id', RoomsController.getById);
+
+/**
+ * @swagger
  * /api/v1/rooms:
  *  post:
  *    tags:

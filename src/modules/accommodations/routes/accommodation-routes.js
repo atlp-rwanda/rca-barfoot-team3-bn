@@ -26,6 +26,23 @@ router.get('/', AccomodationsController.getAll);
 
 /**
  * @swagger
+ * /api/v1/accommodations/{id}:
+ *  get:
+ *    tags:
+ *      - Accommodation
+ *    description: get a room by id
+ *    responses:
+ *      201:
+ *        description: An accommtedodation is created
+ *      400:
+ *        description: Bad Request
+ *      401:
+ *        description: Unauthorized to create an accommodation
+ */
+router.get('/:id', AccomodationsController.getById);
+
+/**
+ * @swagger
  * /api/v1/accommodations:
  *  post:
  *    tags:
