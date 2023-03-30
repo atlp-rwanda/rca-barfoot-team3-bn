@@ -1,10 +1,10 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(
-  'team3nomad_db',
-  'cmkeny',
-  'Cmk@2023',
-  { host: 'localhost', dialect: 'postgres', logging: false }
+  'postgres',
+  'postgres',
+  'KWdFegey5wuSrP2',
+  { host: 'db.ndwotyychzlbilxjrnso.supabase.co', dialect: 'postgres', logging: false }
 ); module.exports = sequelize;
 
 // Uncomment this line after making changes to a model
