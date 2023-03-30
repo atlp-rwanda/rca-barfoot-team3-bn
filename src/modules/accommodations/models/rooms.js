@@ -21,7 +21,7 @@ const ERoomType = {
  *         type: string
  */
 const Room = sequelize.define('rooms', {
-  accommodationId: DataTypes.NUMBER,
+  accommodationId: DataTypes.INTEGER,
   type: DataTypes.ENUM(Object.keys(ERoomType)),
   name: DataTypes.STRING
 }, {

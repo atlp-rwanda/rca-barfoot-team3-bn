@@ -9,6 +9,6 @@ const sequelize = new Sequelize(
 
 // Uncomment this line after making changes to a model
 // to sync the database and the models
-// sequelize.sync().then(() => {
-//     console.log('Database synchronized');
-// });
+sequelize.sync().then(() => {
+  console.log('Database synchronized');
+});
