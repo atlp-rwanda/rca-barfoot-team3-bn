@@ -115,7 +115,7 @@ class RoomsController {
       fs.unlinkSync(path);
     }));
 
-    await Room.update({ image_path: urls.map((url) => url.url).join(',') }, { where: { id: room.id } });
+    await Room.update({ image_paths: urls.map((url) => url.url).join(',') }, { where: { id: room.id } });
 
     return res.status(200).json({
       status: 'SUCCESS',

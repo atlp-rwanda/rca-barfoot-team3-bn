@@ -6,6 +6,7 @@ const { User } = require('../../user/model');
 
 // Define the trip model
 const OneWayTrip = sequelize.define('onewaytrips', {
+  created_by: DataTypes.STRING,
   departure: DataTypes.STRING,
   destination: DataTypes.STRING,
   date: DataTypes.DATE,
@@ -17,7 +18,7 @@ const OneWayTrip = sequelize.define('onewaytrips', {
   updatedAt: 'updated_at'
 });
 
-OneWayTrip.hasOne(User, {
+OneWayTrip.belongsTo(User, {
   foreignKey: 'created_by'
 });
 
