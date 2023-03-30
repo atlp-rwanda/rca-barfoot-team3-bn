@@ -13,8 +13,6 @@
 
 ### Prerequisites
 
-To get this project up and running locally, you must already have ruby and necessary gems installed on your computer
-
 To get this project set up on your local machine, follow these simple steps:
 
 - Open terminal
