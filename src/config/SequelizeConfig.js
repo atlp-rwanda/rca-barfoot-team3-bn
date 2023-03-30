@@ -1,9 +1,10 @@
 const { Sequelize } = require('sequelize');
 
+// Don't use process.env
 const sequelize = new Sequelize(
-  'team3nomad_db',
-  'cmkeny',
-  'Cmk@2023',
+  'dbname',
+  'dbusername',
+  'dbpassword',
   { host: 'localhost', dialect: 'postgres', logging: false }
 ); module.exports = sequelize;
 
