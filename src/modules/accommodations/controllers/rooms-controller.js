@@ -1,36 +1,36 @@
 const fs = require('fs');
 const { validate } = require('../../../utils/validate');
-const { creationSchema, Accommodation } = require('../models');
+const { Room, createRoomSchema } = require('../models');
 const cloudinary = require('../../../utils/cloudinary');
 const sequelize = require('../../../config/SequelizeConfig');
 
 /**
  * Accoomodation Controller Class
  */
-class AccomodationsController {
+class RoomsController {
   /**
  * @param {Express.Request} req
  * @param {Express.Response} res
- * @returns {Promise<Object>} created accommodation
+ * @returns {Promise<Object>} created rooms
  */
   static async getAll(req, res) {
-    const accommodations = await Accommodation.findAll();
+    const rooms = await Room.findAll();
 
     return res.status(200).json({
-      accommodations
+      rooms
     });
   }
 
   /**
    * @param {Express.Request} req
    * @param {Express.Response} res
-   * @returns {*} created accommodation
+   * @returns {*} created room
    */
   static async create(req, res) {
     const transaction = await sequelize.transaction();
 
     try {
-      const [passes, data, errors] = validate(req.body, creationSchema);
+      const [passes, data, errors] = validate(req.body, createRoomSchema);
 
       if (!passes) {
         return res.status(400).json({
@@ -39,8 +39,20 @@ class AccomodationsController {
         });
       }
 
-      const accommodation = await Accommodation.create({
-        created_by: req.user.id,
+      const accommodation = await Room.findByPk(req.body.accommodationId);
+
+      if (!accommodation) {
+        return res.status(404).json({
+          status: 'NOT_FOUND',
+          errors: {
+            request: [
+              'Accommodation with this id is not found'
+            ]
+          }
+        });
+      }
+
+      const room = await Room.create({
         ...data
       }, { transaction });
 
@@ -48,7 +60,7 @@ class AccomodationsController {
 
       return res.status(201).json({
         status: 'CREATED',
-        accommodation
+        room
       });
     } catch (error) {
       transaction.rollback();
@@ -64,17 +76,17 @@ class AccomodationsController {
   /**
    * @param {Express.Request} req
    * @param {Express.Response} res
-   * @returns {*} cooresponding accommodations
+   * @returns {*} cooresponding rooms
    */
   static async uploadImage(req, res) {
-    const accommodation = await Accommodation.findByPk(req.params.id);
+    const room = await Room.findByPk(req.params.id);
 
-    if (!accommodation) {
+    if (!room) {
       return res.status(404).json({
         status: 'NOT_FOUND',
         errors: {
           request: [
-            'Accommodation with this id is not found'
+            'Room with this id is not found'
           ]
         }
       });
@@ -103,16 +115,16 @@ class AccomodationsController {
       fs.unlinkSync(path);
     }));
 
-    await Accommodation.update({ image_path: urls.map((url) => url.url).join(',') }, { where: { id: accommodation.id } });
+    await Room.update({ image_path: urls.map((url) => url.url).join(',') }, { where: { id: room.id } });
 
     return res.status(200).json({
       status: 'SUCCESS',
-      accommodation,
+      room,
       files
     });
   }
 }
 
 module.exports = {
-  AccomodationsController
+  RoomsController
 };

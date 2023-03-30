@@ -8,6 +8,18 @@ const ERoomType = {
   EXTRA_LARGE: 'EXTRA_LARGE'
 };
 
+/**
+ * @swagger
+ * definitions:
+ *   Room:
+ *     properties:
+ *       accommodationId:
+ *         type: string
+ *       type:
+ *         type: string
+ *       name:
+ *         type: string
+ */
 const Room = sequelize.define('rooms', {
   accommodationId: DataTypes.NUMBER,
   type: DataTypes.ENUM(Object.keys(ERoomType)),
@@ -18,7 +30,14 @@ const Room = sequelize.define('rooms', {
   updatedAt: 'updated_at'
 });
 
+const createRoomSchema = {
+  accommodationId: "string|required",
+  type: `string|required|in:${Object.keys(ERoomType).join(',')}`,
+  name: "string|required",
+}
+
 module.exports = {
   ERoomType,
-  Room
+  Room,
+  createRoomSchema
 };
