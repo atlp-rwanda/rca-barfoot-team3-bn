@@ -15,7 +15,7 @@ const { accomodationRoutes, roomsRoutes } = require('./modules/accommodation/rou
 const tripRoute = require('./modules/trip/routes');
 const swaggerConfig = require('../swagger.json');
 const bookingRoute = require('./modules/booking/routes');
-const { fileRouter } = require("./modules/file/routes")
+const { fileRouter } = require('./modules/file/routes');
 
 const swaggerDocs = swaggerJsDocs(JSON.parse(JSON.stringify(swaggerConfig)));
 app.use(express.json());

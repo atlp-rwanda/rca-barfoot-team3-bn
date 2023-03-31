@@ -1,7 +1,7 @@
-const express = require("express")
+const express = require('express');
 
 const upload = require('../../../utils/multer');
-const { FileController } = require("../controllers")
+const { FileController } = require('../controllers');
 
 const router = express.Router();
 
@@ -52,4 +52,4 @@ router.post('/', upload.array('files'), FileController.uploadImage);
  */
 router.delete('/', FileController.delete);
 
-module.exports = router
+module.exports = router;

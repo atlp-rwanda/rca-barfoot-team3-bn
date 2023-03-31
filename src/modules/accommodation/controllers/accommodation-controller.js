@@ -1,9 +1,9 @@
 const fs = require('fs');
+const assert = require('http-assert');
 const { validate } = require('../../../utils/validate');
 const { creationSchema, Accommodation } = require('../models');
 const cloudinary = require('../../../utils/cloudinary');
 const sequelize = require('../../../config/SequelizeConfig');
-const assert = require('http-assert');
 
 /**
  * Accoomodation Controller Class
@@ -28,7 +28,7 @@ class AccomodationsController {
      * @returns {*} accommodation by id
      */
   static async getById(req, res) {
-    assert(req.params.id, 400, "Accomodation Id is required in params")
+    assert(req.params.id, 400, 'Accomodation Id is required in params');
 
     const accommodation = await Accommodation.findByPk(req.params.id);
 
@@ -43,11 +43,11 @@ class AccomodationsController {
       });
     }
 
-    let resp = { accommodation }
+    let resp = { accommodation };
 
     if (req.query.rooms) {
-      let rooms = await accommodation.getRooms();
-      resp = { ...resp, rooms }
+      const rooms = await accommodation.getRooms();
+      resp = { ...resp, rooms };
     }
 
     return res.status(200).json(resp);

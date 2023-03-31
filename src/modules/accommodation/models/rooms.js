@@ -80,23 +80,23 @@ const Room = sequelize.define('rooms', {
 });
 
 const createRoomSchema = {
-  accommodation_id: "integer|required",
+  accommodation_id: 'integer|required',
   type: `string|required|in:${Object.keys(ERoomType).join(',')}`,
-  description: "string|required",
-  'pricing.plans': "array|required|min:1",
-  'pricing.plans.*.id': "integer|required",
-  'pricing.plans.*.duration': "string|required",
-  'pricing.plans.*.price': "integer|required",
-  'pricing.plans.*.description': "string|required",
-  'pricing.plans.*.benefits': "array|required|min:1",
-  'meta.max_occupancy': "string|required",
-  'meta.bed_type': "string|required",
-  'meta.room_size': "string|required",
-  'meta.view': "string|required",
-  'meta.amenities': "array|required|min:1",
-  'meta.policies': "array|required|min:1",
-  'meta.properties': "array|required|min:1"
-}
+  description: 'string|required',
+  'pricing.plans': 'array|required|min:1',
+  'pricing.plans.*.id': 'integer|required',
+  'pricing.plans.*.duration': 'string|required',
+  'pricing.plans.*.price': 'integer|required',
+  'pricing.plans.*.description': 'string|required',
+  'pricing.plans.*.benefits': 'array|required|min:1',
+  'meta.max_occupancy': 'string|required',
+  'meta.bed_type': 'string|required',
+  'meta.room_size': 'string|required',
+  'meta.view': 'string|required',
+  'meta.amenities': 'array|required|min:1',
+  'meta.policies': 'array|required|min:1',
+  'meta.properties': 'array|required|min:1'
+};
 
 module.exports = {
   ERoomType,

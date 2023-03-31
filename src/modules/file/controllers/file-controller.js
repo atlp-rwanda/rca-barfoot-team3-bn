@@ -1,6 +1,6 @@
-const cloudinary = require('../../../utils/cloudinary');
-const fs = require("fs");
+const fs = require('fs');
 const assert = require('http-assert');
+const cloudinary = require('../../../utils/cloudinary');
 
 class FileController {
   /**
@@ -23,7 +23,7 @@ class FileController {
 
     const uploader = (path) => cloudinary.uploads(path);
 
-    let uploads = []
+    const uploads = [];
 
     await Promise.all(files.map(async (file) => {
       const { path } = file;
@@ -48,9 +48,9 @@ class FileController {
 * @returns {*} cooresponding rooms
 */
   static async delete(req, res) {
-    assert(req.body.path, 400, "Path is required")
+    assert(req.body.path, 400, 'Path is required');
 
-    let body = await cloudinary.delete(req.body.path)
+    const body = await cloudinary.delete(req.body.path);
 
     return res.status(200).json({
       status: 'SUCCESS',
@@ -61,4 +61,4 @@ class FileController {
 
 module.exports = {
   FileController
-}
+};

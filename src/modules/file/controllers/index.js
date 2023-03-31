@@ -1,5 +1,5 @@
-const { FileController } = require("./file-controller")
+const { FileController } = require('./file-controller');
 
 module.exports = {
   FileController
-}
+};

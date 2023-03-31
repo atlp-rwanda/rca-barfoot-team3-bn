@@ -24,11 +24,11 @@ const EAccommodationType = {
  *       contacts:
  *         type: object
  *         properties:
- *            email: 
+ *            email:
  *              type: string
- *            phone_number: 
+ *            phone_number:
  *              type: string
- *            website: 
+ *            website:
  *              type: string
  *       location:
  *         type: object
@@ -96,7 +96,7 @@ Accommodation.belongsTo(User, {
 });
 
 Room.belongsTo(Accommodation, {
-  foreignKey: "accommodation_id"
+  foreignKey: 'accommodation_id'
 });
 
 Accommodation.hasMany(Room, {

@@ -1,7 +1,6 @@
-const fs = require('fs');
+const assert = require('http-assert');
 const { validate } = require('../../../utils/validate');
 const { Room, createRoomSchema, Accommodation } = require('../models');
-const assert = require('http-assert');
 
 /**
  * Accoomodation Controller Class
@@ -26,7 +25,7 @@ class RoomsController {
      * @returns {*} accommodation by id
      */
   static async getById(req, res) {
-    assert(req.params.id, 400, "Room Id is required in params")
+    assert(req.params.id, 400, 'Room Id is required in params');
 
     const room = await Room.findByPk(req.params.id);
 
@@ -41,11 +40,11 @@ class RoomsController {
       });
     }
 
-    let resp = { room }
+    let resp = { room };
 
     if (req.query.accommodation) {
-      let accommodation = await room.getAccommodation();
-      resp = { ...resp, accommodation }
+      const accommodation = await room.getAccommodation();
+      resp = { ...resp, accommodation };
     }
 
     return res.status(200).json(resp);
@@ -57,7 +56,6 @@ class RoomsController {
    * @returns {*} created room
    */
   static async create(req, res) {
-
     try {
       const [passes, data, errors] = validate(req.body, createRoomSchema);
 
@@ -90,7 +88,7 @@ class RoomsController {
         room
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return res.status(500).json({
         status: 'INTERNAL_SERVER ERROR',
         errors: {
