@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "KWdFegey5wuSrP2",
+    "database": "postgres",
+    "host": "db.ndwotyychzlbilxjrnso.supabase.co",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "KWdFegey5wuSrP2",
+    "database": "postgres",
+    "host": "db.ndwotyychzlbilxjrnso.supabase.co",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "KWdFegey5wuSrP2",
+    "database": "postgres",
+    "host": "db.ndwotyychzlbilxjrnso.supabase.co",
+    "dialect": "postgres"
+  }
+}
