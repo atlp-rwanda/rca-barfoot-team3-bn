@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { validate } = require('../../../utils/validate');
-const { creationSchema, Accommodation, Room } = require('../models');
+const { creationSchema, Accommodation, Room } = require('../model');
 const cloudinary = require('../../../utils/cloudinary');
 const sequelize = require('../../../config/SequelizeConfig');
 

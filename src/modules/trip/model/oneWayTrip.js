@@ -1,7 +1,7 @@
 // Import sequelize and the accommodation model
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../config/SequelizeConfig');
-const { Accommodation } = require('../../accommodations/models'); // Update import statement
+const { Accommodation } = require('../../accommodations/model'); // Update import statement
 const { User } = require('../../user/model');
 
 // Define the trip model
