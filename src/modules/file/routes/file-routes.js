@@ -17,10 +17,6 @@ const router = express.Router();
  *        in: formData
  *        type: file
  *        description: The file to upload
- *      - name: id
- *        in: params
- *        type: number
- *        description: The id of the accomodation
  *    responses:
  *      200:
  *        description: Images uploaded
