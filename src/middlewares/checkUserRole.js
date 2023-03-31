@@ -19,7 +19,7 @@ async function checkSuperAdmin(req, res, next) {
     });
 
     const roles = user.Roles.map((role) => role.name);
-    req.user = { ...req.user, roles: roles };
+    req.user = { ...req.user, roles };
     if (!roles.includes('Super Administrator')) {
       return res.status(403).json({ message: 'Only super admin can access this service' });
     }
