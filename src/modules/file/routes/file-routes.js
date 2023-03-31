@@ -33,7 +33,7 @@ router.post('/', upload.array('files'), FileController.uploadImage);
  *  delete:
  *    tags:
  *      - Files
- *    description: Upload files
+ *    description: Delete a files
  *    parameters:
  *      - name: body
  *        in: body
