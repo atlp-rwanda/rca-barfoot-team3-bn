@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../config/SequelizeConfig');
 const { User } = require('../../user/model');
-const { Room } = require('../../accommodations/models');
+const { Room } = require('../../accommodation/models');
 
 const Booking = sequelize.define('bookings', {
   dateToCome: DataTypes.DATE,
