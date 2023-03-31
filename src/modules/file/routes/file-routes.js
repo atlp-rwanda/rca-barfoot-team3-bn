@@ -8,10 +8,10 @@ const router = express.Router();
 /**
  * @swagger
  * /api/v1/files:
- *  put:
+ *  post:
  *    tags:
  *      - Files
- *    description: Upload images of an accomodation
+ *    description: Upload files
  *    parameters:
  *      - name: files
  *        in: formData
@@ -25,6 +25,31 @@ const router = express.Router();
  *      401:
  *        description: Unauthorized to create an accommodation
  */
-router.put('/:id/upload-image', upload.array('files'), FileController.uploadImage);
+router.post('/', upload.array('files'), FileController.uploadImage);
+
+/**
+ * @swagger
+ * /api/v1/files:
+ *  delete:
+ *    tags:
+ *      - Files
+ *    description: Upload files
+ *    parameters:
+ *      - name: body
+ *        in: body
+ *        type: object
+ *        description: The file to deleted
+ *        properties:
+ *          path:
+ *           type: string
+ *    responses:
+ *      200:
+ *        description: Images uploaded
+ *      400:
+ *        description: Bad Request
+ *      401:
+ *        description: Unauthorized to create an accommodation
+ */
+router.delete('/', FileController.delete);
 
 module.exports = router

@@ -6,6 +6,14 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+exports.delete = (path) => new Promise((resolve) => {
+  cloudinary.uploader.destroy(path.split(".").reverse()[1].split("/").reverse()[0], (result) => {
+    resolve({
+      result
+    })
+  })
+})
+
 exports.uploads = (file, folder) => new Promise((resolve) => {
   cloudinary.uploader.upload(file, (result) => {
     resolve({
