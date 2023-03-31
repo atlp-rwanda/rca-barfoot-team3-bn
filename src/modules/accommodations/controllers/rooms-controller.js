@@ -1,7 +1,6 @@
 const fs = require('fs');
 const { validate } = require('../../../utils/validate');
 const { Room, createRoomSchema, Accommodation } = require('../models');
-const cloudinary = require('../../../utils/cloudinary');
 const sequelize = require('../../../config/SequelizeConfig');
 const assert = require('http-assert');
 
@@ -46,8 +45,7 @@ class RoomsController {
     let resp = { room }
 
     if (req.query.accommodation) {
-      console.log("Fetching accomodations")
-      let accommodation = await Accommodation.findByPk(room.accommodationId)
+      let accommodation = await room.getAccommodation();
       resp = { ...resp, accommodation }
     }
 
@@ -60,7 +58,6 @@ class RoomsController {
    * @returns {*} created room
    */
   static async create(req, res) {
-    const transaction = await sequelize.transaction();
 
     try {
       const [passes, data, errors] = validate(req.body, createRoomSchema);
@@ -72,7 +69,7 @@ class RoomsController {
         });
       }
 
-      const accommodation = await Room.findByPk(req.body.accommodationId);
+      const accommodation = await Accommodation.findByPk(req.body.accommodation_id);
 
       if (!accommodation) {
         return res.status(404).json({
@@ -87,16 +84,14 @@ class RoomsController {
 
       const room = await Room.create({
         ...data
-      }, { transaction });
-
-      transaction.commit();
+      });
 
       return res.status(201).json({
         status: 'CREATED',
         room
       });
     } catch (error) {
-      transaction.rollback();
+      console.log(error)
       return res.status(500).json({
         status: 'INTERNAL_SERVER ERROR',
         errors: {

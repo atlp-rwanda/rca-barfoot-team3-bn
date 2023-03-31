@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 const sequelize = require('../../../config/SequelizeConfig');
 const { User } = require('../../user/model');
-const { Room, ERoomType } = require('./rooms');
+const { Room } = require('./rooms');
 
 const EAccommodationType = {
   HOTEL: 'HOTEL',
@@ -95,7 +95,10 @@ Accommodation.belongsTo(User, {
   foreignKey: 'created_by'
 });
 
-Room.belongsTo(Accommodation);
+Room.belongsTo(Accommodation, {
+  foreignKey: "accommodation_id"
+});
+
 Accommodation.hasMany(Room, {
   foreignKey: 'accommodation_id'
 });

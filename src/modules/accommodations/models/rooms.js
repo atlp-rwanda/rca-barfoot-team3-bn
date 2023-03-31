@@ -3,9 +3,9 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../../config/SequelizeConfig');
 
 const ERoomType = {
-  SMALL: 'SMALL',
-  LARGE: 'LARGE',
-  EXTRA_LARGE: 'EXTRA_LARGE'
+  STANDARD: 'STANDARD',
+  DELUXE: 'DELUXE',
+  SUITE: 'SUITE'
 };
 
 /**
@@ -13,28 +13,66 @@ const ERoomType = {
  * definitions:
  *   Room:
  *     properties:
- *       accommodationId:
- *         type: string
+ *       accommodation_id:
+ *         type: number
  *       type:
  *         type: string
- *       name:
+ *       description:
  *         type: string
- *       image_paths:
- *         type: string
+ *       pricing:
+ *         type: object
+ *         properties:
+ *          plans:
+ *           type: array
+ *           items:
+ *            type: object
+ *            properties:
+ *              id:
+ *                type: number
+ *              duration:
+ *                type: string
+ *              price:
+ *                type: number
+ *              description:
+ *                type: string
+ *              benefits:
+ *                type: array
+ *                items:
+ *                  type: string
  *       meta:
  *         type: object
  *         properties:
- *           properties:
+ *           max_occupancy:
+ *             type: string
+ *           bed_type:
+ *             type: string
+ *           room_size:
+ *             type: string
+ *           view:
+ *             type: string
+ *           amenities:
  *             type: array
  *             items:
  *              type: string
+ *           policies:
+ *              type: array
+ *              items:
+ *                type: string
+ *           images:
+ *              type: array
+ *              items:
+ *                type: string
+ *           properties:
+ *              type: array
+ *              items:
+ *                type: string
  */
 const Room = sequelize.define('rooms', {
-  accommodationId: DataTypes.INTEGER,
+  accommodation_id: DataTypes.INTEGER,
   type: DataTypes.ENUM(Object.keys(ERoomType)),
-  image_paths: DataTypes.STRING,
+  description: DataTypes.STRING,
+  pricing: DataTypes.JSON,
   meta: DataTypes.JSON,
-  name: DataTypes.STRING
 }, {
   timestamps: true,
   createdAt: 'created_at',
@@ -42,11 +80,22 @@ const Room = sequelize.define('rooms', {
 });
 
 const createRoomSchema = {
-  accommodationId: "string|required",
+  accommodation_id: "integer|required",
   type: `string|required|in:${Object.keys(ERoomType).join(',')}`,
-  meta: "required",
-  'meta.properties': "array|required|min:1",
-  name: "string|required",
+  description: "string|required",
+  'pricing.plans': "array|required|min:1",
+  'pricing.plans.*.id': "integer|required",
+  'pricing.plans.*.duration': "string|required",
+  'pricing.plans.*.price': "integer|required",
+  'pricing.plans.*.description': "string|required",
+  'pricing.plans.*.benefits': "array|required|min:1",
+  'meta.max_occupancy': "string|required",
+  'meta.bed_type': "string|required",
+  'meta.room_size': "string|required",
+  'meta.view': "string|required",
+  'meta.amenities': "array|required|min:1",
+  'meta.policies': "array|required|min:1",
+  'meta.properties': "array|required|min:1"
 }
 
 module.exports = {

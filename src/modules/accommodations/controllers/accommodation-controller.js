@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { validate } = require('../../../utils/validate');
-const { creationSchema, Accommodation, Room } = require('../models');
+const { creationSchema, Accommodation } = require('../models');
 const cloudinary = require('../../../utils/cloudinary');
 const sequelize = require('../../../config/SequelizeConfig');
 const assert = require('http-assert');
@@ -46,7 +46,7 @@ class AccomodationsController {
     let resp = { accommodation }
 
     if (req.query.rooms) {
-      let rooms = await Room.findAll({ where: { accommodationId: accommodation.id } })
+      let rooms = await accommodation.getRooms();
       resp = { ...resp, rooms }
     }
 
