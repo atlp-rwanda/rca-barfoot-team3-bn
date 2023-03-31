@@ -17,24 +17,70 @@ const EAccommodationType = {
  *     properties:
  *       type:
  *         type: string
- *       location:
+ *       name:
  *         type: string
- *       rooms:
- *         type: array
- *         items:
- *           type: object
+ *       description:
+ *         type: string
+ *       contacts:
+ *         type: object
+ *         properties:
+ *            email: 
+ *              type: string
+ *            phone_number: 
+ *              type: string
+ *            website: 
+ *              type: string
+ *       location:
+ *         type: object
+ *         properties:
+ *           country:
+ *             type: string
+ *           province:
+ *             type: string
+ *           district:
+ *             type: string
+ *           city:
+ *             type: string
+ *           sector:
+ *             type: string
+ *           cell:
+ *             type: string
+ *           village:
+ *             type: string
+ *           latitude:
+ *             type: string
+ *           longitude:
+ *             type: string
+ *           postal_code:
+ *             type: string
+ *       meta:
+ *         type: object
+ *         properties:
+ *           amenities:
+ *             type: array
+ *             items:
+ *              type: string
+ *           policies:
+ *              type: array
+ *              items:
+ *                type: string
+ *           images:
+ *              type: array
+ *              items:
+ *                type: string
  *           properties:
- *             type:
- *               type: string
- *             name:
- *               type: string
+ *              type: array
+ *              items:
+ *                type: string
  */
 const Accommodation = sequelize.define('accommodations', {
   created_by: DataTypes.INTEGER,
-  type: DataTypes.ENUM(Object.keys(EAccommodationType)),
   name: DataTypes.STRING,
-  location: DataTypes.STRING,
-  image_path: DataTypes.STRING
+  description: DataTypes.TEXT,
+  type: DataTypes.ENUM(Object.keys(EAccommodationType)),
+  location: DataTypes.JSON,
+  meta: DataTypes.JSON,
+  contacts: DataTypes.JSON,
 }, {
   timestamps: true,
   createdAt: 'created_at',
@@ -51,16 +97,29 @@ Accommodation.belongsTo(User, {
 
 Room.belongsTo(Accommodation);
 Accommodation.hasMany(Room, {
-  foreignKey: 'accommodationId'
+  foreignKey: 'accommodation_id'
 });
 
 const creationSchema = {
   type: `required|string|in:${Object.keys(EAccommodationType).join(',')}`,
   name: 'required|string|min:3',
-  location: 'required|string|min:3',
-  rooms: 'required|array|min:1',
-  'rooms.*.type': `required|string|in:${Object.keys(ERoomType).join(',')}`,
-  'rooms.*.name': 'required|string|min:3'
+  description: 'required|string|min:3',
+  'contacts.email': 'required|string|email|min:3',
+  'contacts.phone_number': 'required|string|min:3',
+  'contacts.website': 'required|string|url|min:3',
+  'location.country': 'required|string|min:3',
+  'location.province': 'required|string|min:3',
+  'location.district': 'required|string|min:3',
+  'location.city': 'required|string|min:3',
+  'location.sector': 'required|string|min:3',
+  'location.cell': 'required|string|min:3',
+  'location.village': 'required|string|min:3',
+  'location.latitude': 'required|string|min:3',
+  'location.longitude': 'required|string|min:3',
+  'location.postal_code': 'required|string|min:3',
+  'meta.amenities': 'required|array|min:1',
+  'meta.policies': 'required|array|min:1',
+  'meta.properties': 'required|array|min:1',
 };
 
 module.exports = {
