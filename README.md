@@ -4,30 +4,34 @@
 [![.github/workflows/lint.yml](https://github.com/atlp-rwanda/rca-barfoot-team3-bn/actions/workflows/lint.yml/badge.svg)](https://github.com/atlp-rwanda/rca-barfoot-team3-bn/actions/workflows/lint.yml)
 ### Prerequisites
 
-1. Node JS
-2. Postgress 
-3. Docker 
-4. ....
+1. JavaScript
+1. NodeJS
+2. PostgreSQL
 
-### Installation
 
-_Below is an example of how you can install and set up this app on your local environment._
+## Getting Started
 
-1. Clone the repo
-   ```sh
-   git clone [https://github.com/your_username_/Project-Name.git](https://github.com/atlp-rwanda/rca-barfoot-team3-bn.git)
-   ```
-2. Install NPM packages
-   ```sh
-   npm install
-   ```
+### Prerequisites
+
+To get this project set up on your local machine, follow these simple steps:
+
+- Open terminal
+- Clone the repository ``` https://github.com/atlp-rwanda/rca-barfoot-team3-bn.git ```
+- Cd in the project ``` rca-barfoot-team3-bn ```
+- Install dependencies ``` yarn install ```
+- Run ``` yarn run createMigration -- --name User ``` if you need it
+- Import a model file you want to sync if we already have a model created
+- Run ``` yarn migrate ```
+- In case you want to undo migrations run ``` yarn undoMigration ```
+- Start your server ``` yarn dev ```
+- Run the app ``` http://localhost:8000/ ```
    
 3. Create .env file 
 
 
 4. Run tests
    ```sh
-   npm test
+   yarn test
    ```
 
 #### Steps to configure your env file
@@ -42,16 +46,6 @@ _Below is an example of how you can install and set up this app on your local en
 
 - To check the code against the rules run `yarn lint`
 - To fix the files run `yarn lint:fix`
-
-### A guide on Mail Service Configuration
-
-- [ ] Clone the repo
-- [ ] Copy the.env.example file and rename it to.env
-- [ ] Edit the.env file with your details
-- [ ] Update your user model with new fields
-   1. verification_code
-   2. verified
-   3. verification_code_expiry_date
 
 
 ### LIVE VERSION
