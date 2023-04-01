@@ -70,9 +70,8 @@ class BookingController {
   static async approveBooking(req, res) {
     try {
       const { body } = req;
-      const { approval_status } = body;
-      const { user } = req;
-      const bookingId = req.params.id;
+      const { approvalStatus } = body;
+      const bookingId = req.params;
       const booking = await Booking.findByPk(bookingId, {
         include: [
           { model: User, attributes: ['first_name', 'last_name'] },
@@ -82,7 +81,7 @@ class BookingController {
       if (!booking) {
         return res.status(404).json({ error: 'Booking not found' });
       }
-      const updatedBooking = await booking.update({ approval_status });
+      const updatedBooking = await booking.update({ approvalStatus });
       const data = {
         user: booking.User,
         message: 'Booking approval status updated'
@@ -96,6 +95,5 @@ class BookingController {
       return res.status(500).json({ error: 'Server error' });
     }
   }
-  
 }
 module.exports = { BookingController };

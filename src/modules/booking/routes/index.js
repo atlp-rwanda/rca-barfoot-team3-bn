@@ -5,5 +5,5 @@ const router = express.Router();
 const { BookingController } = require('../controllers');
 
 router.post('/:id', [authenticate], BookingController.createBooking);
-router.post('/:bookingId',[authenticate],BookingController.approveBooking)
+router.post('/approve/:bookingId', [authenticate], BookingController.approveBooking);
 module.exports = router;
