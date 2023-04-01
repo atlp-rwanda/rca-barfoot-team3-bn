@@ -66,5 +66,36 @@ class BookingController {
       return res.status(500).json({ error: 'Server error' });
     }
   }
+
+  static async approveBooking(req, res) {
+    try {
+      const { body } = req;
+      const { approval_status } = body;
+      const { user } = req;
+      const bookingId = req.params.id;
+      const booking = await Booking.findByPk(bookingId, {
+        include: [
+          { model: User, attributes: ['first_name', 'last_name'] },
+          { model: Room, attributes: ['name'] }
+        ]
+      });
+      if (!booking) {
+        return res.status(404).json({ error: 'Booking not found' });
+      }
+      const updatedBooking = await booking.update({ approval_status });
+      const data = {
+        user: booking.User,
+        message: 'Booking approval status updated'
+      };
+      return res.status(200).json({
+        status: 200,
+        data
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Server error' });
+    }
+  }
+  
 }
 module.exports = { BookingController };
