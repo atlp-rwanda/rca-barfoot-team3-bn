@@ -29,7 +29,6 @@
 		"./src/modules/accommodation/routes/*.js",
 		"./src/modules/file/routes/*.js",
 		"./src/modules/permission/model/*.js",
-		"./src/modules/notification/model/*.js",
 		"./src/modules/booking/model/*.js",
 		"./src/modules/booking/routes/*.js",
 		"./src/modules/notification/routes/*.js"

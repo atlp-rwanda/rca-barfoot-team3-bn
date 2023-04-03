@@ -1,4 +1,4 @@
-const Notifications = require('../model/notification');
+const { Notification } = require('../model/notification');
 /**
 
 Notification Controller
@@ -17,7 +17,7 @@ class NotificationsController {
         } = req.body;
 
         try {
-            const notification = await Notifications.create({
+            const notification = await Notification.create({
                 title,
                 message,
                 type,
@@ -51,7 +51,7 @@ class NotificationsController {
         const { notificationId } = req.params;
 
         try {
-            const notification = await Notifications.findOne({ where: { id: notificationId } });
+            const notification = await Notification.findOne({ where: { id: notificationId } });
             if (!notification) {
                 return res.status(404).json({ error: 'Notification not found' });
             }
@@ -81,9 +81,9 @@ class NotificationsController {
        */
     static async getAllNotifications(req, res) {
         try {
-            const notifications = await Notifications.findAll();
+            const notifications = await Notification.findAll();
             return res.status(200).json({
-                message: 'Notifications retrieved successfully',
+                message: 'Notification retrieved successfully',
                 data: notifications
             });
         } catch (error) {
@@ -109,9 +109,9 @@ class NotificationsController {
         const { userId } = req.params;
 
         try {
-            const notifications = await Notifications.findAll({ where: { receiverId: userId } });
+            const notifications = await Notification.findAll({ where: { receiverId: userId } });
             return res.status(200).json({
-                message: 'Notifications retrieved successfully',
+                message: 'Notification retrieved successfully',
                 data: notifications
             });
         } catch (error) {
@@ -136,9 +136,9 @@ class NotificationsController {
     static async getNotificationsByBookingId(req, res) {
         const { bookingId } = req.params;
         try {
-            const notifications = await Notifications.findAll({ where: { bookingId } });
+            const notifications = await Notification.findAll({ where: { bookingId } });
             return res.status(200).json({
-                message: 'Notifications retrieved successfully',
+                message: 'Notification retrieved successfully',
                 data: notifications
             });
         } catch (error) {

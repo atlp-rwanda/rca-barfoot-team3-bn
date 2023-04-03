@@ -70,7 +70,7 @@ const { NotificationsController } = require('../controllers');
  *                       type: array
  *                       items:
  *                         type: string
-***/
+*/
 router.post('/', [authenticate], NotificationsController.createNotification);
 
 /**
@@ -115,7 +115,7 @@ router.get('/', [authenticate], NotificationsController.getAllNotifications)
  *         description: ID of the booking to retrieve notifications for
  *     responses:
  *       200:
- *         description: Notifications for the specified booking ID
+ *         description: Notification for the specified booking ID
  *         content:
  *           application/json:
  *             schema:

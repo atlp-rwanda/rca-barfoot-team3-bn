@@ -1,5 +1,5 @@
-const Notifications = require('./notification');
+const { Notification } = require('./notification');
 
-export default {
-  Notifications
+module.exports = {
+  Notification
 };

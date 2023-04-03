@@ -1,6 +1,3 @@
-const { DataTypes, ENUM } = require('sequelize');
-const sequelize = require('../../../config/SequelizeConfig');
-
 /**
  * @swagger
  * components:
@@ -10,6 +7,7 @@ const sequelize = require('../../../config/SequelizeConfig');
  *       properties:
  *         id:
  *           type: integer
+ *           format: int64
  *         title:
  *           type: string
  *         message:
@@ -18,15 +16,13 @@ const sequelize = require('../../../config/SequelizeConfig');
  *           type: boolean
  *         type:
  *           type: string
- *           enum:
- *             - BOOKING_APPROVAL
- *             - BOOKING_REJECTION
- *             - BOOKING_CONFIRMATION
- *             - BOOKING_CANCELLATION
+ *           enum: ['BOOKING_APPROVAL', 'BOOKING_REJECTION', 'BOOKING_CONFIRMATION', 'BOOKING_CANCELLATION']
  *         bookingId:
  *           type: integer
+ *           format: int64
  *         receiverId:
  *           type: integer
+ *           format: int64
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -37,19 +33,12 @@ const sequelize = require('../../../config/SequelizeConfig');
  *         - title
  *         - message
  *         - type
- *         - receiverId
- *       example:
- *         id: 1
- *         title: "Booking Approval"
- *         message: "Your booking has been approved."
- *         read: false
- *         type: "BOOKING_APPROVAL"
- *         bookingId: 1
- *         receiverId: 1
- *         createdAt: "2022-01-01T00:00:00Z"
- *         updatedAt: "2022-01-01T00:00:00Z"
  */
-const Notifications = sequelize.define('Notifications', {
+
+const { DataTypes } = require('sequelize');
+const sequelize = require('../../../config/SequelizeConfig');
+
+const Notification = sequelize.define('Notification', {
     title: DataTypes.STRING,
     message: DataTypes.STRING,
     read: {
@@ -57,7 +46,7 @@ const Notifications = sequelize.define('Notifications', {
         defaultValue: false
     },
     type: {
-        type: ENUM,
+        type: DataTypes.ENUM,
         values: ['BOOKING_APPROVAL', 'BOOKING_REJECTION', 'BOOKING_CONFIRMATION', 'BOOKING_CANCELLATION'],
         allowNull: false
     },
@@ -75,4 +64,4 @@ const Notifications = sequelize.define('Notifications', {
     }
 });
 
-module.exports = Notifications;
+module.exports = { Notification };
