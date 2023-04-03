@@ -7,17 +7,17 @@
     "dialect": "postgresql"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "username": "postgres",
+    "password": "postgres",
+    "database": "KWdFegey5wuSrP2",
+    "host": "db.ndwotyychzlbilxjrnso.supabase.co",
     "dialect": "postgresql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+     "username": "postgres",
+    "password": "postgres",
+    "database": "KWdFegey5wuSrP2",
+    "host": "db.ndwotyychzlbilxjrnso.supabase.co",
+    "dialect": "postgresql"
   }
 }
