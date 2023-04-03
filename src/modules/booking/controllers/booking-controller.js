@@ -66,5 +66,33 @@ class BookingController {
       return res.status(500).json({ error: 'Server error' });
     }
   }
+
+  /**
+   * @param {Express.Request} req
+   * @param {Express.Response} res
+   * @returns {*} all booking details
+   */
+  static async getAllBookings(req, res) {
+    const bookings = await Booking.findAll();
+
+    return res.status(200).json({
+      bookings
+    });
+  }
+
+  /**
+   * @param {Express.Request} req
+   * @param {Express.Response} res
+   * @returns {*} edit open booking requests
+   */
+
+  static async editOpenBookings(req, res) {
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
+
 }
 module.exports = { BookingController };
