@@ -3,9 +3,15 @@ const sequelize = require('../../../config/SequelizeConfig');
 const { User } = require('../../user/model');
 const { Room } = require('../../accommodation/models');
 
+const EBookingStatus = {
+  OPEN: "OPEN", 
+  APPROVED: "APPROVED", 
+  REJECTED: "REJECTED"
+}
 const Booking = sequelize.define('bookings', {
   dateToCome: DataTypes.DATE,
   dateToLeave: DataTypes.DATE,
+  status: DataTypes.ENUM(Object.keys(EBookingStatus))
 }, {
   timestamps: true,
   createdAt: 'created_at',
