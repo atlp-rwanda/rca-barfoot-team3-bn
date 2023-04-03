@@ -320,8 +320,6 @@ const initateResetPassword = (req, res) => {
   Transport.sendMail(mailOptions, (error) => {
     if (error) {
       console.log(error);
-    } else {
-      console.log('Email sent successfully');
     }
     return res.status(200).json({
       statusCode: 'OK',
