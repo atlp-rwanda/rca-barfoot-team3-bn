@@ -29,7 +29,7 @@ app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/permissions', permissionRoutes);
 app.use('/api/v1/booking/', bookingRoute);
 app.use('/', routes);
-
+  
 app.use('/', routes);
 app.listen(PORT, () => {
   dbClient.connect().then(() => {

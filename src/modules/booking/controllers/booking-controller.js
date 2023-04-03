@@ -66,5 +66,44 @@ class BookingController {
       return res.status(500).json({ error: 'Server error' });
     }
   }
-}
+
+  /**
+ * Search bookings by criteria
+ */
+static async searchBookings(req, res) {
+  try {
+    const { query } = req;
+    const { Op } = require('sequelize');
+    const { user } = req;
+    const where = {
+      userId: user.id,
+      [Op.or]: {
+        requestId: { [Op.like]: `%${query.q}%` },
+        owner: { [Op.like]: `%${query.q}%` },
+        destination: { [Op.like]: `%${query.q}%` },
+        origin: { [Op.like]: `%${query.q}%` },
+        duration: { [Op.like]: `%${query.q}%` },
+        startDate: { [Op.like]: `%${query.q}%` },
+        requestStatus: { [Op.like]: `%${query.q}%` },
+      },
+    };
+    const data = await Booking.findAll({
+      include: [
+        { model: User, attributes: ['first_name', 'last_name'] },
+        { model: Room, attributes: ['name'] },
+      ],
+      where,
+    });
+    return res.status(200).json({
+      status: 200,
+      message: 'Bookings found',
+      data,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Server error' });
+  }
+  }
+  }
+
 module.exports = { BookingController };
