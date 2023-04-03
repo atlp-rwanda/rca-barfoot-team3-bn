@@ -10,6 +10,23 @@ const { AccomodationsController } = require('../controllers');
 /**
  * @swagger
  * /api/v1/accommodations:
+ *  get:
+ *    tags:
+ *      - Accommodation
+ *    description: get all an accommodation
+ *    responses:
+ *      201:
+ *        description: An accommtedodation is created
+ *      400:
+ *        description: Bad Request
+ *      401:
+ *        description: Unauthorized to create an accommodation
+ */
+router.get('/', AccomodationsController.getAll);
+
+/**
+ * @swagger
+ * /api/v1/accommodations:
  *  post:
  *    tags:
  *      - Accommodation

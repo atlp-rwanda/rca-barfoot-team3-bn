@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../modules/user/model');
-
 /**
  * @param {*} req
  * @param {*} res
@@ -10,7 +9,6 @@ const { User } = require('../modules/user/model');
 async function authenticate(req, res, next) {
   try {
     const token = req.headers.authorization.split(' ')[1];
-
     if (!token) {
       return res.status(401).json({
         statusCode: 'UNAUTHENTICATED_ACCESS',
@@ -23,8 +21,18 @@ async function authenticate(req, res, next) {
     }
 
     const { userId } = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
     const user = await User.findByPk(userId);
+
+    if (!user || user.token !== token) {
+      return res.status(403).json({
+        statusCode: 'FORBIDDEN_ACCESS',
+        errors: {
+          request: [
+            'You are not authorized to use this request'
+          ]
+        }
+      });
+    }
 
     req.user = user.toJSON();
 

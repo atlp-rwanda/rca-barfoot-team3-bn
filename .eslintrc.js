@@ -18,7 +18,7 @@ module.exports = {
     "no-param-reassign": 0,
     "comma-dangle": 0,
     "curly": ["error", "multi-line"],
-    "import/no-unresolved": [2, { commonjs: true }],
+    "import/no-unresolved": [2, { commonjs: false }],
     "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
     'linebreak-style': ["error", "unix"],
     "valid-jsdoc": ["error", {
@@ -27,12 +27,5 @@ module.exports = {
       "requireParamDescription": false,
       "requireReturnDescription": true
     }],
-    "require-jsdoc": ["error", {
-      "require": {
-        "FunctionDeclaration": true,
-        "MethodDefinition": true,
-        "ClassDeclaration": true
-      }
-    }]
   }
 }

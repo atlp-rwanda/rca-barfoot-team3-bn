@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 const sequelize = require('../../../config/SequelizeConfig');
+const Role = require('../../role/model');
 
 const EGender = {
   MALE: 'MALE',
@@ -18,17 +19,23 @@ const User = sequelize.define('users', {
   preferred_language: DataTypes.STRING,
   preferred_currency: DataTypes.STRING,
   address: DataTypes.STRING,
+  token: DataTypes.STRING,
   role: DataTypes.STRING,
   department: DataTypes.STRING,
-  line_manager: DataTypes.STRING,
-  verification_code: DataTypes.NUMBER,
+  line_manager: DataTypes.INTEGER,
+  registration_type: DataTypes.ENUM('email', 'facebook', 'google'),
+  verification_code: DataTypes.INTEGER,
   verified: DataTypes.BOOLEAN,
-  verification_code_expiry_date: DataTypes.DATE
+  verification_code_expiry_date: DataTypes.DATE,
 }, {
   timestamps: true,
+  freezeTableName: true,
   createdAt: 'created_at',
-  updatedAt: 'updated_at'
+  updatedAt: 'updated_at',
+  tableName: 'users',
 });
+
+User.belongsToMany(Role, { through: 'UserRole' });
 
 User.hasOne(User, {
   foreignKey: 'line_manager'
@@ -65,10 +72,18 @@ const registrationSchema = {
   gender: ['required', 'in:MALE,FEMALE'],
   email: ['required', 'string', 'email'],
   username: ['required', 'min:3'],
-  password: ['required', 'string', 'confirmed', 'password_validations'],
+  password: ['required', 'string', 'confirmed', 'password_validations']
 };
 
+const updateSchema = {
+  first_name: ['string', 'name_validations'],
+  last_name: ['string', 'name_validations'],
+  gender: ['in:MALE,FEMALE'],
+  email: ['string', 'email'],
+  username: ['min:3'],
+};
 module.exports = {
   User,
-  registrationSchema
+  registrationSchema,
+  updateSchema,
 };
