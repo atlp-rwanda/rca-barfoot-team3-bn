@@ -1,7 +1,7 @@
 // Import sequelize and the accommodation model
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../config/SequelizeConfig');
-const { Accommodation } = require('../../accommodations/models'); // Update import statement
+const { Accommodation } = require('../../accommodation/models'); // Update import statement
 const { User } = require('../../user/model');
 
 // Define the trip model
@@ -17,7 +17,7 @@ const OneWayTrip = sequelize.define('onewaytrips', {
   updatedAt: 'updated_at'
 });
 
-OneWayTrip.hasOne(User, {
+OneWayTrip.belongsTo(User, {
   foreignKey: 'created_by'
 });
 

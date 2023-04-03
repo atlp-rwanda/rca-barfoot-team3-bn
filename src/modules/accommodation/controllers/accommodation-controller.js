@@ -1,6 +1,7 @@
 const fs = require('fs');
+const assert = require('http-assert');
 const { validate } = require('../../../utils/validate');
-const { creationSchema, Accommodation, Room } = require('../models');
+const { creationSchema, Accommodation } = require('../models');
 const cloudinary = require('../../../utils/cloudinary');
 const sequelize = require('../../../config/SequelizeConfig');
 
@@ -19,6 +20,37 @@ class AccomodationsController {
     return res.status(200).json({
       accommodations
     });
+  }
+
+  /**
+     * @param {Express.Request} req
+     * @param {Express.Response} res
+     * @returns {*} accommodation by id
+     */
+  static async getById(req, res) {
+    assert(req.params.id, 400, 'Accomodation Id is required in params');
+
+    const accommodation = await Accommodation.findByPk(req.params.id);
+
+    if (!accommodation) {
+      return res.status(404).json({
+        status: 'NOT_FOUND',
+        errors: {
+          request: [
+            'Accommodation with this id is not found'
+          ]
+        }
+      });
+    }
+
+    let resp = { accommodation };
+
+    if (req.query.rooms) {
+      const rooms = await accommodation.getRooms();
+      resp = { ...resp, rooms };
+    }
+
+    return res.status(200).json(resp);
   }
 
   /**
@@ -44,17 +76,11 @@ class AccomodationsController {
         ...data
       }, { transaction });
 
-      const rooms = await Promise.all(data.rooms.map((room) => Room.create({
-        accommodationId: accommodation.id,
-        ...room
-      }, { transaction })));
-
       transaction.commit();
 
       return res.status(201).json({
         status: 'CREATED',
-        accommodation,
-        rooms
+        accommodation
       });
     } catch (error) {
       transaction.rollback();

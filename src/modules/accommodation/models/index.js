@@ -1,8 +1,9 @@
 const { Accommodation, creationSchema } = require('./accommodation');
-const { Room } = require('./rooms');
+const { Room, createRoomSchema } = require('./rooms');
 
 module.exports = {
   Accommodation,
   Room,
-  creationSchema
+  creationSchema,
+  createRoomSchema
 };
