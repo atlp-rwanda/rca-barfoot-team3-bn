@@ -10,11 +10,12 @@ const { dbClient } = require('./database/index');
 const usersRouter = require('./modules/user/routes');
 const roleRoutes = require('./modules/role/routes');
 const permissionRoutes = require('./modules/permission/routes');
+const { accomodationRoutes, roomsRoutes } = require('./modules/accommodation/routes');
 
-const accommodationRouter = require('./modules/accommodations/routes');
 const tripRoute = require('./modules/trip/routes');
 const swaggerConfig = require('../swagger.json');
 const bookingRoute = require('./modules/booking/routes');
+const { fileRouter } = require('./modules/file/routes');
 
 const swaggerDocs = swaggerJsDocs(JSON.parse(JSON.stringify(swaggerConfig)));
 app.use(express.json());
@@ -23,14 +24,17 @@ app.get('/', (req, res) => {
   res.send(`${process.env.MESSAGE}`);
 });
 app.use('/api/v1/users', usersRouter);
-app.use('/api/v1/accommodations', accommodationRouter);
+app.use('/api/v1/accommodations', accomodationRoutes);
+app.use('/api/v1/rooms', roomsRoutes);
 app.use('/api/v1/trip', tripRoute);
 app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/permissions', permissionRoutes);
 app.use('/api/v1/booking/', bookingRoute);
-app.use('/', routes);
+app.use('/api/v1/files/', fileRouter);
 
 app.use('/', routes);
+app.use('/', routes);
+
 app.listen(PORT, () => {
   dbClient.connect().then(() => {
     console.log('Connected to db');
