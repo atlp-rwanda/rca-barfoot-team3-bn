@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
 const { validate } = require('../../../utils/validate');
-const { Room } = require('../../accommodations/models');
+const { Room } = require('../../accommodation/models');
 const { User } = require('../../user/model');
 const { Booking, bookingSchema } = require('../models');
 
