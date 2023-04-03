@@ -8,16 +8,16 @@
   },
   "test": {
     "username": "postgres",
-    "password": "KWdFegey5wuSrP2",
-    "database": "postgres",
+    "password": "postgres",
+    "database": "KWdFegey5wuSrP2",
     "host": "db.ndwotyychzlbilxjrnso.supabase.co",
-    "dialect": "postgres"
+    "dialect": "postgresql"
   },
   "production": {
-    "username": "postgres",
-    "password": "KWdFegey5wuSrP2",
-    "database": "postgres",
+     "username": "postgres",
+    "password": "postgres",
+    "database": "KWdFegey5wuSrP2",
     "host": "db.ndwotyychzlbilxjrnso.supabase.co",
-    "dialect": "postgres"
+    "dialect": "postgresql"
   }
 }
