@@ -18,7 +18,7 @@ const Booking = sequelize.define('bookings', {
 const bookingSchema = {
   dateToCome: 'required|date',
   dateToLeave: 'required|date',
-  approvalStatus: 'boolean',
+  approval_status: 'boolean',
 };
 User.hasMany(Booking);
 Booking.belongsTo(User);

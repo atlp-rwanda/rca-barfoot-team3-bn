@@ -5,6 +5,9 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon src/app.js",
+    "migrate": "sequelize db:migrate",
+    "undoMigration":"sequelize db:migrate:undo",
+    "createMigration": "sequelize migration:generate --name $npm_config_name",
     "start": "node src/app.js",
     "test": "nyc --all mocha --timeout 10000 --exit --require babel-register test/unit/user/controller/",
     "coverage": "nyc --reporter=lcov --report-dir=./coverage yarn test",
@@ -26,6 +29,7 @@
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.0",
+    "moment": "^2.29.4",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.1",
     "passport": "^0.6.0",

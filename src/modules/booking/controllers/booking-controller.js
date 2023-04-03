@@ -67,10 +67,18 @@ class BookingController {
     }
   }
 
+  static async getAllBookings(req, res) {
+    const bookings = await Booking.findAll();
+
+    return res.status(200).json({
+      bookings
+    });
+  }
+
   static async approveBooking(req, res) {
     try {
       const { body } = req;
-      const { approvalStatus } = body;
+      const { approval_status } = body;
       const bookingId = req.params;
       const booking = await Booking.findByPk(bookingId, {
         include: [
@@ -81,7 +89,7 @@ class BookingController {
       if (!booking) {
         return res.status(404).json({ error: 'Booking not found' });
       }
-      const updatedBooking = await booking.update({ approvalStatus });
+      const updatedBooking = await booking.update({ approval_status });
       const data = {
         user: booking.User,
         message: 'Booking approval status updated'
