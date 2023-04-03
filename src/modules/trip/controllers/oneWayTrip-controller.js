@@ -1,6 +1,6 @@
 const moment = require('moment');
 const { OneWayTrip } = require('../model');
-const { Accommodation } = require('../../accommodations/models');
+const { Accommodation } = require('../../accommodation/models');
 
 /**
  * OneWayTrip Controller Class
