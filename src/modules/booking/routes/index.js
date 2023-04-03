@@ -6,5 +6,5 @@ const { BookingController } = require('../controllers');
 
 router.post('/:id', [authenticate], BookingController.createBooking);
 router.post('/approve/:bookingId', [authenticate, authorize('ADMIN')], BookingController.approveBooking);
-router.get('/',[authenticate],BookingController.getAllBookings)
+router.get('/',[authenticate,authorize('ADMIN')],BookingController.getAllBookings)
 module.exports = router;
