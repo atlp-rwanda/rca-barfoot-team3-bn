@@ -1,6 +1,5 @@
-const { where } = require('sequelize');
-const { Accommodation } = require('../../accommodations/models/accommodation');
-const { Room } = require('../../accommodations/models/rooms');
+const { Room, Accommodation } = require('../../accommodation/models');
+
 /**
  * hotel controlller
  */
