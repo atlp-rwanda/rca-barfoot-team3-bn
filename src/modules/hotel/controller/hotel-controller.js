@@ -46,7 +46,7 @@ class HotelController {
 
      */
   static async getRooms(req, res) {
-    const rooms = await Room.findAll({ where: { accommodationId: req.params.id } });
+    const rooms = await Room.findAll({ where: { accommodation_id: req.params.id } });
 
     if (!rooms) {
       return res.status(404).json({
@@ -70,7 +70,7 @@ class HotelController {
      */
   static async getRoom(req, res) {
     const room = await Room.findOne({
-      where: { accommodationId: req.params.id, id: req.params.roomId }
+      where: { accommodation_id: req.params.id, id: req.params.roomId }
     });
 
     if (!room) {
