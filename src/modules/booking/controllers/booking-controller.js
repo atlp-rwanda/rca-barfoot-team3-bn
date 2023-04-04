@@ -100,18 +100,18 @@ class BookingController {
   static async approveBooking(req, res) {
     try {
       const { body } = req;
-      const { approvalStatus } = body;
+      const { approval_status } = body;
       const { bookingId } = req.params;
       const booking = await Booking.findByPk(bookingId, {
         include: [
           { model: User, attributes: ['first_name', 'last_name'] },
-          { model: Room, attributes: ['name'] }
+          { model: Room, attributes: ['accommodation_id'] }
         ]
       });
       if (!booking) {
         return res.status(404).json({ error: 'Booking not found' });
       }
-      const updatedBooking = await booking.update({ approvalStatus });
+      const updatedBooking = await booking.update({ approval_status },{where: {id:bookingId}});
       const data = {
         user: booking.User,
         message: 'Booking approval status updated'

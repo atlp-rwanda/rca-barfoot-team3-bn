@@ -121,16 +121,7 @@ async function loginUser(req, res) {
       errors: 'Invalid credentials'
     });
   }
-  if (!user.verified) {
-    return res.status(400).json({
-      statusCode: 'BAD_REQUEST',
-      errors: {
-        email: [
-          'This user is not Verified'
-        ]
-      }
-    });
-  }
+
 
   const passwordMatches = await bcrypt.compare(password, user.password);
   if (!passwordMatches) {
