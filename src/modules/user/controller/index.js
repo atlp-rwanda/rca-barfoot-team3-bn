@@ -272,6 +272,8 @@ async function verifyUser(req, res) {
     });
   }
   if (user.verification_code !== req.body.code) {
+    console.log(typeof user.verification_code);
+    console.log(typeof req.body.code);
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {

@@ -50,7 +50,7 @@ class BookingController {
       const data = await Booking.findAll({
         include: [
           { model: User, attributes: ['first_name', 'last_name'] },
-          { model: Room, attributes: ['name'] }
+          { model: Room, attributes: ['accommodation_id'] }
         ],
         where: {
           id: booking.id
@@ -59,6 +59,66 @@ class BookingController {
       return res.status(201).json({
         status: 201,
         message: 'Booking created successfully',
+        data
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Server error' });
+    }
+  }
+
+  static async getAllBookings(req, res) {
+    const { page = 1, limit = 10 } = req.query; // default to page 1 and limit 10
+    const offset = (page - 1) * limit;
+
+    const bookings = await Booking.findAndCountAll({
+      limit,
+      offset
+    });
+
+    const totalPages = Math.ceil(bookings.count / limit);
+
+    let previousPage = page - 1;
+    if (previousPage < 1) {
+      previousPage = null;
+    }
+
+    let nextPage = page + 1;
+    if (nextPage > totalPages) {
+      nextPage = null;
+    }
+
+    return res.status(200).json({
+      bookings: bookings.rows,
+      currentPage: page,
+      previousPage,
+      nextPage,
+      totalPages
+    });
+  }
+
+  static async approveBooking(req, res) {
+    try {
+      const { body } = req;
+      const { approvalStatus } = body;
+      const { bookingId } = req.params;
+      const booking = await Booking.findByPk(bookingId, {
+        include: [
+          { model: User, attributes: ['first_name', 'last_name'] },
+          { model: Room, attributes: ['accommodation_id'] }
+        ]
+      });
+      if (!booking) {
+        return res.status(404).json({ error: 'Booking not found' });
+      }
+      const updatedBooking = await booking.update({ approvalStatus });
+      const data = {
+        user: booking.User,
+        message: 'Booking approval status updated',
+        updatedBooking
+      };
+      return res.status(200).json({
+        status: 200,
         data
       });
     } catch (error) {
