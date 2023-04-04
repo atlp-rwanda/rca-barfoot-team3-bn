@@ -15,6 +15,7 @@ const { accomodationRoutes, roomsRoutes } = require('./modules/accommodation/rou
 const tripRoute = require('./modules/trip/routes');
 const swaggerConfig = require('../swagger.json');
 const bookingRoute = require('./modules/booking/routes');
+const hotelRoute = require('./modules/hotel/routes');
 const { fileRouter } = require('./modules/file/routes');
 
 const swaggerDocs = swaggerJsDocs(JSON.parse(JSON.stringify(swaggerConfig)));
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
   res.send(`${process.env.MESSAGE}`);
 });
 app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/hotels', hotelRoute);
 app.use('/api/v1/accommodations', accomodationRoutes);
 app.use('/api/v1/rooms', roomsRoutes);
 app.use('/api/v1/trip', tripRoute);

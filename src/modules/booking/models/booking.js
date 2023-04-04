@@ -29,6 +29,7 @@ Room.hasMany(Booking);
 Booking.belongsTo(Room);
 
 module.exports = {
+  EBookingStatus,
   Booking,
   bookingSchema,
 };
