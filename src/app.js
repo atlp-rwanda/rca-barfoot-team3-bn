@@ -33,7 +33,7 @@ app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/permissions', permissionRoutes);
 app.use('/api/v1/booking/', bookingRoute);
 app.use('/api/v1/files/', fileRouter);
-  
+
 app.use('/', routes);
 
 app.listen(PORT, () => {

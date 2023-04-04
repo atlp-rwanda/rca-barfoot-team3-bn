@@ -5,5 +5,5 @@ const router = express.Router();
 const { BookingController } = require('../controllers');
 
 router.post('/:id', [authenticate], BookingController.createBooking);
-router.get('/search',[authenticate], BookingController.searchBooking);
+router.get('/search', [authenticate], BookingController.searchBooking);
 module.exports = router;

@@ -69,44 +69,43 @@ class BookingController {
       return res.status(500).json({ error: 'Server error' });
     }
   }
-  
-// 
+
+  //
   static async searchBooking(req, res) {
     try {
-      let {
+      const {
         origin,
         destination,
         requestId,
         approvalStatus,
-      } = req.query
-  
-  
-      let where = {}
-  
+      } = req.query;
+
+      const where = {};
+
       if (requestId) {
-        where[`id`] = requestId
+        where.id = requestId;
       }
-  
+
       if (approvalStatus) {
-        where[`approvalStatus`] = approvalStatus
+        where.approvalStatus = approvalStatus;
       }
-  
+
       if (origin) {
-        where[`$onewaytrip.departure$`] = { [Op.like]: `%${origin}%` }
+        where['$onewaytrip.departure$'] = { [Op.like]: `%${origin}%` };
       }
-  
+
       if (destination) {
-        where[`$onewaytrip.destination$`] = { [Op.like]: `%${destination}%` }
+        where['$onewaytrip.destination$'] = { [Op.like]: `%${destination}%` };
       }
-  
-      let bookings = await Booking.findAll({
+
+      const bookings = await Booking.findAll({
         where,
         include: {
           model: OneWayTrip,
           as: 'onewaytrip'
         }
-      })
-  
+      });
+
       return res.status(200).json({
         status: 200,
         message: 'Bookings retrieved successfully',
