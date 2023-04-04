@@ -66,44 +66,42 @@ class BookingController {
       return res.status(500).json({ error: 'Server error' });
     }
   }
-  
+
   static async getAllBookings(req, res) {
     const { page = 1, limit = 10 } = req.query; // default to page 1 and limit 10
     const offset = (page - 1) * limit;
-  
+
     const bookings = await Booking.findAndCountAll({
-      limit: limit,
-      offset: offset
+      limit,
+      offset
     });
-  
+
     const totalPages = Math.ceil(bookings.count / limit);
-  
+
     let previousPage = page - 1;
     if (previousPage < 1) {
       previousPage = null;
     }
-  
+
     let nextPage = page + 1;
     if (nextPage > totalPages) {
       nextPage = null;
     }
-  
+
     return res.status(200).json({
       bookings: bookings.rows,
       currentPage: page,
-      previousPage: previousPage,
-      nextPage: nextPage,
-      totalPages: totalPages
+      previousPage,
+      nextPage,
+      totalPages
     });
   }
-  
-  
 
   static async approveBooking(req, res) {
     try {
       const { body } = req;
-      const { approval_status } = body;
-      const bookingId = req.params.bookingId;
+      const { approvalStatus } = body;
+      const { bookingId } = req.params;
       const booking = await Booking.findByPk(bookingId, {
         include: [
           { model: User, attributes: ['first_name', 'last_name'] },
@@ -113,7 +111,7 @@ class BookingController {
       if (!booking) {
         return res.status(404).json({ error: 'Booking not found' });
       }
-      const updatedBooking = await booking.update({ approval_status });
+      const updatedBooking = await booking.update({ approvalStatus });
       const data = {
         user: booking.User,
         message: 'Booking approval status updated'
