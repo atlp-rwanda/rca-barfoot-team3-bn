@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "postgres",
-    "password": "ingabire",
+    "password": "KWdFegey5wuSrP2",
     "database": "postgres",
-    "host": "localhost",
+    "host": "db.ndwotyychzlbilxjrnso.supabase.co",
     "dialect": "postgres"
   },
   "test": {
@@ -11,13 +11,13 @@
     "password": "KWdFegey5wuSrP2",
     "database": "postgres",
     "host": "db.ndwotyychzlbilxjrnso.supabase.co",
-    "dialect": "postgresql"
+    "dialect": "postgres"
   },
   "production": {
-     "username": "postgres",
-    "password": "postgres",
-    "database": "KWdFegey5wuSrP2",
+    "username": "postgres",
+    "password": "KWdFegey5wuSrP2",
+    "database": "postgres",
     "host": "db.ndwotyychzlbilxjrnso.supabase.co",
-    "dialect": "postgresql"
+    "dialect": "postgres"
   }
 }
