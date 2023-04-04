@@ -4,13 +4,15 @@ const { User } = require('../../user/model');
 const { Room } = require('../../accommodation/models');
 const { OneWayTrip } = require('../../trip/model');
 
+const EBookingStatus = {
+  OPEN: 'OPEN',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
 const Booking = sequelize.define('bookings', {
   dateToCome: DataTypes.DATE,
   dateToLeave: DataTypes.DATE,
-  approval_status: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false
-  }
+  status: DataTypes.ENUM(Object.keys(EBookingStatus))
 }, {
   timestamps: true,
   createdAt: 'created_at',
@@ -19,8 +21,8 @@ const Booking = sequelize.define('bookings', {
 const bookingSchema = {
   dateToCome: 'required|date',
   dateToLeave: 'required|date',
-  approval_status: false,
 };
+
 User.hasMany(Booking);
 Booking.belongsTo(User);
 
@@ -30,6 +32,7 @@ Booking.belongsTo(Room);
 Booking.belongsTo(OneWayTrip);
 
 module.exports = {
+  EBookingStatus,
   Booking,
-  bookingSchema
+  bookingSchema,
 };
