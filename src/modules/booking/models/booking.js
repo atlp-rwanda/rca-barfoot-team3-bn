@@ -8,7 +8,7 @@ const Booking = sequelize.define('bookings', {
   dateToLeave: DataTypes.DATE,
   approval_status: {
     type: DataTypes.BOOLEAN,
-    default: false
+    defaultValue: false
   }
 }, {
   timestamps: true,
@@ -18,7 +18,7 @@ const Booking = sequelize.define('bookings', {
 const bookingSchema = {
   dateToCome: 'required|date',
   dateToLeave: 'required|date',
-  approval_status: 'boolean',
+  approval_status: false,
 };
 User.hasMany(Booking);
 Booking.belongsTo(User);

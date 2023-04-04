@@ -50,7 +50,7 @@ class BookingController {
       const data = await Booking.findAll({
         include: [
           { model: User, attributes: ['first_name', 'last_name'] },
-          { model: Room, attributes: ['name'] }
+          { model: Room, attributes: ['accommodation_id'] }
         ],
         where: {
           id: booking.id
@@ -114,7 +114,8 @@ class BookingController {
       const updatedBooking = await booking.update({ approvalStatus });
       const data = {
         user: booking.User,
-        message: 'Booking approval status updated'
+        message: 'Booking approval status updated',
+        updatedBooking
       };
       return res.status(200).json({
         status: 200,
