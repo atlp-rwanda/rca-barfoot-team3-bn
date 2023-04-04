@@ -100,7 +100,6 @@ class AccomodationsController {
    */
   static async update(req, res) {
     const transaction = await sequelize.transaction();
-
     try {
       const [passes, data, errors] = validate(req.body, creationSchema);
 
@@ -163,7 +162,6 @@ class AccomodationsController {
         }
       });
     }
-
     await accommodation.destroy();
 
     return res.status(200).json({
