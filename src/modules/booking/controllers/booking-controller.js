@@ -116,7 +116,6 @@ class BookingController {
         message: 'Bookings retrieved successfully',
         data: bookings
       });
-
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: 'Server error' });
