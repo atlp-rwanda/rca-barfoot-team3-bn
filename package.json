@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/app.js",
     "migrate": "sequelize db:migrate",
-    "undoMigration":"sequelize db:migrate:undo",
+    "undoMigration": "sequelize db:migrate:undo",
     "createMigration": "sequelize migration:generate --name $npm_config_name",
     "start": "node src/app.js",
     "test": "nyc --all mocha --timeout 10000 --exit --require babel-register test/unit/user/controller/",
@@ -28,7 +28,9 @@
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
+    "http-assert": "^1.5.0",
     "jsonwebtoken": "^9.0.0",
+    "moment": "^2.29.4",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.1",
     "passport": "^0.6.0",
@@ -37,7 +39,7 @@
     "passport-local": "^1.0.0",
     "pg": "^8.10.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.29.1",
+    "sequelize": "^6.30.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.2",
     "validatorjs": "^3.22.1"

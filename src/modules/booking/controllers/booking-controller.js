@@ -1,13 +1,58 @@
+/* eslint-disable camelcase */
+/* eslint-disable max-len */
 const { Op } = require('sequelize');
+const nodemailer = require('nodemailer');
 const { validate } = require('../../../utils/validate');
-const { Room } = require('../../accommodations/models');
+const { Room } = require('../../accommodation/models');
 const { User } = require('../../user/model');
 const { Booking, bookingSchema } = require('../models');
+const { Accommodation } = require('../../accommodation/models');
+const { Notification } = require('../../notification/model');
 
 /**
  * Booking Controller Class
  */
 class BookingController {
+  /**
+ *
+ * @param {*} req ExpressRequest
+ * @param {*} res ExpressResponse
+ * @returns {*} verification code || validation errors
+ */
+
+  static async sendEmails(receiverEmail, bookingDetails) {
+    const Transport = nodemailer.createTransport({
+      host: process.env.MAIL_HOST,
+      port: process.env.MAIL_HOST_PORT,
+      secure: process.env.MAIL_HOST_SECURE,
+      auth: {
+        user: process.env.MAIL,
+        pass: process.env.MAIL_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      to: receiverEmail,
+      subject: 'Barefoot Nomad Booking Reservation',
+      html: `<p>Your booking at ${bookingDetails.room.accommodation.name} between ${bookingDetails.dateToCome}</p>
+      <p> and ${bookingDetails.dateToLeave} has been successfully sent.</p>
+      <p> Waiting for their approval. </p>
+      <p> For more information about ${bookingDetails.room.accommodation.name} visit ${bookingDetails.room.accommodation.contacts.website}</p>
+      <Contact ${bookingDetails.room.accommodation.name} at: </p> 
+      <p> Phone: ${bookingDetails.room.accommodation.contacts.phone_number}</p>
+      <p> Email: ${bookingDetails.room.accommodation.contacts.email} </p>
+          <p>Thank you for using Barefoot Nomad</p>`
+    };
+
+    Transport.sendMail(mailOptions, (error) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Message sent');
+      }
+    });
+  }
+
   /**
    * @param {Express.Request} req
    * @param {Express.Response} res
@@ -30,17 +75,16 @@ class BookingController {
       if (!room) {
         return res.status(404).json({ error: 'Room not found' });
       }
-      await Booking.findOne({
+      const alreadyBooked = await Booking.findOne({
         where: {
           roomId: RoomId,
           dateToCome: { [Op.lte]: new Date(dateToCome) },
           dateToLeave: { [Op.gte]: new Date(dateToCome) }
         }
-      }).then((booking) => {
-        if (booking) {
-          return res.status(404).json({ error: 'Room is already booked' });
-        }
       });
+      if (alreadyBooked) {
+        return res.status(404).json({ error: 'Room is already booked' });
+      }
       const booking = await Booking.create({
         roomId: RoomId,
         userId: user.id,
@@ -49,13 +93,27 @@ class BookingController {
       });
       const data = await Booking.findAll({
         include: [
-          { model: User, attributes: ['first_name', 'last_name'] },
-          { model: Room, attributes: ['name'] }
+          { model: User, attributes: ['first_name', 'last_name', 'email'] },
+          { model: Room, attributes: ['accommodation_id'], include: [{ model: Accommodation, attributes: ['name', 'created_by', 'contacts'] }] }
         ],
         where: {
           id: booking.id
         }
       });
+      const DataJson = data[0].get({ plain: true });
+      const message = `${DataJson.user.first_name} ${DataJson.user.last_name} wants to book a room 
+      between ${DataJson.dateToCome} and ${DataJson.dateToLeave}`;
+      const notification = {
+        title: 'Booking notification',
+        type: 'BOOKING_CONFIRMATION',
+        bookingId: DataJson.id,
+        receiverId: DataJson.room.accommodation.created_by,
+        message
+      };
+      await Notification.create({
+        ...notification
+      });
+      await BookingController.sendEmails(DataJson.user.email, DataJson);
       return res.status(201).json({
         status: 201,
         message: 'Booking created successfully',
@@ -96,6 +154,5 @@ class BookingController {
       return res.status(500).json({ error: 'Server error' });
     }
   }
-  
 }
 module.exports = { BookingController };

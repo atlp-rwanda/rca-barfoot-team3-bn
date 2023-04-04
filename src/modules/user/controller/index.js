@@ -114,6 +114,7 @@ async function loginUser(req, res) {
       email
     }
   });
+
   if (!user) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
@@ -144,6 +145,8 @@ async function loginUser(req, res) {
   }
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY);
+  user.token = token;
+  await user.save();
   sendEmails(user.email);
   return res.status(201).send({ statusCode: 'CREATED', token, sendEmails });
 }
@@ -155,9 +158,7 @@ async function loginUser(req, res) {
  */
 async function logout(req, res) {
   try {
-    // Remove the token from the cookies header
-    res.clearCookie('token');
-    // Send a response to the client
+    await User.update({ token: null }, { where: { id: req.user.id } });
     res.status(200).send({ message: 'Logged out successfully', token: null });
   } catch (error) {
     console.error(error);
@@ -319,8 +320,6 @@ const initateResetPassword = (req, res) => {
   Transport.sendMail(mailOptions, (error) => {
     if (error) {
       console.log(error);
-    } else {
-      console.log('Email sent successfully');
     }
     return res.status(200).json({
       statusCode: 'OK',
