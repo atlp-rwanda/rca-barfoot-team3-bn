@@ -145,12 +145,13 @@ class BookingController {
         status: 200,
         message: 'Booking edited successfully',
         data
-      })
+      });
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Server error' });
-      }
+      console.error(error);
+      return res.status(500).json({ error: 'Server error' });
     }
+  }
+
   static async getAllBookings(req, res) {
     const { page = 1, limit = 10 } = req.query; // default to page 1 and limit 10
     const offset = (page - 1) * limit;
@@ -181,10 +182,9 @@ class BookingController {
     });
   }
 
-
   static async approveBooking(req, res) {
     try {
-      const requestId = req.params.requestId;
+      const { requestId } = req.params;
       const booking = await Booking.findOne({ where: { id: requestId } });
       if (!booking) {
         return res.status(404).json({ error: 'Booking not found' });
@@ -192,7 +192,7 @@ class BookingController {
       if (booking.status !== 'OPEN') {
         return res.status(400).json({ error: 'Cannot modify a non-pending booking' });
       }
-    
+
       booking.status = EBookingStatus.APPROVED;
       await booking.save();
       const data = await Booking.findAll({
@@ -217,7 +217,7 @@ class BookingController {
 
   static async rejectBooking(req, res) {
     try {
-      const requestId = req.params.requestId;
+      const { requestId } = req.params;
       const booking = await Booking.findOne({ where: { id: requestId } });
       if (!booking) {
         return res.status(404).json({ error: 'Booking not found' });
