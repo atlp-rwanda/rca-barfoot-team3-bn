@@ -4,10 +4,10 @@ const { User } = require('../../user/model');
 const { Room } = require('../../accommodation/models');
 
 const EBookingStatus = {
-  OPEN: "OPEN", 
-  APPROVED: "APPROVED", 
-  REJECTED: "REJECTED"
-}
+  OPEN: 'OPEN',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
 const Booking = sequelize.define('bookings', {
   dateToCome: DataTypes.DATE,
   dateToLeave: DataTypes.DATE,
@@ -21,6 +21,7 @@ const bookingSchema = {
   dateToCome: 'required|date',
   dateToLeave: 'required|date',
 };
+
 User.hasMany(Booking);
 Booking.belongsTo(User);
 
@@ -29,5 +30,5 @@ Booking.belongsTo(Room);
 
 module.exports = {
   Booking,
-  bookingSchema
+  bookingSchema,
 };
