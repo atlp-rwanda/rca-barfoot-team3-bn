@@ -3,6 +3,7 @@ const { validate } = require('../../../utils/validate');
 const { Room } = require('../../accommodation/models');
 const { User } = require('../../user/model');
 const { Booking, bookingSchema } = require('../models');
+const { OneWayTrip } = require('../../trip/model');
 
 /**
  * Booking Controller Class
@@ -72,35 +73,50 @@ class BookingController {
 // 
   static async searchBooking(req, res) {
     try {
-      const { query } = req;
-      const { user } = req;
       let {
+        origin,
+        destination,
         requestId,
         approvalStatus,
       } = req.query
+  
+  
       let where = {}
-      if(requestId) {
+  
+      if (requestId) {
         where[`id`] = requestId
       }
-      if(approvalStatus) {
+  
+      if (approvalStatus) {
         where[`approvalStatus`] = approvalStatus
       }
+  
+      if (origin) {
+        where[`$onewaytrip.departure$`] = { [Op.like]: `%${origin}%` }
+      }
+  
+      if (destination) {
+        where[`$onewaytrip.destination$`] = { [Op.like]: `%${destination}%` }
+      }
+  
       let bookings = await Booking.findAll({
-        where
+        where,
+        include: {
+          model: OneWayTrip,
+          as: 'onewaytrip'
+        }
       })
+  
       return res.status(200).json({
         status: 200,
         message: 'Bookings retrieved successfully',
         data: bookings
       });
-    
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: 'Server error' });
     }
   }
-  
-  }
-  
+}
 
 module.exports = { BookingController };
