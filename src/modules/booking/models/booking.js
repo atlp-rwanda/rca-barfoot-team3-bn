@@ -7,6 +7,10 @@ const { OneWayTrip } = require('../../trip/model');
 const Booking = sequelize.define('bookings', {
   dateToCome: DataTypes.DATE,
   dateToLeave: DataTypes.DATE,
+  approval_status: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  }
 }, {
   timestamps: true,
   createdAt: 'created_at',
@@ -15,6 +19,7 @@ const Booking = sequelize.define('bookings', {
 const bookingSchema = {
   dateToCome: 'required|date',
   dateToLeave: 'required|date',
+  approval_status: false,
 };
 User.hasMany(Booking);
 Booking.belongsTo(User);
