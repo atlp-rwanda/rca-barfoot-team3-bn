@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../../config/SequelizeConfig');
 const { User } = require('../../user/model');
 const { Room } = require('../../accommodation/models');
+const { OneWayTrip } = require('../../trip/model');
 
 const Booking = sequelize.define('bookings', {
   dateToCome: DataTypes.DATE,
@@ -20,6 +21,8 @@ Booking.belongsTo(User);
 
 Room.hasMany(Booking);
 Booking.belongsTo(Room);
+
+Booking.belongsTo(OneWayTrip);
 
 module.exports = {
   Booking,
