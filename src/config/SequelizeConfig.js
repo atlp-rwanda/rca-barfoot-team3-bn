@@ -1,10 +1,10 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(
-  'postgres',
-  'postgres',
-  'ingabire',
-  { host: 'localhost', dialect: 'postgres', logging: false }
+  process.env.DB_NAME,
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
+  { host: process.env.DB_HOST, dialect: 'postgres', logging: false }
 ); module.exports = sequelize;
 
 // Uncomment this line after making changes to a model
