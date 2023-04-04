@@ -105,12 +105,18 @@ class BookingController {
           as: 'onewaytrip'
         }
       });
-
+      if (bookings.length === 0) {
+        return res.status(404).json({
+          status: 404,
+          error: 'No bookings found'
+        });
+      }
       return res.status(200).json({
         status: 200,
         message: 'Bookings retrieved successfully',
         data: bookings
       });
+
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: 'Server error' });
