@@ -1,15 +1,15 @@
 {
   "development": {
     "username": "postgres",
-    "password": "KWdFegey5wuSrP2",
+    "password": "ingabire",
     "database": "postgres",
-    "host": "db.ndwotyychzlbilxjrnso.supabase.co",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "postgres",
-    "database": "KWdFegey5wuSrP2",
+    "password": "KWdFegey5wuSrP2",
+    "database": "postgres",
     "host": "db.ndwotyychzlbilxjrnso.supabase.co",
     "dialect": "postgresql"
   },

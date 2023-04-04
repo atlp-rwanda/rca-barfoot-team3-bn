@@ -5,7 +5,7 @@ const { authorize } = require('../../../middlewares/authorize');
 const router = express.Router();
 const { BookingController } = require('../controllers');
 
-router.post('/:id', [authenticate], BookingController.createBooking);
-router.post('/approve/:bookingId', [authenticate], BookingController.approveBooking);
-router.get('/', [authenticate], BookingController.getAllBookings);
+router.post('/:id', [authenticate,authorize('ADMIN')], BookingController.createBooking);
+router.post('/approve/:bookingId', [authenticate, authorize('ADMIN')], BookingController.approveBooking);
+router.get('/', [authenticate, authorize('ADMIN')], BookingController.getAllBookings);
 module.exports = router;
