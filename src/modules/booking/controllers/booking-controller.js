@@ -1,14 +1,14 @@
 /* eslint-disable camelcase */
 /* eslint-disable max-len */
 const { Op } = require('sequelize');
-const nodemailer = require('nodemailer');
 const { validate } = require('../../../utils/validate');
-const { Room } = require('../../accommodation/models');
+const { Room, Accommodation } = require('../../accommodation/models');
 const { User } = require('../../user/model');
 const { Booking, bookingSchema } = require('../models');
 const { EBookingStatus } = require('../models/booking');
-const { Accommodation } = require('../../accommodation/models');
-const { Notification } = require('../../notification/model');
+const Transport = require('../../../utils/transport');
+const { NotificationsController } = require('../../notification/controllers');
+const { Notification } = require('../../notification/model/notification');
 
 /**
  * Booking Controller Class
@@ -22,16 +22,6 @@ class BookingController {
  */
 
   static async sendEmails(receiverEmail, bookingDetails) {
-    const Transport = nodemailer.createTransport({
-      host: process.env.MAIL_HOST,
-      port: process.env.MAIL_HOST_PORT,
-      secure: process.env.MAIL_HOST_SECURE,
-      auth: {
-        user: process.env.MAIL,
-        pass: process.env.MAIL_PASSWORD,
-      },
-    });
-
     const mailOptions = {
       to: receiverEmail,
       subject: 'Barefoot Nomad Booking Reservation',
@@ -126,19 +116,6 @@ class BookingController {
       return res.status(500).json({ error: 'Server error' });
     }
   }
-
-  // /**
-  //  * @param {Express.Request} req
-  //  * @param {Express.Response} res
-  //  * @returns {*} all booking details
-  //  */
-  // static async getAllBookings(req, res) {
-  //   const bookings = await Booking.findAll();
-
-  //   return res.status(200).json({
-  //     bookings
-  //   });
-  // }
 
   /**
    * @param {Express.Request} req
@@ -262,6 +239,27 @@ class BookingController {
           id: booking.id
         }
       });
+
+      const mailOptions = {
+        to: req.user.email,
+        subject: 'Barefoot Nomad Booking Status',
+        html: '<p>Your booking has been approved</p>'
+      };
+
+      Transport.sendMail(mailOptions, (error) => {
+        if (error) {
+          throw new Error(error.message);
+        }
+      });
+
+      await NotificationsController.createNotification({
+        title: 'Booking Status',
+        message: 'Your booking has been approved',
+        bookingId: requestId,
+        receiverId: req.user.id,
+        type: EBookingStatus.APPROVED
+      });
+
       return res.status(200).json({
         status: 200,
         message: 'Booking approved successfully',
@@ -293,6 +291,26 @@ class BookingController {
         where: {
           id: booking.id
         }
+      });
+
+      const mailOptions = {
+        to: req.user.email,
+        subject: 'Barefoot Nomad Booking Status',
+        html: '<p>Your booking has been rejected</p>'
+      };
+
+      Transport.sendMail(mailOptions, (error) => {
+        if (error) {
+          throw new Error(error.message);
+        }
+      });
+
+      await NotificationsController.createNotification({
+        title: 'Booking Status',
+        message: 'Your booking has been rejected',
+        bookingId: requestId,
+        receiverId: req.user.id,
+        type: EBookingStatus.REJECTED
       });
       return res.status(200).json({
         status: 200,
@@ -371,4 +389,5 @@ class BookingController {
     });
   }
 }
+
 module.exports = { BookingController };

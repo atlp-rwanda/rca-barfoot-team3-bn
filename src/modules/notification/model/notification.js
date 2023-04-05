@@ -17,7 +17,7 @@
  *           type: boolean
  *         type:
  *           type: string
- *           enum: ['BOOKING_APPROVAL', 'BOOKING_REJECTION', 'BOOKING_CONFIRMATION', 'BOOKING_CANCELLATION']
+ *           enum: ['APPROVED', 'REJECTED', 'OPEN']
  *         bookingId:
  *           type: integer
  *           format: int64
@@ -38,6 +38,7 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../config/SequelizeConfig');
+const { EBookingStatus } = require('../../booking/models/booking');
 
 const Notification = sequelize.define('Notification', {
   title: DataTypes.STRING,
@@ -48,13 +49,13 @@ const Notification = sequelize.define('Notification', {
   },
   type: {
     type: DataTypes.ENUM,
-    values: ['BOOKING_APPROVAL', 'BOOKING_REJECTION', 'BOOKING_CONFIRMATION', 'BOOKING_CANCELLATION'],
+    values: Object.keys(EBookingStatus),
     allowNull: false
   },
   bookingId: DataTypes.INTEGER,
   receiverId: DataTypes.INTEGER,
 }, {
-  timestamps: true
+  timestamps: true,
 });
 
 module.exports = { Notification };

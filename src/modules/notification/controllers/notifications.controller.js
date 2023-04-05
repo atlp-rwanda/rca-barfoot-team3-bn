@@ -6,15 +6,15 @@ Notification Controller
 */
 class NotificationsController {
   /**
-         * Create a new role
-         * @param {Object} req - Request object
-         * @param {Object} res - Response object
-         * @returns {Object} - Response object with created notification
-         */
-  static async createNotification(req, res) {
+             * Create a new role
+             * @param {Object} body - Notification object
+             * @param {Object} res - Response object
+             * @returns {Object} - Response object with created notification
+             */
+  static async createNotification(body) {
     const {
       title, message, bookingId, receiverId, type
-    } = req.body;
+    } = body;
 
     try {
       const notification = await Notification.create({
@@ -24,29 +24,20 @@ class NotificationsController {
         bookingId,
         receiverId,
       });
-      return res.status(201).json({
-        message: 'Notification created successfully',
-        data: notification
-      });
+
+      return notification;
     } catch (error) {
-      return res.status(400).json({
-        message: 'BAD_REQUEST',
-        errors: {
-          name: [
-            error.message
-          ]
-        }
-      });
+      throw new Error(error.message);
     }
   }
 
   // Delete a notification
   /**
-       * Create a new role
-       * @param {Object} req - Request object
-       * @param {Object} res - Response object
-       * @returns {Object} - Response object with deleted notification
-       */
+           * Create a new role
+           * @param {Object} req - Request object
+           * @param {Object} res - Response object
+           * @returns {Object} - Response object with deleted notification
+           */
   static async deleteNotification(req, res) {
     const { notificationId } = req.params;
 
@@ -74,11 +65,11 @@ class NotificationsController {
 
   // Get all notifications
   /**
-       * Create a new role
-       * @param {Object} req - Request object
-       * @param {Object} res - Response object
-       * @returns {Object} - Response object with all notifications
-       */
+           * Create a new role
+           * @param {Object} req - Request object
+           * @param {Object} res - Response object
+           * @returns {Object} - Response object with all notifications
+           */
   static async getAllNotifications(req, res) {
     try {
       const notifications = await Notification.findAll();
@@ -100,11 +91,11 @@ class NotificationsController {
 
   // Get notifications by userId
   /**
-       * Create a new role
-       * @param {Object} req - Request object
-       * @param {Object} res - Response object
-       * @returns {Object} - Response object with all notifications by a user
-       */
+           * Create a new role
+           * @param {Object} req - Request object
+           * @param {Object} res - Response object
+           * @returns {Object} - Response object with all notifications by a user
+           */
   static async getNotificationsByUserId(req, res) {
     const { userId } = req.params;
 
@@ -128,11 +119,11 @@ class NotificationsController {
 
   // Get notifications by bookingId
   /**
-      * Create a new role
-      * @param {Object} req - Request object
-      * @param {Object} res - Response object
-      * @returns {Object} - Response object with all notifications by a booking
-      */
+          * Create a new role
+          * @param {Object} req - Request object
+          * @param {Object} res - Response object
+          * @returns {Object} - Response object with all notifications by a booking
+          */
   static async getNotificationsByBookingId(req, res) {
     const { bookingId } = req.params;
     try {

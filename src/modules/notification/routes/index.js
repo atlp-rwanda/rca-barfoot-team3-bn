@@ -52,7 +52,7 @@ const { NotificationsController } = require('../controllers');
  *               properties:
  *                 message:
  *                   type: string
- *                   description: A message confirming that the notification was created successfully
+ *                   description: A message confirming the notification creation
  *                 data:
  *                   $ref: '#/components/schemas/Notification'
  *       '400':
