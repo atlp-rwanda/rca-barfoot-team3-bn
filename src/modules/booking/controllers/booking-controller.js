@@ -389,6 +389,7 @@ class BookingController {
       totalPages
     });
   }
+
   //
   static async searchBooking(req, res) {
     try {
