@@ -41,21 +41,21 @@ const sequelize = require('../../../config/SequelizeConfig');
 const { EBookingStatus } = require('../../booking/models/booking');
 
 const Notification = sequelize.define('Notification', {
-    title: DataTypes.STRING,
-    message: DataTypes.STRING,
-    read: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-    },
-    type: {
-        type: DataTypes.ENUM,
-        values: Object.keys(EBookingStatus),
-        allowNull: false
-    },
-    bookingId: DataTypes.INTEGER,
-    receiverId: DataTypes.INTEGER,
+  title: DataTypes.STRING,
+  message: DataTypes.STRING,
+  read: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
+  type: {
+    type: DataTypes.ENUM,
+    values: Object.keys(EBookingStatus),
+    allowNull: false
+  },
+  bookingId: DataTypes.INTEGER,
+  receiverId: DataTypes.INTEGER,
 }, {
-    timestamps: true,
+  timestamps: true,
 });
 
 module.exports = { Notification };

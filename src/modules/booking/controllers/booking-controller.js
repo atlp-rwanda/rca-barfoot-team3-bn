@@ -1,14 +1,14 @@
 /* eslint-disable camelcase */
 /* eslint-disable max-len */
 const { Op } = require('sequelize');
-const nodemailer = require('nodemailer');
 const { validate } = require('../../../utils/validate');
-const { Room } = require('../../accommodation/models');
+const { Room, Accommodation } = require('../../accommodation/models');
 const { User } = require('../../user/model');
 const { Booking, bookingSchema } = require('../models');
 const { EBookingStatus } = require('../models/booking');
 const Transport = require('../../../utils/transport');
 const { NotificationsController } = require('../../notification/controllers');
+const { Notification } = require('../../notification/model/notification');
 
 /**
  * Booking Controller Class
@@ -22,16 +22,6 @@ class BookingController {
  */
 
   static async sendEmails(receiverEmail, bookingDetails) {
-    const Transport = nodemailer.createTransport({
-      host: process.env.MAIL_HOST,
-      port: process.env.MAIL_HOST_PORT,
-      secure: process.env.MAIL_HOST_SECURE,
-      auth: {
-        user: process.env.MAIL,
-        pass: process.env.MAIL_PASSWORD,
-      },
-    });
-
     const mailOptions = {
       to: receiverEmail,
       subject: 'Barefoot Nomad Booking Reservation',
