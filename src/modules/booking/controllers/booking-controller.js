@@ -168,7 +168,7 @@ class BookingController {
       if (bookings.length === 0) {
         return res.status(404).json({
           status: 404,
-          error: 'No bookings found'
+          error: 'No bookings found related to your search'
         });
       }
       return res.status(200).json({

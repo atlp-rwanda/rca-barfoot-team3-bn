@@ -1,12 +1,12 @@
 /* eslint-disable camelcase */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
 const hashPassword = require('../../../utils/hashPassword');
 const generateRandOTP = require('../../../utils/generator');
 const { validate, validateAsync } = require('../../../utils/validate');
 const Role = require('../../role/model');
 const { User, registrationSchema, updateSchema } = require('../model');
+const Transport = require('../../../utils/transport');
 /**
  *
  * @param {*} req ExpressRequest
@@ -15,16 +15,6 @@ const { User, registrationSchema, updateSchema } = require('../model');
  */
 
 const sendEmails = (receiverEmail, verificationCode) => {
-  const Transport = nodemailer.createTransport({
-    host: process.env.MAIL_HOST,
-    port: process.env.MAIL_HOST_PORT,
-    secure: process.env.MAIL_HOST_SECURE,
-    auth: {
-      user: process.env.MAIL,
-      pass: process.env.MAIL_PASSWORD,
-    },
-  });
-
   const message = `<a href=http://localhost:${process.env.PORT}/api/v1/users/verify/${receiverEmail}>Click</a>`;
 
   const mailOptions = {
@@ -38,8 +28,6 @@ const sendEmails = (receiverEmail, verificationCode) => {
   Transport.sendMail(mailOptions, (error) => {
     if (error) {
       console.log(error);
-    } else {
-      console.log('Message sent');
     }
   });
 };
@@ -306,13 +294,6 @@ async function verifyUser(req, res) {
 // a function to reset password
 const initateResetPassword = (req, res) => {
   const { email } = req.body;
-  const Transport = nodemailer.createTransport({
-    service: process.env.MAIL_HOST,
-    auth: {
-      user: process.env.MAIL,
-      pass: process.env.MAIL_PASSWORD
-    }
-  });
   const mailOptions = {
     to: email,
     subject: 'Barefoot Nomad Reset password',
@@ -322,8 +303,6 @@ const initateResetPassword = (req, res) => {
   Transport.sendMail(mailOptions, (error) => {
     if (error) {
       console.log(error);
-    } else {
-      console.log('Email sent successfully');
     }
     return res.status(200).json({
       statusCode: 'OK',

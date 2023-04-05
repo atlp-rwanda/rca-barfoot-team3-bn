@@ -11,6 +11,7 @@ const usersRouter = require('./modules/user/routes');
 const roleRoutes = require('./modules/role/routes');
 const permissionRoutes = require('./modules/permission/routes');
 const { accomodationRoutes, roomsRoutes } = require('./modules/accommodation/routes');
+const notificationRoutes = require('./modules/notification/routes');
 
 const tripRoute = require('./modules/trip/routes');
 const swaggerConfig = require('../swagger.json');
@@ -32,6 +33,7 @@ app.use('/api/v1/trip', tripRoute);
 app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/permissions', permissionRoutes);
 app.use('/api/v1/booking/', bookingRoute);
+app.use('/api/v1/notification/', notificationRoutes);
 app.use('/api/v1/files/', fileRouter);
 
 app.use('/', routes);
