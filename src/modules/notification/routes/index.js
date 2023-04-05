@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const { authenticate } = require('passport');
 const { NotificationsController } = require('../controllers');
@@ -50,7 +51,7 @@ const { NotificationsController } = require('../controllers');
  *               properties:
  *                 message:
  *                   type: string
- *                   description: A message confirming that the notification was created successfully
+ *                   description: A message confirming the notification creation
  *                 data:
  *                   $ref: '#/components/schemas/Notification'
  *       '400':
@@ -97,7 +98,7 @@ router.post('/', [authenticate], NotificationsController.createNotification);
  *       400:
  *         description: 'Bad Request'
  */
-router.get('/', [authenticate], NotificationsController.getAllNotifications)
+router.get('/', [authenticate], NotificationsController.getAllNotifications);
 
 /**
  * @swagger
