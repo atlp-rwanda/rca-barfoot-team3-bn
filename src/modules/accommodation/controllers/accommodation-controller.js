@@ -1,7 +1,7 @@
 const fs = require('fs');
 const assert = require('http-assert');
 const { validate } = require('../../../utils/validate');
-const { creationSchema, Accommodation } = require('../models');
+const { creationSchema, updateSchema, Accommodation } = require('../models');
 const cloudinary = require('../../../utils/cloudinary');
 const sequelize = require('../../../config/SequelizeConfig');
 
@@ -101,7 +101,7 @@ class AccomodationsController {
   static async update(req, res) {
     const transaction = await sequelize.transaction();
     try {
-      const [passes, data, errors] = validate(req.body, creationSchema);
+      const [passes, data, errors] = validate(req.body, updateSchema);
 
       if (!passes) {
         return res.status(400).json({
