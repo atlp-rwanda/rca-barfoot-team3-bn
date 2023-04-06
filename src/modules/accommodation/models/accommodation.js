@@ -77,9 +77,9 @@ const Accommodation = sequelize.define('accommodations', {
   name: DataTypes.STRING,
   description: DataTypes.TEXT,
   type: DataTypes.ENUM(Object.keys(EAccommodationType)),
-  location: DataTypes.JSON,
   meta: DataTypes.JSON,
   contacts: DataTypes.JSON,
+  location: DataTypes.JSON,
 }, {
   timestamps: true,
   createdAt: 'created_at',
