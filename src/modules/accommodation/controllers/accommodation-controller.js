@@ -165,8 +165,7 @@ class AccomodationsController {
     await accommodation.destroy();
 
     return res.status(200).json({
-      status: 'DELETED',
-      accommodation
+      status: 'DELETED'
     });
   }
 
