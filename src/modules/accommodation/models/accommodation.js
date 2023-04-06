@@ -123,8 +123,31 @@ const creationSchema = {
   'meta.policies': 'required|array|min:1',
   'meta.properties': 'required|array|min:1',
 };
+const updateSchema = {
+  type: `string|in:${Object.keys(EAccommodationType).join(',')}`,
+  name: 'string|min:3',
+  description: 'string|min:3',
+  'contacts.email': 'string|email|min:3',
+  'contacts.phone_number': 'string|min:3',
+  'contacts.website': 'string|url|min:3',
+  'location.country': 'string|min:3',
+  'location.province': 'string|min:3',
+  'location:district': 'string|min:3',
+  'location.city': 'string|min:3',
+  'location.sector': 'string|min:3',
+  'location.cell': 'string|min:3',
+  'location.village': 'string|min:3',
+  'location.latitude': 'string|min:3',
+  'location.longitude': 'string|min:3',
+  'location.postal_code': 'string|min:3',
+  'meta.amenities': 'array|min:1',
+  'meta.policies': 'array|min:1',
+  'meta.properties': 'array|min:1',
+
+};
 
 module.exports = {
   Accommodation,
-  creationSchema
+  creationSchema,
+  updateSchema
 };
