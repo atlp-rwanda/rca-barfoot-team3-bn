@@ -9,6 +9,7 @@ const { EBookingStatus } = require('../models/booking');
 const Transport = require('../../../utils/transport');
 const { NotificationsController } = require('../../notification/controllers');
 const { Notification } = require('../../notification/model/notification');
+const { OneWayTrip } = require('../../trip/model');
 
 /**
  * Booking Controller Class
@@ -387,6 +388,58 @@ class BookingController {
       nextPage,
       totalPages
     });
+  }
+
+  //
+  static async searchBooking(req, res) {
+    try {
+      const {
+        origin,
+        destination,
+        requestId,
+        approvalStatus,
+      } = req.query;
+
+      const where = {};
+
+      if (requestId) {
+        where.id = requestId;
+      }
+
+      if (approvalStatus) {
+        where.approvalStatus = approvalStatus;
+      }
+
+      if (origin) {
+        where['$onewaytrip.departure$'] = { [Op.like]: `%${origin}%` };
+      }
+
+      if (destination) {
+        where['$onewaytrip.destination$'] = { [Op.like]: `%${destination}%` };
+      }
+
+      const bookings = await Booking.findAll({
+        where,
+        include: {
+          model: OneWayTrip,
+          as: 'onewaytrip'
+        }
+      });
+      if (bookings.length === 0) {
+        return res.status(404).json({
+          status: 404,
+          error: 'No bookings found related to your search'
+        });
+      }
+      return res.status(200).json({
+        status: 200,
+        message: 'Bookings retrieved successfully',
+        data: bookings
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Server error' });
+    }
   }
 }
 

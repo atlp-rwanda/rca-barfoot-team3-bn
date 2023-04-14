@@ -117,4 +117,5 @@ router.get('/rejected/all', [authenticate, authorize('ADMIN')], BookingControlle
 router.get('/approved/all', [authenticate, authorize('ADMIN')], BookingController.getApprovedBookings);
 
 // router.get('/', [authenticate], BookingController.getAllBookings);
+router.get('/search', [authenticate], BookingController.searchBooking);
 module.exports = router;

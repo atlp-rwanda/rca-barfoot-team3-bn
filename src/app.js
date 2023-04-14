@@ -37,7 +37,6 @@ app.use('/api/v1/notification/', notificationRoutes);
 app.use('/api/v1/files/', fileRouter);
 
 app.use('/', routes);
-app.use('/', routes);
 
 app.listen(PORT, () => {
   dbClient.connect().then(() => {
