@@ -62,5 +62,7 @@ router.get('/:id', AccomodationsController.getById);
  *        description: Unauthorized to create an accommodation
  */
 router.post('/', [authenticate, authorize('ADMIN')], AccomodationsController.create);
+router.put('/:id', [authenticate, authorize('ADMIN')], AccomodationsController.update);
+router.delete('/:id', [authenticate, authorize('ADMIN')], AccomodationsController.deleteAccomodation);
 
 module.exports = router;

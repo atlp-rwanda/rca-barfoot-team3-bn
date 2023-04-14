@@ -1,7 +1,7 @@
 const fs = require('fs');
 const assert = require('http-assert');
 const { validate } = require('../../../utils/validate');
-const { creationSchema, Accommodation } = require('../models');
+const { creationSchema, updateSchema, Accommodation } = require('../models');
 const cloudinary = require('../../../utils/cloudinary');
 const sequelize = require('../../../config/SequelizeConfig');
 
@@ -91,6 +91,82 @@ class AccomodationsController {
         }
       });
     }
+  }
+
+  /**
+   * @param {Express.Request} req
+   * @param {Express.Response} res
+   * @returns {*} updated accommodation
+   */
+  static async update(req, res) {
+    const transaction = await sequelize.transaction();
+    try {
+      const [passes, data, errors] = validate(req.body, updateSchema);
+
+      if (!passes) {
+        return res.status(400).json({
+          statusCode: 'BAD_REQUEST',
+          errors
+        });
+      }
+
+      const accommodation = await Accommodation.findByPk(req.params.id);
+
+      if (!accommodation) {
+        return res.status(404).json({
+          status: 'NOT_FOUND',
+          errors: {
+            request: [
+              'Accommodation with this id is not found'
+            ]
+          }
+        });
+      }
+
+      await accommodation.update({
+        ...data
+      }, { transaction });
+
+      transaction.commit();
+
+      return res.status(200).json({
+        status: 'UPDATED',
+        accommodation
+      });
+    } catch (error) {
+      transaction.rollback();
+      return res.status(500).json({
+        status: 'INTERNAL_SERVER ERROR',
+        errors: {
+          server: error
+        }
+      });
+    }
+  }
+
+  /**
+   * @param {Express.Request} req
+   * @param {Express.Response} res
+   * @returns {*} deleted accommodation
+   */
+  static async deleteAccomodation(req, res) {
+    const accommodation = await Accommodation.findByPk(req.params.id);
+
+    if (!accommodation) {
+      return res.status(404).json({
+        status: 'NOT_FOUND',
+        errors: {
+          request: [
+            'Accommodation with this id is not found'
+          ]
+        }
+      });
+    }
+    await accommodation.destroy();
+
+    return res.status(200).json({
+      status: 'DELETED'
+    });
   }
 
   /**
