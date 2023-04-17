@@ -57,8 +57,8 @@ Booking.belongsTo(Room);
 
 Booking.belongsTo(OneWayTrip);
 
-Request.hasMany(Booking)
-Booking.belongsTo(Request)
+Request.hasMany(Booking);
+Booking.belongsTo(Request);
 
 module.exports = {
   EBookingStatus,

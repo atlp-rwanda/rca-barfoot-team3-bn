@@ -18,7 +18,7 @@ const router = express.Router();
  *      401:
  *        description: Unauthorized to create an accommodation
  */
-router.get("/requests", [authenticate], OneWayTripController.getRequests)
+router.get('/requests', [authenticate], OneWayTripController.getRequests);
 
 router.post('/one-way', [authenticate], OneWayTripController.createOneWayTrip);
 
