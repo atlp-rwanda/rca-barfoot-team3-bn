@@ -77,8 +77,18 @@ class BookingController {
       if (alreadyBooked) {
         return res.status(404).json({ error: 'Room is already booked' });
       }
+
+      let trip = await OneWayTrip.findByPk(onewaytripId, {
+        attributes: ["requestId"]
+      })
+
+      if (!trip) {
+        return res.status(404).json({ error: 'One way trip not found' });
+      }
+
       const booking = await Booking.create({
         onewaytripId,
+        requestId: trip.requestId,
         roomId: RoomId,
         userId: user.id,
         dateToCome,

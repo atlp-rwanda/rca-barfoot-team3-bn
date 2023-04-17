@@ -1,5 +1,5 @@
 const moment = require('moment');
-const { OneWayTrip } = require('../model');
+const { OneWayTrip, Request } = require('../model');
 const { Accommodation, Room } = require('../../accommodation/models');
 const { User } = require('../../user/model');
 const { Booking } = require('../../booking/models');
@@ -15,18 +15,21 @@ class OneWayTripController {
      *  @returns {*} created trip
     */
   static async getRequests(req, res) {
+    let user = await User.findByPk(req.user.id)
+
     try {
-      let requests = await OneWayTrip.findAll({
+      let requests = await user.getRequests({
         include: [
+          { model: OneWayTrip, as: "onewaytrip" },
           {
             model: Booking, as: "bookings", include: [
               {
-                model: Room, as: "room", include: [
-                  { model: Accommodation, as: "accommodation" }
-                ]
+                model: Room, as: "room", include: {
+                  model: Accommodation, as: "accommodation"
+                }
               }
             ]
-          }
+          },
         ]
       });
       return res.send({
@@ -68,8 +71,15 @@ class OneWayTripController {
         return res.status(404).json({ message: 'You can only book one accommodation per day' });
       }
 
+      // let us create one request.
+      let request = await Request.create({
+        userId: createdBy,
+        status: "PENDING"
+      })
+
       // Create the new trip
       const trip = await OneWayTrip.create({
+        requestId: request.id,
         departure,
         destination,
         date: isoDate,

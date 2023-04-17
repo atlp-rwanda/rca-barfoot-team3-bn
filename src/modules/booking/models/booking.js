@@ -28,7 +28,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../../config/SequelizeConfig');
 const { User } = require('../../user/model');
 const { Room } = require('../../accommodation/models');
-const { OneWayTrip } = require('../../trip/model');
+const { OneWayTrip, Request } = require('../../trip/model');
 
 const EBookingStatus = {
   OPEN: 'OPEN',
@@ -57,7 +57,8 @@ Booking.belongsTo(Room);
 
 Booking.belongsTo(OneWayTrip);
 
-OneWayTrip.hasMany(Booking)
+Request.hasMany(Booking)
+Booking.belongsTo(Request)
 
 module.exports = {
   EBookingStatus,
