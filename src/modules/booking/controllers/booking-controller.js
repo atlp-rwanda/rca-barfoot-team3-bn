@@ -184,7 +184,7 @@ class BookingController {
         html: '<p>Your Travel request has been edited</p>'
       };
 
-      Transport.sendMail(mailOptions, (error) => {
+      Transport.sendMail(mailOptions, () => {
         if (error) {
           throw new Error(error.message);
         }
