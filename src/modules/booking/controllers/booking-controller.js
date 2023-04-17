@@ -177,6 +177,27 @@ class BookingController {
           id: booking.id
         }
       });
+
+      const mailOptions = {
+        to: req.user.email,
+        subject: 'Barefoot Nomad Travel Request Edit',
+        html: '<p>Your Travel request has been edited</p>'
+      };
+
+      Transport.sendMail(mailOptions, (error) => {
+        if (error) {
+          throw new Error(error.message);
+        }
+      });
+
+      await NotificationsController.createNotification({
+        title: 'Travel Request Edit',
+        message: 'Your Travel request has been edited',
+        bookingId: requestId,
+        receiverId: req.user.id,
+        type: EBookingStatus.APPROVED
+      });
+
       return res.status(200).json({
         status: 200,
         message: 'Booking edited successfully',
