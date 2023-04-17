@@ -1,4 +1,4 @@
-/* const passport= require("passport")
+const passport= require("passport")
 module.exports={
     getLogin:(req,res)=>{
         var isLoginFailed = typeof req.query.login_failed !== "undefined";
@@ -18,4 +18,4 @@ module.exports={
         req.logout();
         res.redirect("/")
     }
-} */
+}
