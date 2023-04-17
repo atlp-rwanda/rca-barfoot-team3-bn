@@ -18,8 +18,7 @@
   "license": "ISC",
   "eslintIgnore": [
     "hello.js",
-    "world.js",
-    "./src/locales"
+    "world.js"
   ],
   "dependencies": {
     "bcrypt": "^5.1.0",
