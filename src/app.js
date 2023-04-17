@@ -4,7 +4,7 @@ const express = require('express');
 
 const app = express();
 const passport = require('passport');
-const session=require('express-session')
+const session = require('express-session');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDocs = require('swagger-jsdoc');
 const routes = require('./modules/user/routes/facebookLogin');
@@ -27,7 +27,7 @@ const { fileRouter } = require('./modules/file/routes');
 const swaggerDocs = swaggerJsDocs(JSON.parse(JSON.stringify(swaggerConfig)));
 app.use(express.json());
 app.use(passport.initialize());
-app.use(session({secret: process.env.SESSION_SECRET }));
+app.use(session({ secret: process.env.SESSION_SECRET }));
 
 app.use(i18n.init);
 
