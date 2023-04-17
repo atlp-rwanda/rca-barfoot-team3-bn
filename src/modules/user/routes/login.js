@@ -1,21 +1,22 @@
-/* const passport= require("passport")
-module.exports={
-    getLogin:(req,res)=>{
-        var isLoginFailed = typeof req.query.login_failed !== "undefined";
-        if(isLoginFailed){
-            req.flash("validation_errors",[{msg:"Login has failed."}])
-        }
-    },
+const passport = require('passport');
 
-    postLogin:[
-        passport.authenticate("local",{failureRedirect:"login?login_failed"}),
-        (req,res)=>{
-            res.redirect("/")
-        }
-    ],
-
-    handleLogout:(req,res)=>{
-        req.logout();
-        res.redirect("/")
+module.exports = {
+  getLogin: (req, res) => {
+    const isLoginFailed = typeof req.query.login_failed !== 'undefined';
+    if (isLoginFailed) {
+      req.flash('validation_errors', [{ msg: 'Login has failed.' }]);
     }
-} */
+  },
+
+  postLogin: [
+    passport.authenticate('local', { failureRedirect: 'login?login_failed' }),
+    (req, res) => {
+      res.redirect('/');
+    }
+  ],
+
+  handleLogout: (req, res) => {
+    req.logout();
+    res.redirect('/');
+  }
+};
