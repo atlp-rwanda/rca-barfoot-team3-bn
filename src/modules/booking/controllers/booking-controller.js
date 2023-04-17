@@ -60,7 +60,7 @@ class BookingController {
           error: error.details[0].message
         });
       }
-      const { dateToCome, dateToLeave } = body;
+      const { dateToCome, dateToLeave, onewaytripId } = body;
       const { user } = req;
       const RoomId = req.params.id;
       const room = await Room.findOne({ where: { id: RoomId } });
@@ -78,6 +78,7 @@ class BookingController {
         return res.status(404).json({ error: 'Room is already booked' });
       }
       const booking = await Booking.create({
+        onewaytripId,
         roomId: RoomId,
         userId: user.id,
         dateToCome,

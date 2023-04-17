@@ -1,11 +1,43 @@
 const moment = require('moment');
 const { OneWayTrip } = require('../model');
-const { Accommodation } = require('../../accommodation/models');
+const { Accommodation, Room } = require('../../accommodation/models');
+const { User } = require('../../user/model');
+const { Booking } = require('../../booking/models');
 
 /**
  * OneWayTrip Controller Class
  */
 class OneWayTripController {
+
+  /**
+     * @param {Express.Request} req
+     * @param {Express.Response} res
+     *  @returns {*} created trip
+    */
+  static async getRequests(req, res) {
+    try {
+      let requests = await OneWayTrip.findAll({
+        include: [
+          {
+            model: Booking, as: "bookings", include: [
+              {
+                model: Room, as: "room", include: [
+                  { model: Accommodation, as: "accommodation" }
+                ]
+              }
+            ]
+          }
+        ]
+      });
+      return res.send({
+        requests
+      })
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({ message: 'Server error', error });
+    }
+  }
+
   /**
      * @param {Express.Request} req
      * @param {Express.Response} res
