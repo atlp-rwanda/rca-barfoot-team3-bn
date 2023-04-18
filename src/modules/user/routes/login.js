@@ -1,7 +1,7 @@
 const passport = require('passport');
 
 module.exports = {
-  getLogin: (req, res) => {
+  getLogin: (req) => {
     const isLoginFailed = typeof req.query.login_failed !== 'undefined';
     if (isLoginFailed) {
       req.flash('validation_errors', [{ msg: 'Login has failed.' }]);
