@@ -116,7 +116,7 @@ router.put('/approve/:requestId', [authenticate, authorize('ADMIN')], BookingCon
 router.put('/reject/:requestId', [authenticate, authorize('ADMIN')], BookingController.rejectBooking);
 router.get('/rejected/all', [authenticate, authorize('ADMIN')], BookingController.getRejectedBookings);
 router.get('/approved/all', [authenticate, authorize('ADMIN')], BookingController.getApprovedBookings);
-router.get('/:bookingId/comments', [authenticate, authorize('ADMIN', 'USER')], CommentController.createComment);
+router.post('/:bookingId/comment', [authenticate, authorize('ADMIN', 'USER')], CommentController.createComment);
 router.get('/:bookingId/comments', [authenticate, authorize('ADMIN', 'USER')], CommentController.getCommentsByBookingId);
 
 
