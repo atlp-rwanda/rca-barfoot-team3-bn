@@ -383,7 +383,6 @@ async function assignRoles(req, res) {
     await user.setRoles(roles);
     return res.status(200).json({ message: 'Roles assigned successfully' });
   } catch (error) {
-    console.log('error', error.message);
     return res.status(500).json({ message: 'Internal server error' });
   }
 }
