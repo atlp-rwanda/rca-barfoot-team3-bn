@@ -236,7 +236,7 @@ async function verifyUser(req, res) {
       }
     });
   }
-  
+
   const user = await User.findOne({
     where: {
       email
@@ -273,7 +273,7 @@ async function verifyUser(req, res) {
     });
   }
   if (user.verification_code !== code) { // Updated to use code from req.body
-    console.log("user",user.verification_code)
+    console.log('user', user.verification_code);
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {
@@ -283,10 +283,9 @@ async function verifyUser(req, res) {
       }
     });
   }
-  console.log("here")
+  console.log('here');
 
-  if(user.verification_code === code){ // Updated to use code from req.body
-
+  if (user.verification_code === code) { // Updated to use code from req.body
     await user.update(
       {
         verified: true,
@@ -301,7 +300,6 @@ async function verifyUser(req, res) {
     });
   }
 }
-
 
 /**
  *
