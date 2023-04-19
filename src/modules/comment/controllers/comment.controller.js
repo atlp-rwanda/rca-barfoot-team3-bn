@@ -16,12 +16,16 @@ class CommentController {
     @returns {Object} - JSON response containing the newly created comment
     */
   static async createComment(req, res) {
-    const { message, bookingId } = req.body;
+    const { message } = req.body;
+    const { bookingId } = req.params;
     const userId = req.user.id;
-    try {
-      const booking = await Booking.findOne({ where: { id: bookingId } });
 
-      if (booking.userId !== userId && !req.user.roles.includes('ADMIN')) {
+    try {
+      const booking = await Booking.findByPk(bookingId);
+
+      if (!booking) return res.status(400).json({ error: "This booking doesn't exist" });
+
+      if (booking?.userId !== userId && !req.user.roles.includes('ADMIN')) {
         return res.status(400).json({ error: 'You cannot perform this operation' });
       }
 
@@ -36,6 +40,7 @@ class CommentController {
         data: comment
       });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ error: 'Could not create comment' });
     }
   }

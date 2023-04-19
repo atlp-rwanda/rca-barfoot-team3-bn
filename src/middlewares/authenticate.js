@@ -41,15 +41,15 @@ async function authenticate(req, res, next) {
 
     const modifiedUser = { ...user.toJSON(), roles: user.Roles };
     modifiedUser.Roles = undefined;
-    req.user = modifiedUser;
+    req.user = JSON.parse(JSON.stringify(modifiedUser));
 
     next();
   } catch (error) {
     return res.status(401).json({
-      statusCode: 'UNAUTHENTICATED_ACCESS',
+      statusCode: 'Server error',
       errors: {
         request: [
-          'You are not authenticated to use this request'
+          'There is a problem with the server, try again!'
         ]
       }
     });
