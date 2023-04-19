@@ -1,3 +1,4 @@
+const { Booking } = require("../../booking/models");
 const { User } = require("../../user/model");
 const Comment = require("../model/comment");
 
@@ -19,6 +20,12 @@ class CommentController {
         const { message, bookingId } = req.body;
         const userId = req.user.id;
         try {
+            const booking = await Booking.findOne({ where: { id: requestId } });
+
+            if (booking.userId !== userId && !req.user.roles.includes('ADMIN')) {
+                return res.status(400).json({ error: 'You cannot perform this operation' });
+            }
+
             const comment = await Comment.create({
                 message,
                 userId,

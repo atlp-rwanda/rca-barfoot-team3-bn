@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../modules/user/model');
+const Role = require('../modules/role/model');
 /**
  * @param {*} req
  * @param {*} res
@@ -21,7 +22,11 @@ async function authenticate(req, res, next) {
     }
 
     const { userId } = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    const user = await User.findByPk(userId);
+    // const user = await User.findByPk(userId);
+    const user = await User.findOne({
+      where: { id: userId },
+      include: [{ model: Role }],
+    });
 
     if (!user || user.token !== token) {
       return res.status(403).json({
@@ -34,7 +39,9 @@ async function authenticate(req, res, next) {
       });
     }
 
-    req.user = user.toJSON();
+    const modifiedUser = { ...user.toJSON(), roles: user.Roles }
+    modifiedUser.Roles = undefined;
+    req.user = modifiedUser;
 
     next();
   } catch (error) {
