@@ -4,7 +4,7 @@ const { authorize } = require('../../../middlewares/authorize');
 
 const router = express.Router();
 const { BookingController } = require('../controllers');
-const { CommentController } = require("../../comment/controllers")
+const { CommentController } = require('../../comment/controllers');
 
 /**
  * @swagger
@@ -118,7 +118,6 @@ router.get('/rejected/all', [authenticate, authorize('ADMIN')], BookingControlle
 router.get('/approved/all', [authenticate, authorize('ADMIN')], BookingController.getApprovedBookings);
 router.post('/:bookingId/comment', [authenticate, authorize('ADMIN', 'USER')], CommentController.createComment);
 router.get('/:bookingId/comments', [authenticate, authorize('ADMIN', 'USER')], CommentController.getCommentsByBookingId);
-
 
 // router.get('/', [authenticate], BookingController.getAllBookings);
 router.get('/search', [authenticate], BookingController.searchBooking);

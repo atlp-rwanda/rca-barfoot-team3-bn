@@ -1,3 +1,3 @@
-const Comment = require("./comment")
+const Comment = require('./comment');
 
-module.exports = Comment
+module.exports = Comment;

@@ -1,3 +1,3 @@
-const { CommentController } = require("../controllers/comment.controller");
+const { CommentController } = require('./comment.controller');
 
-module.exports = { CommentController }
+module.exports = { CommentController };

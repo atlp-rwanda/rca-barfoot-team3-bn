@@ -39,7 +39,7 @@ async function authenticate(req, res, next) {
       });
     }
 
-    const modifiedUser = { ...user.toJSON(), roles: user.Roles }
+    const modifiedUser = { ...user.toJSON(), roles: user.Roles };
     modifiedUser.Roles = undefined;
     req.user = modifiedUser;
 
