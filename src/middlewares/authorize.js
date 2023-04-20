@@ -5,8 +5,14 @@
  */
 function authorize(...roles) {
   return function middleware(req, res, next) {
-    if (roles.includes(req.user.role)) next();
-    else {
+    const hasValidRole = roles.some((role) => {
+      const userRoleIndex = req.user.roles.findIndex((userRole) => userRole.name === role);
+      return userRoleIndex !== -1;
+    });
+
+    if (hasValidRole) {
+      next();
+    } else {
       return res.status(401).json({
         statusCode: 'UNAUTHORIZED_ACCESS',
         errors: {
