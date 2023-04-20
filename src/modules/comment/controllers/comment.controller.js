@@ -25,7 +25,7 @@ class CommentController {
 
       if (!booking) return res.status(400).json({ error: "This booking doesn't exist" });
 
-      if (booking?.userId !== userId && !req.user.roles.includes('ADMIN')) {
+      if (booking.userId !== userId && !req.user.roles.includes('ADMIN')) {
         return res.status(400).json({ error: 'You cannot perform this operation' });
       }
 
