@@ -55,7 +55,7 @@ async function registerUser(req, res) {
       return res.status(400).json({
         statusCode: 'BAD_REQUEST',
         errors: {
-          email: [
+          message: [
             'This email is already taken'
           ]
         }
@@ -68,7 +68,7 @@ async function registerUser(req, res) {
       return res.status(400).json({
         statusCode: 'BAD_REQUEST',
         errors: {
-          email: [
+          message: [
             'This username is already taken'
           ]
         }
