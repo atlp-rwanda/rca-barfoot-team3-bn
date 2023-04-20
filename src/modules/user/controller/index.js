@@ -16,7 +16,7 @@ const Transport = require('../../../utils/transport');
 
 const sendEmails = (receiverEmail, verificationCode) => {
   // const message = `<a href=http://localhost:${process.env.PORT}/api/v1/users/verify/${receiverEmail}>Click</a>`;
-  const message = `<a href=http://localhost:8080/verify?code=${verificationCode}>Click</a>`;
+  const message = `<a href=http://localhost:8080/verify?code=${verificationCode}?email=${receiverEmail}>Click</a>`;
 
   const mailOptions = {
     to: receiverEmail,
