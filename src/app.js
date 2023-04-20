@@ -1,6 +1,7 @@
 /* eslint no-underscore-dangle: 0 */
 
 const express = require('express');
+const cors = require('cors');
 
 const app = express();
 const passport = require('passport');
@@ -28,7 +29,7 @@ const swaggerDocs = swaggerJsDocs(JSON.parse(JSON.stringify(swaggerConfig)));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(session({ secret: process.env.SESSION_SECRET }));
-
+app.use(cors());
 app.use(i18n.init);
 
 const PORT = process.env.PORT || 3000;
@@ -50,7 +51,7 @@ app.use('/', routes);
 
 app.listen(PORT, () => {
   dbClient.connect().then(() => {
-    console.log('Connected to db');
+    console.log('Connected to db', process.env.DB_NAME);
     app.use(
       '/v1/api-docs',
       swaggerUi.serve,
