@@ -84,7 +84,9 @@ async function registerUser(req, res) {
       verified: false,
       verification_code_expiry_date: new Date(Date.now() + (24 * 60 * 60 * 1000))
     });
-    res.status(201).send({ statusCode: 'CREATED', user });
+    const { verification_code, ...userData } = user;
+
+    res.status(201).send({ statusCode: 'CREATED', userData });
   } catch (err) {
     console.log(err);
   }
