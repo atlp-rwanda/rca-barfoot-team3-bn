@@ -15,7 +15,8 @@ const Transport = require('../../../utils/transport');
  */
 
 const sendEmails = (receiverEmail, verificationCode) => {
-  const message = `<a href=http://localhost:${process.env.PORT}/api/v1/users/verify/${receiverEmail}>Click</a>`;
+  // const message = `<a href=http://localhost:${process.env.PORT}/api/v1/users/verify/${receiverEmail}>Click</a>`;
+  const message = `<a href=http://localhost:8080/verify?code=${verificationCode}>Click</a>`;
 
   const mailOptions = {
     to: receiverEmail,
@@ -83,7 +84,9 @@ async function registerUser(req, res) {
       verified: false,
       verification_code_expiry_date: new Date(Date.now() + (24 * 60 * 60 * 1000))
     });
-    res.status(201).send({ statusCode: 'CREATED', user });
+    const { verification_code, ...userData } = user;
+
+    res.status(201).send({ statusCode: 'CREATED', userData });
   } catch (err) {
     console.log(err);
   }
@@ -224,6 +227,18 @@ async function updateUserById(req, res) {
  */
 async function verifyUser(req, res) {
   const { email } = req.params;
+  const { code } = req.body; // Added code to destructure code from req.body
+  if (!code) { // Check if code is provided
+    return res.status(400).json({
+      statusCode: 'BAD_REQUEST',
+      errors: {
+        code: [
+          'Verification code is required' // Error message for missing code
+        ]
+      }
+    });
+  }
+
   const user = await User.findOne({
     where: {
       email
@@ -259,9 +274,8 @@ async function verifyUser(req, res) {
       }
     });
   }
-  if (user.verification_code !== req.body.code) {
-    console.log(typeof user.verification_code);
-    console.log(typeof req.body.code);
+  if (user.verification_code !== code) { // Updated to use code from req.body
+    console.log('user', user.verification_code);
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {
@@ -271,18 +285,22 @@ async function verifyUser(req, res) {
       }
     });
   }
-  await user.update(
-    {
-      verified: true,
-      verification_code_expiry_date: null,
-      verification_code: null
-    },
-    { where: { email } }
-  );
-  return res.status(200).json({
-    statusCode: 'OK',
-    user
-  });
+  console.log('here');
+
+  if (user.verification_code === code) { // Updated to use code from req.body
+    await user.update(
+      {
+        verified: true,
+        verification_code_expiry_date: null,
+        verification_code: null
+      },
+      { where: { email } }
+    );
+    return res.status(200).json({
+      statusCode: 'OK',
+      user
+    });
+  }
 }
 
 /**
