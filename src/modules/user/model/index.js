@@ -20,7 +20,6 @@ const User = sequelize.define('users', {
   preferred_currency: DataTypes.STRING,
   address: DataTypes.STRING,
   token: DataTypes.STRING,
-  role: DataTypes.STRING,
   department: DataTypes.STRING,
   line_manager: DataTypes.INTEGER,
   registration_type: DataTypes.ENUM('email', 'facebook', 'google'),
