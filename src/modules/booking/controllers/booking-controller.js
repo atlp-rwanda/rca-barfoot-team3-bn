@@ -5,7 +5,7 @@ const { validate } = require('../../../utils/validate');
 const { Room, Accommodation } = require('../../accommodation/models');
 const { User } = require('../../user/model');
 const { Booking, bookingSchema } = require('../models');
-const { EBookingStatus } = require('../models/booking');
+const { ENotificationReason } = require('../models/booking');
 const Transport = require('../../../utils/transport');
 const { NotificationsController } = require('../../notification/controllers');
 const { Notification } = require('../../notification/model/notification');
@@ -203,10 +203,10 @@ class BookingController {
 
       await NotificationsController.createNotification({
         title: 'Travel Request Edit',
-        message: 'Your Travel request has been edited',
+        message: 'Travel request has been edited',
         bookingId: requestId,
         receiverId: req.user.id,
-        type: EBookingStatus.APPROVED
+        type: ENotificationReason.EDIT_BOOKING
       });
 
       return res.status(200).json({
@@ -261,7 +261,7 @@ class BookingController {
         return res.status(400).json({ error: 'Cannot modify a non-pending booking' });
       }
 
-      booking.status = EBookingStatus.APPROVED;
+      booking.status = ENotificationReason.APPROVED_BOOKING;
       await booking.save();
       const data = await Booking.findAll({
         include: [
@@ -290,7 +290,7 @@ class BookingController {
         message: 'Your booking has been approved',
         bookingId: requestId,
         receiverId: req.user.id,
-        type: EBookingStatus.APPROVED
+        type: ENotificationReason.APPROVED_BOOKING
       });
 
       return res.status(200).json({
@@ -314,7 +314,7 @@ class BookingController {
       if (booking.status !== 'OPEN') {
         return res.status(400).json({ error: 'Cannot modify a non-pending booking' });
       }
-      booking.status = EBookingStatus.REJECTED;
+      booking.status = ENotificationReason.REJECTED_BOOKING;
       await booking.save();
       const data = await Booking.findAll({
         include: [
@@ -343,7 +343,7 @@ class BookingController {
         message: 'Your booking has been rejected',
         bookingId: requestId,
         receiverId: req.user.id,
-        type: EBookingStatus.REJECTED
+        type: ENotificationReason.REJECTED_BOOKING
       });
       return res.status(200).json({
         status: 200,
@@ -362,7 +362,7 @@ class BookingController {
 
     const bookings = await Booking.findAndCountAll({
       where: {
-        status: EBookingStatus.APPROVED
+        status: ENotificationReason.APPROVED_BOOKING
       },
       limit,
       offset
@@ -395,7 +395,7 @@ class BookingController {
 
     const bookings = await Booking.findAndCountAll({
       where: {
-        status: EBookingStatus.REJECTED
+        status: ENotificationReason.REJECTED_BOOKING
       },
       limit,
       offset

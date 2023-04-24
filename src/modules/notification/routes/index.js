@@ -3,6 +3,7 @@ const express = require('express');
 
 const router = express.Router();
 const { authenticate } = require('../../../middlewares/authenticate');
+const { authorize } = require('../../../middlewares/authorize');
 const { NotificationsController } = require('../controllers');
 
 /**
@@ -199,5 +200,7 @@ router.get('/:userId', [authenticate], NotificationsController.getNotificationsB
  *         description: Notification not found
  */
 router.delete('/:id', [authenticate], NotificationsController.deleteNotification);
+
+router.get('/:type/:bookingId', [authenticate, authorize('MANAGER', 'ADMIN')], NotificationsController.getNotificationsByBookingAndType);
 
 module.exports = router;
