@@ -80,6 +80,20 @@ const Accommodation = sequelize.define('accommodations', {
   meta: DataTypes.JSON,
   contacts: DataTypes.JSON,
   location: DataTypes.JSON,
+  likes: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
+  dislikes: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
+  likedBy: {
+    type: DataTypes.ARRAY(DataTypes.INTEGER),
+    defaultValue: []
+  }
+
+
 }, {
   timestamps: true,
   createdAt: 'created_at',

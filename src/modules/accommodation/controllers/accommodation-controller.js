@@ -5,6 +5,7 @@ const { validate } = require('../../../utils/validate');
 const { creationSchema, updateSchema, Accommodation } = require('../models');
 const cloudinary = require('../../../utils/cloudinary');
 const sequelize = require('../../../config/SequelizeConfig');
+const { User } = require('../../user/model');
 
 /**
  * Accoomodation Controller Class
@@ -258,6 +259,54 @@ class AccomodationsController {
       files
     });
   }
+
+  static async likeOrDislikeAccommodation(req, res) {
+    try {
+      const accommodationId = req.params.id;
+      const like = req.params.like;
+      const userId = req.user.id;
+      const user = await User.findByPk(userId);
+
+      if (!user) {
+        return res.status(404).json({
+          message: 'User not found'
+        });
+      }
+      const accommodation = await Accommodation.findByPk(accommodationId);
+
+      if (!accommodation) {
+        return res.status(404).json({
+          message: 'Accommodation not found'
+        });
+      }
+
+      if (accommodation.likedBy.includes(userId)) {
+        return res.status(400).json({
+          message: 'User has already liked or disliked this accommodation'
+        });
+      }
+
+      if (like === 'true') {
+        accommodation.likes += 1;
+      } else if (like === 'false') {
+        accommodation.dislikes += 1;
+      }
+
+      accommodation.likedBy.push(userId);
+      await accommodation.save();
+
+      return res.json({
+        status: 'SUCCESS',
+        likes: accommodation.likes,
+        dislikes: accommodation.dislikes
+      });
+
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
 }
 
 module.exports = {
