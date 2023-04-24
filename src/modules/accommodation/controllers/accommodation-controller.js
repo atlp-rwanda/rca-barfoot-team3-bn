@@ -4,6 +4,7 @@ const { validate } = require('../../../utils/validate');
 const { creationSchema, updateSchema, Accommodation } = require('../models');
 const cloudinary = require('../../../utils/cloudinary');
 const sequelize = require('../../../config/SequelizeConfig');
+const { Op } = require('sequelize');
 
 /**
  * Accoomodation Controller Class
@@ -52,6 +53,48 @@ class AccomodationsController {
 
     return res.status(200).json(resp);
   }
+
+
+  /**
+     * @param {Express.Request} req
+     * @param {Express.Response} res
+     * @returns {*} accommodation by name
+     */
+  static async getByName(req, res) {
+    assert(req.params.name, 400, 'Accommodation name is required in params');
+
+    const accommodations = await Accommodation.findAll({
+      where: {
+        name: {
+          [Op.iLike]: `%${req.params.name}%` // case-insensitive search for name
+        }
+      }
+    });
+
+    if (!accommodations || accommodations.length === 0) {
+      return res.status(404).json({
+        status: 'NOT_FOUND',
+        errors: {
+          accomodation: [
+            'No accommodations with this name were found'
+          ]
+        }
+      });
+    }
+
+    let resp = { accommodations };
+
+    if (req.query.rooms) {
+      const roomPromises = accommodations.map(accommodation => accommodation.getRooms());
+      const rooms = await Promise.all(roomPromises);
+      resp = { ...resp, rooms };
+    }
+
+    return res.status(200).json(resp);
+  }
+
+
+
 
   /**
    * @param {Express.Request} req
