@@ -93,7 +93,6 @@ const Accommodation = sequelize.define('accommodations', {
     defaultValue: []
   }
 
-
 }, {
   timestamps: true,
   createdAt: 'created_at',

@@ -263,7 +263,7 @@ class AccomodationsController {
   static async likeOrDislikeAccommodation(req, res) {
     try {
       const accommodationId = req.params.id;
-      const like = req.params.like;
+      const { like } = req.params;
       const userId = req.user.id;
       const user = await User.findByPk(userId);
 
@@ -300,13 +300,11 @@ class AccomodationsController {
         likes: accommodation.likes,
         dislikes: accommodation.dislikes
       });
-
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
-
 }
 
 module.exports = {
