@@ -1,10 +1,10 @@
 const fs = require('fs');
 const assert = require('http-assert');
+const { Op } = require('sequelize');
 const { validate } = require('../../../utils/validate');
 const { creationSchema, updateSchema, Accommodation } = require('../models');
 const cloudinary = require('../../../utils/cloudinary');
 const sequelize = require('../../../config/SequelizeConfig');
-const { Op } = require('sequelize');
 
 /**
  * Accoomodation Controller Class
@@ -54,7 +54,6 @@ class AccomodationsController {
     return res.status(200).json(resp);
   }
 
-
   /**
      * @param {Express.Request} req
      * @param {Express.Response} res
@@ -85,16 +84,13 @@ class AccomodationsController {
     let resp = { accommodations };
 
     if (req.query.rooms) {
-      const roomPromises = accommodations.map(accommodation => accommodation.getRooms());
+      const roomPromises = accommodations.map((accommodation) => accommodation.getRooms());
       const rooms = await Promise.all(roomPromises);
       resp = { ...resp, rooms };
     }
 
     return res.status(200).json(resp);
   }
-
-
-
 
   /**
    * @param {Express.Request} req
