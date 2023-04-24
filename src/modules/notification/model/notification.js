@@ -38,7 +38,7 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../config/SequelizeConfig');
-const { EBookingStatus } = require('../../booking/models/booking');
+const { ENotificationReason } = require('../../booking/models/booking');
 
 const Notification = sequelize.define('Notification', {
   title: DataTypes.STRING,
@@ -49,7 +49,7 @@ const Notification = sequelize.define('Notification', {
   },
   type: {
     type: DataTypes.ENUM,
-    values: Object.keys(EBookingStatus),
+    values: Object.keys(ENotificationReason),
     allowNull: false
   },
   bookingId: DataTypes.INTEGER,

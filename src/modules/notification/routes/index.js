@@ -200,4 +200,6 @@ router.get('/:userId', [authenticate], NotificationsController.getNotificationsB
  */
 router.delete('/:id', [authenticate], NotificationsController.deleteNotification);
 
+router.get('/:type/:bookingId', [authenticate], NotificationsController.getNotificationsByBookingAndType);
+
 module.exports = router;
