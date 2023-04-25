@@ -308,63 +308,50 @@ class AccomodationsController {
   }
 
   static async likeAccommodation(req, res) {
-    const accommodation_id = req.params.id;
-    const user_id = req.user.id;
+    const accommodationId = req.params.id;
+    const userId = req.user.id;
 
-    // Check if the user has already liked or disliked the accommodation
     const existingLike = await Like.findOne({
       where: {
-        accommodation_id,
-        user_id
+        accommodationId,
+        userId
       }
     });
 
-    console.log("dhjk")
-
     if (existingLike) {
-      // If the user has already liked or disliked the accommodation, update their existing like/dislike
       existingLike.liked = !existingLike.liked;
       await existingLike.save();
     } else {
-      // If the user has not liked or disliked the accommodation, create a new like/dislike
       await Like.create({
-        accommodation_id,
-        user_id,
+        accommodationId,
+        userId,
         liked: true
       });
     }
 
-    console.log("4565")
-
-
     return res.status(200).json({
       status: 'SUCCESS',
-      existingLike,
     });
   }
 
-
   static async getAccommodationLikes(req, res) {
-    const accommodation_id = req.params.id;
+    const accommodationId = req.params.id;
 
-    // Count the number of likes and dislikes for the accommodation
     const likes = await Like.count({
       where: {
-        accommodation_id,
+        accommodationId,
         liked: true
       }
     });
     const dislikes = await Like.count({
       where: {
-        accommodation_id,
+        accommodationId,
         liked: false
       }
     });
 
     return res.json({ likes, dislikes });
-  };
-
-
+  }
 }
 
 module.exports = {
