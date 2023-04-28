@@ -60,7 +60,7 @@ class BookingController {
           error: error.details[0].message
         });
       }
-      const { dateToCome, dateToLeave, onewaytripId } = body;
+      const { dateToCome, dateToLeave } = body;
       const { user } = req;
       const RoomId = req.params.id;
       const room = await Room.findOne({ where: { id: RoomId } });
@@ -78,17 +78,7 @@ class BookingController {
         return res.status(404).json({ error: 'Room is already booked' });
       }
 
-      const trip = await OneWayTrip.findByPk(onewaytripId, {
-        attributes: ['requestId']
-      });
-
-      if (!trip) {
-        return res.status(404).json({ error: 'One way trip not found' });
-      }
-
       const booking = await Booking.create({
-        onewaytripId,
-        requestId: trip.requestId,
         roomId: RoomId,
         userId: user.id,
         dateToCome,
