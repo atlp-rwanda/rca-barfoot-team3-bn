@@ -170,6 +170,49 @@ class NotificationsController {
       });
     }
   }
+
+
+  static async markAllNotificationsAsRead(req, res) {
+    try {
+      const userId = req.user.id;
+
+      const notifications = await Notification.findAll({
+        where: { receiverId: userId, read: false }
+      });
+
+      if (notifications.length === 0) {
+        return res.status(500).json({
+          success: false,
+          message: 'User has no unread notifications.',
+        });
+      }
+
+      const [numUpdated, _] = await Notification.update(
+        { read: true },
+        { where: { receiverId: userId, read: false } }
+      );
+
+      if (numUpdated > 0) {
+        return res.status(200).json({
+          success: true,
+          message: 'Notifications marked as read.',
+        });
+      } else {
+        return res.status(500).json({
+          success: false,
+          message: 'No notifications to mark as read.',
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({
+        success: false,
+        message: 'An error occurred while marking notifications as read.',
+        error: err.message,
+      });
+    }
+  }
+
 }
 
 module.exports = { NotificationsController };
