@@ -171,7 +171,6 @@ class NotificationsController {
     }
   }
 
-
   static async markAllNotificationsAsRead(req, res) {
     try {
       const userId = req.user.id;
@@ -187,7 +186,7 @@ class NotificationsController {
         });
       }
 
-      const [numUpdated, _] = await Notification.update(
+      const [numUpdated] = await Notification.update(
         { read: true },
         { where: { receiverId: userId, read: false } }
       );
@@ -197,12 +196,11 @@ class NotificationsController {
           success: true,
           message: 'Notifications marked as read.',
         });
-      } else {
-        return res.status(500).json({
-          success: false,
-          message: 'No notifications to mark as read.',
-        });
       }
+      return res.status(500).json({
+        success: false,
+        message: 'No notifications to mark as read.',
+      });
     } catch (err) {
       console.error(err);
       return res.status(500).json({
@@ -212,7 +210,6 @@ class NotificationsController {
       });
     }
   }
-
 }
 
 module.exports = { NotificationsController };

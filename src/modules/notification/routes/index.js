@@ -203,5 +203,5 @@ router.delete('/:id', [authenticate], NotificationsController.deleteNotification
 
 router.get('/:type/:bookingId', [authenticate, authorize('MANAGER', 'ADMIN')], NotificationsController.getNotificationsByBookingAndType);
 
-router.put('/all/markRead/:userId', [authenticate], NotificationsController.markAllNotificationsAsRead)
+router.put('/all/markRead/:userId', [authenticate], NotificationsController.markAllNotificationsAsRead);
 module.exports = router;
