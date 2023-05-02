@@ -133,7 +133,7 @@ router.get('/', [authenticate], NotificationsController.getAllNotifications);
  *       400:
  *         description: 'Bad Request'
  */
-router.get('/:bookingId', [authenticate], NotificationsController.getNotificationsByBookingId);
+router.get('/booking/:bookingId', [authenticate], NotificationsController.getNotificationsByBookingId);
 
 /**
  * @swagger
@@ -166,7 +166,7 @@ router.get('/:bookingId', [authenticate], NotificationsController.getNotificatio
  *       400:
  *         description: Bad Request
  */
-router.get('/:userId', [authenticate], NotificationsController.getNotificationsByUserId);
+router.get('/user/:userId', [authenticate], NotificationsController.getNotificationsByUserId);
 
 /**
  * @swagger
@@ -203,4 +203,5 @@ router.delete('/:id', [authenticate], NotificationsController.deleteNotification
 
 router.get('/:type/:bookingId', [authenticate, authorize('MANAGER', 'ADMIN')], NotificationsController.getNotificationsByBookingAndType);
 
+router.put('/all/markRead/:userId', [authenticate], NotificationsController.markAllNotificationsAsRead);
 module.exports = router;
