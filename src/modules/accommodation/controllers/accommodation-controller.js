@@ -188,6 +188,30 @@ class AccomodationsController {
   /**
    * @param {Express.Request} req
    * @param {Express.Response} res
+   * @returns {*} updated accommodation
+   */
+  static async search(req, res) {
+    const { type = '', city = '' } = req.query;
+
+    const accommodations = await Accommodation.findAll({
+      where: {
+        ...(type ? { type } : {}),
+        location: {
+          city: {
+            [Op.iLike]: `%${city}%`
+          }
+        }
+      }
+    });
+
+    return res.status(200).json({
+      accommodations
+    });
+  }
+
+  /**
+   * @param {Express.Request} req
+   * @param {Express.Response} res
    * @returns {*} deleted accommodation
    */
   static async deleteAccomodation(req, res) {

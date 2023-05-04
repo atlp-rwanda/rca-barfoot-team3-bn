@@ -23,6 +23,8 @@ const { AccomodationsController } = require('../controllers');
  */
 router.get('/', AccomodationsController.getAll);
 
+router.get('/search', AccomodationsController.search);
+
 /**
  * @swagger
  * /api/v1/accommodations/{id}:
