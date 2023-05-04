@@ -310,22 +310,21 @@ async function verifyUser(req, res) {
  */
 // a function to reset password
 const initateResetPassword = (req, res) => {
-  const { email } = req.body;
+  const { email } = req.body.email;
   const mailOptions = {
     to: email,
     subject: 'Barefoot Nomad Reset password',
-    html: '<p>Welcome to barefoot Nomad, Click the link below to reset password.</p><a href= \'http://localhost:5000/api/v1/users/reset-password\'><b>Click to reset</b> </a>',
+    html: `<p>Welcome to barefoot Nomad, Click the link below to reset password.</p><a href='http://localhost:8080/reset-password?email=${email}'><b>Click to reset</b> </a>`,
   };
 
   Transport.sendMail(mailOptions, (error) => {
     if (error) {
       console.log(error);
     }
-    return res.status(200).json({
-      statusCode: 'OK',
-      message: 'Email sent successfully'
-
-    });
+  });
+  return res.status(200).json({
+    statusCode: 'OK',
+    message: 'Email sent successfully'
   });
 };
 
