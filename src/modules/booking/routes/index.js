@@ -8,7 +8,7 @@ const { CommentController } = require('../../comment/controllers');
 
 /**
  * @swagger
- * /bookings/{id}:
+ * /api/v1/booking/{id}:
  *   post:
  *     summary: Create a booking for a room
  *     tags:
