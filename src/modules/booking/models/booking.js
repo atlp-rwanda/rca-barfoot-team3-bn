@@ -30,15 +30,15 @@ const { User } = require('../../user/model');
 const { Room } = require('../../accommodation/models');
 const { OneWayTrip, Request } = require('../../trip/model');
 
-const EBookingStatus = {
-  OPEN: 'OPEN',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED'
+const ENotificationReason = {
+  EDIT_BOOKING: 'EDIT_BOOKING',
+  APPROVED_BOOKING: 'APPROVED_BOOKING',
+  REJECTED_BOOKING: 'REJECTED_BOOKING'
 };
 const Booking = sequelize.define('bookings', {
   dateToCome: DataTypes.DATE,
   dateToLeave: DataTypes.DATE,
-  status: DataTypes.ENUM(Object.keys(EBookingStatus))
+  status: DataTypes.ENUM(Object.keys(ENotificationReason))
 }, {
   timestamps: true,
   createdAt: 'created_at',
@@ -61,7 +61,7 @@ Request.hasMany(Booking);
 Booking.belongsTo(Request);
 
 module.exports = {
-  EBookingStatus,
+  ENotificationReason,
   Booking,
   bookingSchema,
 };

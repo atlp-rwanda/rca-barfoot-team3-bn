@@ -23,6 +23,8 @@ const { AccomodationsController } = require('../controllers');
  */
 router.get('/', AccomodationsController.getAll);
 
+router.get('/search', AccomodationsController.search);
+
 /**
  * @swagger
  * /api/v1/accommodations/{id}:
@@ -62,6 +64,9 @@ router.get('/:id', AccomodationsController.getById);
  *        description: Unauthorized to create an accommodation
  */
 router.post('/', [authenticate, authorize('ADMIN')], AccomodationsController.create);
+router.post('/:id/likeorDislike', [authenticate], AccomodationsController.likeAccommodation);
+router.get('/name/:name', [authenticate], AccomodationsController.getByName);
+router.get('/:id/likes', AccomodationsController.getAccommodationLikes);
 router.put('/:id', [authenticate, authorize('ADMIN')], AccomodationsController.update);
 router.delete('/:id', [authenticate, authorize('ADMIN')], AccomodationsController.deleteAccomodation);
 

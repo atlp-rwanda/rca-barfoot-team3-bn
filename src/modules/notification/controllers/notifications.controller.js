@@ -143,6 +143,73 @@ class NotificationsController {
       });
     }
   }
+
+  // Get notifications by booking and type
+  /**
+          * Create a new role
+          * @param {Object} req - Request object
+          * @param {Object} res - Response object
+          * @returns {Object} - Response object with all notifications by a booking
+          */
+  static async getNotificationsByBookingAndType(req, res) {
+    const { type, bookingId } = req.params;
+    try {
+      const notifications = await Notification.findAll({ where: { type, bookingId } });
+      return res.status(200).json({
+        message: 'Notifications retrieved successfully',
+        data: notifications
+      });
+    } catch (error) {
+      return res.status(400).json({
+        message: 'BAD_REQUEST',
+        errors: {
+          name: [
+            error.message
+          ]
+        }
+      });
+    }
+  }
+
+  static async markAllNotificationsAsRead(req, res) {
+    try {
+      const userId = req.user.id;
+
+      const notifications = await Notification.findAll({
+        where: { receiverId: userId, read: false }
+      });
+
+      if (notifications.length === 0) {
+        return res.status(500).json({
+          success: false,
+          message: 'User has no unread notifications.',
+        });
+      }
+
+      const [numUpdated] = await Notification.update(
+        { read: true },
+        { where: { receiverId: userId, read: false } }
+      );
+
+      if (numUpdated > 0) {
+        return res.status(200).json({
+          success: true,
+          message: 'Notifications marked as read.',
+        });
+      }
+      return res.status(500).json({
+        success: false,
+        message: 'No notifications to mark as read.',
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({
+        success: false,
+        message: 'An error occurred while marking notifications as read.',
+        error: err.message,
+      });
+    }
+  }
 }
 
 module.exports = { NotificationsController };
