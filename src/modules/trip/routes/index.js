@@ -20,7 +20,6 @@ const router = express.Router();
  */
 router.get('/requests', [authenticate], OneWayTripController.getRequests);
 
-
 router.post('/one-way', [authenticate], OneWayTripController.createOneWayTrip);
 
 module.exports = router;

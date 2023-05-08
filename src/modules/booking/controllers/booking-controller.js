@@ -115,7 +115,7 @@ class BookingController {
       });
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ error:error });
+      return res.status(500).json({ error });
     }
   }
 
