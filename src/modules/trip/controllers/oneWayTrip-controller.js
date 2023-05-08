@@ -96,7 +96,7 @@ class OneWayTripController {
         message: 'Trip created successfully'
       });
     } catch (error) {
-      console.error("err",error);
+      console.error('err', error);
       res.status(500).json({ error: 'Server error' });
     }
   }
