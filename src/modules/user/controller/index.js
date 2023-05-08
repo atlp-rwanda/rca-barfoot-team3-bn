@@ -139,6 +139,7 @@ async function loginUser(req, res) {
   user.token = token;
   await user.save();
   return res.status(201).send({ statusCode: 'CREATED', token ,user});
+
 }
 /**
  *
