@@ -35,7 +35,7 @@ const ENotificationReason = {
   APPROVED_BOOKING: 'APPROVED_BOOKING',
   REJECTED_BOOKING: 'REJECTED_BOOKING',
   BOOKING_CONFIRMATION: 'BOOKING_CONFIRMATION',
-  OPEN:'OPEN'
+  OPEN: 'OPEN'
 };
 const Booking = sequelize.define('bookings', {
   dateToCome: DataTypes.DATE,
