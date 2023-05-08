@@ -33,7 +33,8 @@ const { OneWayTrip, Request } = require('../../trip/model');
 const ENotificationReason = {
   EDIT_BOOKING: 'EDIT_BOOKING',
   APPROVED_BOOKING: 'APPROVED_BOOKING',
-  REJECTED_BOOKING: 'REJECTED_BOOKING'
+  REJECTED_BOOKING: 'REJECTED_BOOKING',
+  BOOKING_CONFIRMATION: 'BOOKING_CONFIRMATION',
 };
 const Booking = sequelize.define('bookings', {
   dateToCome: DataTypes.DATE,

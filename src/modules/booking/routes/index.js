@@ -8,7 +8,7 @@ const { CommentController } = require('../../comment/controllers');
 
 /**
  * @swagger
- * /bookings/{id}:
+ * /api/v1/booking/{id}:
  *   post:
  *     summary: Create a booking for a room
  *     tags:
@@ -112,12 +112,12 @@ const { CommentController } = require('../../comment/controllers');
 router.post('/:id', [authenticate], BookingController.createBooking);
 router.get('/all', [authenticate], BookingController.getAllBookings);
 router.put('/open/:id', [authenticate], BookingController.editOpenBooking);
-router.put('/approve/:requestId', [authenticate, authorize('ADMIN')], BookingController.approveBooking);
-router.put('/reject/:requestId', [authenticate, authorize('ADMIN')], BookingController.rejectBooking);
-router.get('/rejected/all', [authenticate, authorize('ADMIN')], BookingController.getRejectedBookings);
-router.get('/approved/all', [authenticate, authorize('ADMIN')], BookingController.getApprovedBookings);
-router.post('/:bookingId/comment', [authenticate, authorize('ADMIN', 'MANAGER')], CommentController.createComment);
-router.get('/:bookingId/comments', [authenticate, authorize('ADMIN', 'MANAGER')], CommentController.getCommentsByBookingId);
+router.put('/approve/:requestId', [authenticate, authorize('Admin')], BookingController.approveBooking);
+router.put('/reject/:requestId', [authenticate, authorize('Admin')], BookingController.rejectBooking);
+router.get('/rejected/all', [authenticate, authorize('Admin')], BookingController.getRejectedBookings);
+router.get('/approved/all', [authenticate, authorize('Admin')], BookingController.getApprovedBookings);
+router.post('/:bookingId/comment', [authenticate, authorize('Admin', 'MANAGER')], CommentController.createComment);
+router.get('/:bookingId/comments', [authenticate, authorize('Admin', 'MANAGER')], CommentController.getCommentsByBookingId);
 
 // router.get('/', [authenticate], BookingController.getAllBookings);
 router.get('/search', [authenticate], BookingController.searchBooking);

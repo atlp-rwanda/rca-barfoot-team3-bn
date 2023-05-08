@@ -16,7 +16,7 @@ const Transport = require('../../../utils/transport');
 
 const sendEmails = (receiverEmail, verificationCode) => {
   // const message = `<a href=http://localhost:${process.env.PORT}/api/v1/users/verify/${receiverEmail}>Click</a>`;
-  const message = `<a href=http://localhost:8080/verify?code=${verificationCode}>Click</a>`;
+  const message = `<a href=http://localhost:8080/verify?code=${verificationCode}&email=${receiverEmail}>Click</a>`;
 
   const mailOptions = {
     to: receiverEmail,
@@ -55,7 +55,7 @@ async function registerUser(req, res) {
       return res.status(400).json({
         statusCode: 'BAD_REQUEST',
         errors: {
-          email: [
+          message: [
             'This email is already taken'
           ]
         }
@@ -68,7 +68,7 @@ async function registerUser(req, res) {
       return res.status(400).json({
         statusCode: 'BAD_REQUEST',
         errors: {
-          email: [
+          message: [
             'This username is already taken'
           ]
         }
@@ -231,7 +231,7 @@ async function verifyUser(req, res) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {
-        code: [
+        message: [
           'Verification code is required' // Error message for missing code
         ]
       }
@@ -247,7 +247,7 @@ async function verifyUser(req, res) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {
-        email: [
+        message: [
           'Invalid credentials'
         ]
       }
@@ -257,7 +257,7 @@ async function verifyUser(req, res) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {
-        email: [
+        message: [
           'User already verified'
         ]
       }
@@ -267,7 +267,7 @@ async function verifyUser(req, res) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {
-        email: [
+        message: [
           'Verification code expired'
         ]
       }
@@ -278,7 +278,7 @@ async function verifyUser(req, res) {
     return res.status(400).json({
       statusCode: 'BAD_REQUEST',
       errors: {
-        email: [
+        message: [
           'Invalid verification code'
         ]
       }
