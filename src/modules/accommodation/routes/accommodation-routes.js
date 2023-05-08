@@ -63,11 +63,11 @@ router.get('/:id', AccomodationsController.getById);
  *      401:
  *        description: Unauthorized to create an accommodation
  */
-router.post('/', [authenticate, authorize('ADMIN')], AccomodationsController.create);
+router.post('/', [authenticate, authorize('Admin')], AccomodationsController.create);
 router.post('/:id/likeorDislike', [authenticate], AccomodationsController.likeAccommodation);
 router.get('/name/:name', [authenticate], AccomodationsController.getByName);
 router.get('/:id/likes', AccomodationsController.getAccommodationLikes);
-router.put('/:id', [authenticate, authorize('ADMIN')], AccomodationsController.update);
-router.delete('/:id', [authenticate, authorize('ADMIN')], AccomodationsController.deleteAccomodation);
+router.put('/:id', [authenticate, authorize('Admin')], AccomodationsController.update);
+router.delete('/:id', [authenticate, authorize('Admin')], AccomodationsController.deleteAccomodation);
 
 module.exports = router;
