@@ -61,6 +61,6 @@ router.get('/:id', RoomsController.getById);
  *      401:
  *        description: Unauthorized to create an room
  */
-router.post('/', [authenticate, authorize('ADMIN')], RoomsController.create);
+router.post('/', [authenticate], RoomsController.create);
 
 module.exports = router;
